@@ -6,6 +6,17 @@ let username = ""; // Store the username separately
 const tempMailInput = document.getElementById("tempMail");
 const inboxContainer = document.getElementById("inbox");
 
+// Helper function to fetch client IP address
+async function getClientIP() {
+    try {
+        const response = await axios.get('https://api.ipify.org?format=json');
+        return response.data.ip;
+    } catch (error) {
+        console.error("Failed to fetch client IP address:", error);
+        return null;
+    }
+}
+
 // Generate Temporary Email
 document.getElementById("generateBtn").addEventListener("click", async () => {
     username = document.getElementById("username").value.trim();
@@ -16,10 +27,16 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
         return;
     }
 
+    const clientIP = await getClientIP();
+
     try {
         const response = await axios.post(`${apiBaseUrl}/generate`, {
             username,
-            domain,
+            domain
+        }, {
+            headers: {
+                'X-Forwarded-For': clientIP
+            }
         });
         tempEmail = response.data.tempEmail; // Get the generated temp email
         tempMailInput.value = tempEmail;
@@ -38,9 +55,14 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
         return;
     }
 
+    const clientIP = await getClientIP();
+
     try {
-        // Send DELETE request with tempEmail
-        await axios.delete(`${apiBaseUrl}/delete/${tempEmail}`);
+        await axios.delete(`${apiBaseUrl}/delete/${tempEmail}`, {
+            headers: {
+                'X-Forwarded-For': clientIP
+            }
+        });
         Swal.fire("Deleted", "Temporary email deleted successfully!", "success");
         tempEmail = "";
         tempMailInput.value = "";
@@ -61,9 +83,14 @@ async function loadInbox() {
         return;
     }
 
+    const clientIP = await getClientIP();
+
     try {
-        // Use the username to fetch inbox
-        const response = await axios.get(`${apiBaseUrl}/inbox/${username}`);
+        const response = await axios.get(`${apiBaseUrl}/inbox/${username}`, {
+            headers: {
+                'X-Forwarded-For': clientIP
+            }
+        });
         const messages = response.data;
 
         inboxContainer.innerHTML = "";
