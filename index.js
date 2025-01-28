@@ -1,13 +1,14 @@
 const apiBaseUrl = "https://pyeulmail-api-production.up.railway.app";
 
 let tempEmail = "";
+let username = ""; // Store the username separately
 
 const tempMailInput = document.getElementById("tempMail");
 const inboxContainer = document.getElementById("inbox");
 
 // Generate Temporary Email
 document.getElementById("generateBtn").addEventListener("click", async () => {
-    const username = document.getElementById("username").value.trim();
+    username = document.getElementById("username").value.trim();
     const domain = document.getElementById("domain").value;
 
     if (!username) {
@@ -20,7 +21,7 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
             username,
             domain,
         });
-        tempEmail = response.data.email;
+        tempEmail = response.data.tempEmail; // Get the generated temp email
         tempMailInput.value = tempEmail;
         Swal.fire("Success", "Temporary email generated!", "success");
         loadInbox();
@@ -38,7 +39,8 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
     }
 
     try {
-        await axios.post(`${apiBaseUrl}/delete`, { email: tempEmail });
+        // Send DELETE request with tempEmail
+        await axios.delete(`${apiBaseUrl}/delete/${tempEmail}`);
         Swal.fire("Deleted", "Temporary email deleted successfully!", "success");
         tempEmail = "";
         tempMailInput.value = "";
@@ -54,28 +56,31 @@ document.getElementById("refreshBtn").addEventListener("click", loadInbox);
 
 // Load Inbox
 async function loadInbox() {
-    if (!tempEmail) {
+    if (!username) {
         Swal.fire("Error", "Generate an email first!", "error");
         return;
     }
 
     try {
-        const response = await axios.get(`${apiBaseUrl}/inbox/${tempEmail}`);
-        const messages = response.data.messages;
+        // Use the username to fetch inbox
+        const response = await axios.get(`${apiBaseUrl}/inbox/${username}`);
+        const messages = response.data;
 
         inboxContainer.innerHTML = "";
         if (messages.length === 0) {
             inboxContainer.innerHTML = "<p>No messages in inbox.</p>";
         } else {
-            messages.forEach((message) => {
-                const emailItem = document.createElement("div");
-                emailItem.classList.add("email-item");
-                emailItem.innerHTML = `
-                    <strong>From:</strong> ${message.from}<br>
-                    <strong>Subject:</strong> ${message.subject}<br>
-                    <p>${message.body}</p>
-                `;
-                inboxContainer.appendChild(emailItem);
+            messages.forEach((email) => {
+                email.messages.forEach((message) => {
+                    const emailItem = document.createElement("div");
+                    emailItem.classList.add("email-item");
+                    emailItem.innerHTML = `
+                        <strong>From:</strong> ${message.sender}<br>
+                        <strong>Subject:</strong> ${message.subject}<br>
+                        <p>${message.content}</p>
+                    `;
+                    inboxContainer.appendChild(emailItem);
+                });
             });
         }
     } catch (error) {
