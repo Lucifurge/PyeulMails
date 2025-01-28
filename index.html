@@ -12,20 +12,22 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background-color: #f8f9fa;
-            font-family: "Fira Code", monospace;
+            background-color: #ffe4e9;
+            font-family: "Comic Sans MS", cursive;
+            color: #5a1a5c;
         }
 
         .navbar {
-            background: linear-gradient(90deg, #6c63ff, #8a79ff);
+            background: linear-gradient(90deg, #ffaad4, #ffccd9);
             padding: 1rem;
+            border-bottom: 3px solid #ff80ab;
         }
 
         .navbar-brand {
             color: #fff;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
         }
 
         .navbar-brand:hover {
@@ -37,8 +39,10 @@
         }
 
         .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff5f8;
+            border: 2px solid #ff80ab;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .form-control,
@@ -47,23 +51,55 @@
         }
 
         .btn-primary {
-            background: #6c63ff;
+            background: #ff80ab;
             border: none;
         }
 
         .btn-primary:hover {
-            background: #5752d4;
+            background: #ff6699;
+        }
+
+        .btn-danger {
+            background: #ff6384;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #e55373;
+        }
+
+        .btn-secondary {
+            background: #ffccd9;
+            border: none;
+            color: #5a1a5c;
+        }
+
+        .btn-secondary:hover {
+            background: #f4a1c4;
         }
 
         .inbox-container {
-            max-height: 300px;
+            max-height: 500px;
             overflow-y: auto;
             margin-top: 20px;
+            border: 2px solid #ff80ab;
+            border-radius: 15px;
+            background: #fff5f8;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .email-item {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
+            padding: 15px;
+            border-bottom: 1px dashed #ffaad4;
+            background: #ffe4e9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .email-item:hover {
+            background: #ffc1d6;
         }
 
         .email-item:last-child {
@@ -104,7 +140,7 @@
                 <button id="refreshBtn" class="btn btn-secondary mx-2">Refresh Inbox</button>
             </div>
             <div class="inbox-container mt-4">
-                <h5>Inbox</h5>
+                <h5 class="text-center">Inbox</h5>
                 <div id="inbox"></div>
             </div>
         </div>
