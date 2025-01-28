@@ -11,9 +11,15 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        @keyframes rainbow-text {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         body {
             background-color: #ffe4e9;
-            font-family: "Comic Sans MS", cursive;
+            font-family: Arial, sans-serif;
             color: #5a1a5c;
         }
 
@@ -24,23 +30,13 @@
         }
 
         .navbar-brand {
-            background: linear-gradient(90deg, #ff80ab, #ffaad4, #ff80ab);
+            font-weight: bold;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff9bb3, #ff6fa1, #ffaad4, #ffccd9);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 2.2rem;
-            font-style: italic;
-            animation: rainbow 3s infinite;
-        }
-
-        @keyframes rainbow {
-            0% {
-                background-position: 0%;
-            }
-            100% {
-                background-position: 100%;
-            }
+            animation: rainbow-text 3s ease infinite;
         }
 
         .container {
@@ -88,7 +84,7 @@
         }
 
         .inbox-container {
-            max-height: 700px;
+            max-height: 800px;
             overflow-y: auto;
             margin-top: 20px;
             border: 2px solid #ff80ab;
