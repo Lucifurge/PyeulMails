@@ -16,7 +16,8 @@ async function generateEmail() {
     try {
         const response = await fetch(`${API_BASE}/generate`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: "", domain: "1secmail.com" }) // You can pass the domain as per user choice
         });
         const data = await response.json();
 
@@ -49,15 +50,17 @@ async function checkInbox() {
     }
 
     try {
-        const response = await fetch(`${API_BASE}/inbox/${currentUsername}`);
+        const response = await fetch(`${API_BASE}/inbox/${currentUsername}`, {
+            method: "GET"
+        });
         const data = await response.json();
 
         inboxContainer.innerHTML = ""; // Clear inbox
 
-        if (data.messages.length === 0) {
+        if (data.messages && data.messages.length === 0) {
             inboxContainer.innerHTML = "<p>No new emails.</p>";
-        } else {
-            data.messages.forEach((msg, index) => {
+        } else if (data.messages) {
+            data.messages.forEach((msg) => {
                 const emailItem = document.createElement("div");
                 emailItem.classList.add("email-item");
                 emailItem.innerHTML = `
@@ -68,6 +71,8 @@ async function checkInbox() {
                 `;
                 inboxContainer.appendChild(emailItem);
             });
+        } else {
+            showNotification("No messages found", "error");
         }
     } catch (error) {
         console.error("Error checking inbox:", error);
