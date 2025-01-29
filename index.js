@@ -30,7 +30,7 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
     const clientIP = await getClientIP();
 
     try {
-        const response = await axios.post(`${apiBaseUrl}/generate`, {
+        const response = await axios.post(`${apiBaseUrl}generate`, {
             username,
             domain
         }, {
@@ -58,7 +58,7 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
     const clientIP = await getClientIP();
 
     try {
-        await axios.delete(`${apiBaseUrl}/delete/${tempEmail}`, {
+        await axios.delete(`${apiBaseUrl}delete/${tempEmail}`, {
             headers: {
                 'X-Forwarded-For': clientIP
             }
@@ -86,7 +86,7 @@ async function loadInbox() {
     const clientIP = await getClientIP();
 
     try {
-        const response = await axios.get(`${apiBaseUrl}/inbox/${username}`, {
+        const response = await axios.get(`${apiBaseUrl}inbox/${username}`, {
             headers: {
                 'X-Forwarded-For': clientIP
             }
