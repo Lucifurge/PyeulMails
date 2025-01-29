@@ -13,21 +13,26 @@ let currentUsername = "";
 
 // Function to generate a temporary email
 async function generateEmail() {
-    console.log("Generate email button clicked"); // Debugging log
+    const username = document.getElementById('username').value.trim();
+    const domain = document.getElementById('domain').value;
+
+    if (!username) {
+        showNotification("Please enter a username.", "error");
+        return;
+    }
+
+    console.log("Generating email for username:", username, "with domain:", domain);
 
     try {
         const response = await fetch(`${API_BASE}/generate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username: "", domain: "1secmail.com" }) // You can pass the domain as per user choice
+            body: JSON.stringify({ username, domain }) // Use username and domain from the form
         });
-        
         const data = await response.json();
-        console.log("API Response:", data); // Debugging log to inspect the response
 
         if (data.tempEmail) {
-            console.log("Generated email:", data.tempEmail); // Debugging log
-            emailDisplay.textContent = data.tempEmail; // Display the email on the frontend
+            emailDisplay.value = data.tempEmail; // Set email value in input field
             currentUsername = data.tempEmail.split("@")[0]; // Extract username
             copyToClipboard(data.tempEmail);
             showNotification("Temporary email created & copied to clipboard!");
@@ -98,7 +103,7 @@ async function deleteEmail() {
         });
         const data = await response.json();
 
-        emailDisplay.textContent = "No email generated";
+        emailDisplay.value = "No email generated";
         currentUsername = "";
         inboxContainer.innerHTML = "";
         showNotification("Temporary email deleted!");
@@ -122,6 +127,9 @@ function showNotification(message, type = "success") {
 
 // Event Listeners
 generateBtn.addEventListener("click", generateEmail);
-copyBtn.addEventListener("click", () => copyToClipboard(emailDisplay.textContent));
+copyBtn.addEventListener("click", () => copyToClipboard(emailDisplay.value)); // Use value instead of textContent
 checkInboxBtn.addEventListener("click", checkInbox);
 deleteBtn.addEventListener("click", deleteEmail);
+
+// Add event listener for refreshing inbox
+document.getElementById('refreshBtn').addEventListener('click', checkInbox);
