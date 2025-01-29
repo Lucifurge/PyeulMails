@@ -36,6 +36,15 @@ async function generateEmail() {
             currentUsername = data.tempEmail.split("@")[0]; // Extract username
             copyToClipboard(data.tempEmail);
             showNotification("Temporary email created & copied to clipboard!");
+
+            // Show a "Ready" message in the inbox immediately after email is generated
+            const readyMessage = {
+                subject: "Account Ready",
+                sender: "PyeulMails System",
+                date: new Date().toLocaleString(),
+                content: "Your temporary email account is ready to receive messages!"
+            };
+            addInboxMessage(readyMessage);
         } else {
             showNotification("Failed to generate an email", "error");
         }
@@ -50,6 +59,19 @@ function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
         .then(() => showNotification("Copied to clipboard!"))
         .catch(() => showNotification("Failed to copy!", "error"));
+}
+
+// Function to add a message to the inbox
+function addInboxMessage(msg) {
+    const emailItem = document.createElement("div");
+    emailItem.classList.add("email-item");
+    emailItem.innerHTML = `
+        <h3>${msg.subject}</h3>
+        <p><strong>From:</strong> ${msg.sender}</p>
+        <p><strong>Date:</strong> ${msg.date}</p>
+        <p>${msg.content}</p>
+    `;
+    inboxContainer.appendChild(emailItem);
 }
 
 // Function to check the inbox
