@@ -1,4 +1,4 @@
-const apiBaseUrl = "pyeulmail-server-production.up.railway.app"; // Replace with your actual backend URL
+const apiBaseUrl = "https://pyeulmail-server-production.up.railway.app"; // Fixed missing https
 
 let tempEmail = "";
 let username = ""; // Store the username separately
@@ -27,17 +27,16 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
         return;
     }
 
-    const clientIP = await getClientIP();
-
     try {
         const response = await axios.post(`${apiBaseUrl}/generate`, {
             username,
             domain
         }, {
             headers: {
-                'X-Forwarded-For': clientIP
+                'Content-Type': 'application/json'
             }
         });
+
         tempEmail = response.data.tempEmail; // Get the generated temp email
         tempMailInput.value = tempEmail;
         Swal.fire("Success", "Temporary email generated!", "success");
@@ -55,14 +54,13 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
         return;
     }
 
-    const clientIP = await getClientIP();
-
     try {
         await axios.delete(`${apiBaseUrl}/delete/${username}`, {
             headers: {
-                'X-Forwarded-For': clientIP
+                'Content-Type': 'application/json'
             }
         });
+
         Swal.fire("Deleted", "Temporary email deleted successfully!", "success");
         tempEmail = "";
         tempMailInput.value = "";
@@ -78,19 +76,18 @@ document.getElementById("refreshBtn").addEventListener("click", loadInbox);
 
 // Load Inbox
 async function loadInbox() {
-    if (!username) {
-        Swal.fire("Error", "Generate an email first!", "error");
+    if (!username || tempMailInput.value === "") {
+        Swal.fire("Error", "Your temporary email has expired. Please generate a new one!", "error");
         return;
     }
-
-    const clientIP = await getClientIP();
 
     try {
         const response = await axios.get(`${apiBaseUrl}/inbox/${username}`, {
             headers: {
-                'X-Forwarded-For': clientIP
+                'Content-Type': 'application/json'
             }
         });
+
         const messages = response.data.messages;
 
         inboxContainer.innerHTML = "";
