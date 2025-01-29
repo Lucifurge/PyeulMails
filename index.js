@@ -50,11 +50,6 @@ async function checkInbox() {
 
     try {
         const response = await fetch(`${API_BASE}/inbox/${currentUsername}`);
-        
-        if (!response.ok) {
-            throw new Error(`Server error: ${response.status}`);
-        }
-
         const data = await response.json();
 
         inboxContainer.innerHTML = ""; // Clear inbox
@@ -62,7 +57,7 @@ async function checkInbox() {
         if (data.messages.length === 0) {
             inboxContainer.innerHTML = "<p>No new emails.</p>";
         } else {
-            data.messages.forEach((msg) => {
+            data.messages.forEach((msg, index) => {
                 const emailItem = document.createElement("div");
                 emailItem.classList.add("email-item");
                 emailItem.innerHTML = `
@@ -91,10 +86,7 @@ async function deleteEmail() {
         const response = await fetch(`${API_BASE}/delete/${currentUsername}`, {
             method: "DELETE"
         });
-
-        if (!response.ok) {
-            throw new Error(`Server error: ${response.status}`);
-        }
+        const data = await response.json();
 
         emailDisplay.textContent = "No email generated";
         currentUsername = "";
