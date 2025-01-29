@@ -13,16 +13,21 @@ let currentUsername = "";
 
 // Function to generate a temporary email
 async function generateEmail() {
+    console.log("Generate email button clicked"); // Debugging log
+
     try {
         const response = await fetch(`${API_BASE}/generate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username: "", domain: "1secmail.com" }) // You can pass the domain as per user choice
         });
+        
         const data = await response.json();
+        console.log("API Response:", data); // Debugging log to inspect the response
 
         if (data.tempEmail) {
-            emailDisplay.textContent = data.tempEmail;
+            console.log("Generated email:", data.tempEmail); // Debugging log
+            emailDisplay.textContent = data.tempEmail; // Display the email on the frontend
             currentUsername = data.tempEmail.split("@")[0]; // Extract username
             copyToClipboard(data.tempEmail);
             showNotification("Temporary email created & copied to clipboard!");
