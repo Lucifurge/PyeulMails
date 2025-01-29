@@ -1,4 +1,4 @@
-const apiBaseUrl = "https://smtp.jadepremiumservices.com/";
+const apiBaseUrl = "pyeulmail-server-production.up.railway.app"; // Replace with your actual backend URL
 
 let tempEmail = "";
 let username = ""; // Store the username separately
@@ -30,7 +30,7 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
     const clientIP = await getClientIP();
 
     try {
-        const response = await axios.post(`${apiBaseUrl}generate`, {
+        const response = await axios.post(`${apiBaseUrl}/generate`, {
             username,
             domain
         }, {
@@ -58,7 +58,7 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
     const clientIP = await getClientIP();
 
     try {
-        await axios.delete(`${apiBaseUrl}delete/${tempEmail}`, {
+        await axios.delete(`${apiBaseUrl}/delete/${username}`, {
             headers: {
                 'X-Forwarded-For': clientIP
             }
@@ -86,28 +86,26 @@ async function loadInbox() {
     const clientIP = await getClientIP();
 
     try {
-        const response = await axios.get(`${apiBaseUrl}inbox/${username}`, {
+        const response = await axios.get(`${apiBaseUrl}/inbox/${username}`, {
             headers: {
                 'X-Forwarded-For': clientIP
             }
         });
-        const messages = response.data;
+        const messages = response.data.messages;
 
         inboxContainer.innerHTML = "";
         if (messages.length === 0) {
             inboxContainer.innerHTML = "<p>No messages in inbox.</p>";
         } else {
-            messages.forEach((email) => {
-                email.messages.forEach((message) => {
-                    const emailItem = document.createElement("div");
-                    emailItem.classList.add("email-item");
-                    emailItem.innerHTML = `
-                        <strong>From:</strong> ${message.sender}<br>
-                        <strong>Subject:</strong> ${message.subject}<br>
-                        <p>${message.content}</p>
-                    `;
-                    inboxContainer.appendChild(emailItem);
-                });
+            messages.forEach((message) => {
+                const emailItem = document.createElement("div");
+                emailItem.classList.add("email-item");
+                emailItem.innerHTML = `
+                    <strong>From:</strong> ${message.sender}<br>
+                    <strong>Subject:</strong> ${message.subject}<br>
+                    <p>${message.content}</p>
+                `;
+                inboxContainer.appendChild(emailItem);
             });
         }
     } catch (error) {
