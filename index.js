@@ -27,13 +27,13 @@ async function generateEmail() {
         const response = await fetch(`${API_BASE}/generate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, domain }) // Use username and domain from the form
+            body: JSON.stringify({ username, domain }) // Send username and domain in the request body
         });
         const data = await response.json();
 
         if (data.status === "Email generated successfully" && data.email) {
             emailDisplay.value = data.email; // Set email value in input field
-            currentUsername = data.email.split("@")[0]; // Extract username
+            currentUsername = data.email; // Store full email
             copyToClipboard(data.email);
             showNotification("Temporary email created & copied to clipboard!");
 
@@ -123,7 +123,7 @@ async function deleteEmail() {
         const response = await fetch(`${API_BASE}/deleteEmail`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: `${currentUsername}@1secmail.com` }) // Send full email to backend for deletion
+            body: JSON.stringify({ email: currentUsername }) // Use full email for deletion
         });
         const data = await response.json();
 
