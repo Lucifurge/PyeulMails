@@ -1,4 +1,4 @@
-const apiBaseUrl = "https://pyeulmail-api-production.up.railway.app";
+const apiBaseUrl = "https://smtp.jadepremiumservices.com/";
 
 let tempEmail = "";
 let username = ""; // Store the username separately
