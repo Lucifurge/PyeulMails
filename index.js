@@ -31,10 +31,10 @@ async function generateEmail() {
         });
         const data = await response.json();
 
-        if (data.tempEmail) {
-            emailDisplay.value = data.tempEmail; // Set email value in input field
-            currentUsername = data.tempEmail.split("@")[0]; // Extract username
-            copyToClipboard(data.tempEmail);
+        if (data.status === "Email generated successfully" && data.email) {
+            emailDisplay.value = data.email; // Set email value in input field
+            currentUsername = data.email.split("@")[0]; // Extract username
+            copyToClipboard(data.email);
             showNotification("Temporary email created & copied to clipboard!");
 
             // Show a "Ready" message in the inbox immediately after email is generated
@@ -82,17 +82,17 @@ async function checkInbox() {
     }
 
     try {
-        const response = await fetch(`${API_BASE}/inbox/${currentUsername}`, {
+        const response = await fetch(`${API_BASE}/checkMails?email=${currentUsername}`, {
             method: "GET"
         });
         const data = await response.json();
 
         inboxContainer.innerHTML = ""; // Clear inbox
 
-        if (data.messages && data.messages.length === 0) {
+        if (data.status === "Your mailbox is empty. Hold tight. Mailbox is refreshed automatically every 5 seconds.") {
             inboxContainer.innerHTML = "<p>No new emails.</p>";
-        } else if (data.messages) {
-            data.messages.forEach((msg) => {
+        } else if (data.mails) {
+            data.mails.forEach((msg) => {
                 const emailItem = document.createElement("div");
                 emailItem.classList.add("email-item");
                 emailItem.innerHTML = `
@@ -120,8 +120,10 @@ async function deleteEmail() {
     }
 
     try {
-        const response = await fetch(`${API_BASE}/delete/${currentUsername}`, {
-            method: "DELETE"
+        const response = await fetch(`${API_BASE}/deleteEmail`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: `${currentUsername}@1secmail.com` }) // Send full email to backend for deletion
         });
         const data = await response.json();
 
