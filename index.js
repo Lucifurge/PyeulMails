@@ -42,62 +42,60 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     lockScreen();
 
-    // Function to create a temporary email account
-    async function createTempEmail() {
+    // API request function
+    async function apiRequest(endpoint, method = "GET", body = null) {
+        const options = {
+            method,
+            headers: { "Content-Type": "application/json" }
+        };
+        if (body) options.body = JSON.stringify(body);
+
         try {
-            const response = await fetch(`${API_BASE_URL}/create-account`, { method: "POST" });
-            const data = await response.json();
-            if (data.address && data.password) {
-                document.getElementById("emailDisplay").textContent = `Your temp email: ${data.address}`;
-                document.getElementById("emailPassword").textContent = `Password: ${data.password}`;
-                localStorage.setItem("tempEmail", JSON.stringify(data));
-            } else {
-                throw new Error("Failed to create email");
-            }
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+            return await response.json();
         } catch (error) {
-            console.error("Error creating email:", error);
+            console.error(`Error in ${endpoint}:`, error);
+            return null;
         }
     }
 
-    // Function to fetch emails
+    // Create a temporary email account
+    async function createTempEmail() {
+        const data = await apiRequest("/create-account", "POST");
+        if (data && data.email && data.password) {
+            document.getElementById("emailDisplay").textContent = `Your temp email: ${data.email}`;
+            document.getElementById("emailPassword").textContent = `Password: ${data.password}`;
+            localStorage.setItem("tempEmail", JSON.stringify(data));
+        } else {
+            console.error("Failed to create email.");
+        }
+    }
+
+    // Fetch emails
     async function fetchEmails() {
         const emailData = JSON.parse(localStorage.getItem("tempEmail"));
-        if (!emailData) return;
+        if (!emailData) return console.error("No email data found");
 
-        try {
-            const authResponse = await fetch(`${API_BASE_URL}/authenticate`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ address: emailData.address, password: emailData.password })
-            });
+        // Authenticate to get token
+        const authData = await apiRequest("/authenticate", "POST", { email: emailData.email, password: emailData.password });
+        if (!authData || !authData.token) return console.error("Authentication failed");
 
-            const authData = await authResponse.json();
-            if (!authData.token) throw new Error("Authentication failed");
+        // Fetch messages
+        const messagesData = await apiRequest("/fetch-messages", "POST", { token: authData.token });
+        const messagesContainer = document.getElementById("inbox");
+        messagesContainer.innerHTML = "";
 
-            const messagesResponse = await fetch(`${API_BASE_URL}/fetch-messages`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ token: authData.token })
-            });
-            
-            const messagesData = await messagesResponse.json();
-            const messagesContainer = document.getElementById("inbox");
-            messagesContainer.innerHTML = "";
-
-            if (messagesData.messages.length === 0) {
-                messagesContainer.innerHTML = "<p>No messages yet.</p>";
-                return;
-            }
-
-            messagesData.messages.forEach(msg => {
-                const messageElement = document.createElement("div");
-                messageElement.classList.add("message");
-                messageElement.innerHTML = `<strong>From:</strong> ${msg.from.address} <br> <strong>Subject:</strong> ${msg.subject} <br> <strong>Preview:</strong> ${msg.intro}`;
-                messagesContainer.appendChild(messageElement);
-            });
-        } catch (error) {
-            console.error("Error fetching messages:", error);
+        if (!messagesData || messagesData.messages.length === 0) {
+            messagesContainer.innerHTML = "<p>No messages yet.</p>";
+            return;
         }
+
+        messagesData.messages.forEach(msg => {
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+            messageElement.innerHTML = `<strong>From:</strong> ${msg.from.address} <br> <strong>Subject:</strong> ${msg.subject} <br> <strong>Preview:</strong> ${msg.intro}`;
+            messagesContainer.appendChild(messageElement);
+        });
     }
 
     document.getElementById("generateEmailBtn").addEventListener("click", createTempEmail);
