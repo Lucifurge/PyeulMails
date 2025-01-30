@@ -1,5 +1,5 @@
 document.getElementById('generateBtn').addEventListener('click', () => {
-    axios.post('https://eppheapi-production.up.railway.app/accounts')  // API endpoint for account creation
+    axios.post('https://eppheapi-production.up.railway.app/create-account')  // API endpoint for account creation
         .then(response => {
             const email = response.data.address;
             const password = response.data.password;
