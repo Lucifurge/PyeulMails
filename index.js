@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Fetch emails
+    // Fetch and display emails in the inbox
     async function fetchEmails() {
         const emailData = JSON.parse(localStorage.getItem("tempEmail"));
         if (!emailData) return console.error("No email data found");
@@ -86,15 +86,50 @@ document.addEventListener("DOMContentLoaded", () => {
         messagesContainer.innerHTML = "";
 
         if (!messagesData || messagesData.messages.length === 0) {
-            messagesContainer.innerHTML = "<p>No messages yet.</p>";
+            messagesContainer.innerHTML = "<p class='text-muted'>No messages yet.</p>";
             return;
         }
 
         messagesData.messages.forEach(msg => {
             const messageElement = document.createElement("div");
-            messageElement.classList.add("message");
-            messageElement.innerHTML = `<strong>From:</strong> ${msg.from.address} <br> <strong>Subject:</strong> ${msg.subject} <br> <strong>Preview:</strong> ${msg.intro}`;
+            messageElement.classList.add("message-card");
+            messageElement.innerHTML = `
+                <div class="message-header">
+                    <strong>From:</strong> ${msg.from.address} <br>
+                    <strong>Subject:</strong> ${msg.subject}
+                </div>
+                <div class="message-preview">${msg.intro}</div>
+                <button class="btn btn-sm btn-primary read-message" data-id="${msg.id}">Read</button>
+            `;
             messagesContainer.appendChild(messageElement);
+        });
+
+        // Add event listeners for reading messages
+        document.querySelectorAll(".read-message").forEach(button => {
+            button.addEventListener("click", async (e) => {
+                const messageId = e.target.getAttribute("data-id");
+                readEmail(authData.token, messageId);
+            });
+        });
+    }
+
+    // Fetch full message content
+    async function readEmail(token, messageId) {
+        const messageData = await apiRequest(`/messages/${messageId}`, "GET", { token });
+
+        if (!messageData) {
+            Swal.fire("Error", "Failed to fetch email content.", "error");
+            return;
+        }
+
+        Swal.fire({
+            title: messageData.subject || "No Subject",
+            html: `
+                <strong>From:</strong> ${messageData.from.address}<br>
+                <strong>Date:</strong> ${new Date(messageData.createdAt).toLocaleString()}<br><br>
+                <div class="message-body">${messageData.text || "No content available"}</div>
+            `,
+            confirmButtonText: "Close",
         });
     }
 
