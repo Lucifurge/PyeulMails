@@ -1,159 +1,105 @@
-const API_BASE = "https://pyeulmail-server-production.up.railway.app";
+document.addEventListener("DOMContentLoaded", () => {
+    const API_BASE_URL = "https://eppheapi-production.up.railway.app";
 
-// Elements
-const emailDisplay = document.getElementById("emailDisplay");
-const copyBtn = document.getElementById("copyBtn");
-const generateBtn = document.getElementById("generateBtn");
-const checkInboxBtn = document.getElementById("checkInboxBtn");
-const deleteBtn = document.getElementById("deleteBtn");
-const inboxContainer = document.getElementById("inboxContainer");
-
-// Store the current username for API calls
-let currentUsername = "";
-
-// Function to generate a temporary email
-async function generateEmail() {
-    const username = document.getElementById('username').value.trim();
-    const domain = document.getElementById('domain').value;
-
-    if (!username) {
-        showNotification("Please enter a username.", "error");
-        return;
-    }
-
-    console.log("Generating email for username:", username, "with domain:", domain);
-
-    try {
-        const response = await fetch(`${API_BASE}/generate`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, domain }) // Send username and domain in the request body
+    // Lock feature: Prompt for username and password
+    const lockScreen = () => {
+        Swal.fire({
+            title: "Login Required",
+            html: `
+                <div class="mb-3">
+                    <label for="lockUsername" class="form-label">Username</label>
+                    <input type="text" id="lockUsername" class="form-control" placeholder="Enter Username">
+                </div>
+                <div class="mb-3">
+                    <label for="lockPassword" class="form-label">Password</label>
+                    <input type="password" id="lockPassword" class="form-control" placeholder="Enter Password">
+                    <div class="mt-2">
+                        <input type="checkbox" id="toggleLockPassword" class="form-check-input">
+                        <label for="toggleLockPassword" class="form-check-label">Show Password</label>
+                    </div>
+                </div>
+            `,
+            confirmButtonText: "Login",
+            allowOutsideClick: false,
+            preConfirm: () => {
+                const username = document.getElementById("lockUsername").value.trim();
+                const password = document.getElementById("lockPassword").value.trim();
+                if (username === "mariz" && password === "mariz2006") {
+                    return true;
+                } else {
+                    Swal.showValidationMessage("Invalid username or password");
+                    return false;
+                }
+            },
         });
-        const data = await response.json();
 
-        if (data.status === "Email generated successfully" && data.email) {
-            emailDisplay.value = data.email; // Set email value in input field
-            currentUsername = data.email; // Store full email
-            copyToClipboard(data.email);
-            showNotification("Temporary email created & copied to clipboard!");
+        document.addEventListener("change", (e) => {
+            if (e.target && e.target.id === "toggleLockPassword") {
+                const passwordField = document.getElementById("lockPassword");
+                passwordField.type = e.target.checked ? "text" : "password";
+            }
+        });
+    };
+    lockScreen();
 
-            // Show a "Ready" message in the inbox immediately after email is generated
-            const readyMessage = {
-                subject: "Account Ready",
-                sender: "PyeulMails System",
-                date: new Date().toLocaleString(),
-                content: "Your temporary email account is ready to receive messages!"
-            };
-            addInboxMessage(readyMessage);
-        } else {
-            showNotification("Failed to generate an email", "error");
+    // Function to create a temporary email account
+    async function createTempEmail() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/create-account`, { method: "POST" });
+            const data = await response.json();
+            if (data.address && data.password) {
+                document.getElementById("emailDisplay").textContent = `Your temp email: ${data.address}`;
+                document.getElementById("emailPassword").textContent = `Password: ${data.password}`;
+                localStorage.setItem("tempEmail", JSON.stringify(data));
+            } else {
+                throw new Error("Failed to create email");
+            }
+        } catch (error) {
+            console.error("Error creating email:", error);
         }
-    } catch (error) {
-        console.error("Error generating email:", error);
-        showNotification("Server error. Try again later.", "error");
-    }
-}
-
-// Function to copy email to clipboard
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .then(() => showNotification("Copied to clipboard!"))
-        .catch(() => showNotification("Failed to copy!", "error"));
-}
-
-// Function to add a message to the inbox
-function addInboxMessage(msg) {
-    const emailItem = document.createElement("div");
-    emailItem.classList.add("email-item");
-    emailItem.innerHTML = `
-        <h3>${msg.subject}</h3>
-        <p><strong>From:</strong> ${msg.sender}</p>
-        <p><strong>Date:</strong> ${msg.date}</p>
-        <p>${msg.content}</p>
-    `;
-    inboxContainer.appendChild(emailItem);
-}
-
-// Function to check the inbox
-async function checkInbox() {
-    if (!currentUsername) {
-        showNotification("Generate an email first!", "error");
-        return;
     }
 
-    try {
-        const response = await fetch(`${API_BASE}/checkMails?email=${currentUsername}`, {
-            method: "GET"
-        });
-        const data = await response.json();
+    // Function to fetch emails
+    async function fetchEmails() {
+        const emailData = JSON.parse(localStorage.getItem("tempEmail"));
+        if (!emailData) return;
 
-        inboxContainer.innerHTML = ""; // Clear inbox
-
-        if (data.status === "Your mailbox is empty. Hold tight. Mailbox is refreshed automatically every 5 seconds.") {
-            inboxContainer.innerHTML = "<p>No new emails.</p>";
-        } else if (data.mails) {
-            data.mails.forEach((msg) => {
-                const emailItem = document.createElement("div");
-                emailItem.classList.add("email-item");
-                emailItem.innerHTML = `
-                    <h3>${msg.subject}</h3>
-                    <p><strong>From:</strong> ${msg.sender}</p>
-                    <p><strong>Date:</strong> ${msg.date}</p>
-                    <p>${msg.content}</p>
-                `;
-                inboxContainer.appendChild(emailItem);
+        try {
+            const authResponse = await fetch(`${API_BASE_URL}/authenticate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ address: emailData.address, password: emailData.password })
             });
-        } else {
-            showNotification("No messages found", "error");
+
+            const authData = await authResponse.json();
+            if (!authData.token) throw new Error("Authentication failed");
+
+            const messagesResponse = await fetch(`${API_BASE_URL}/fetch-messages`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token: authData.token })
+            });
+            
+            const messagesData = await messagesResponse.json();
+            const messagesContainer = document.getElementById("inbox");
+            messagesContainer.innerHTML = "";
+
+            if (messagesData.messages.length === 0) {
+                messagesContainer.innerHTML = "<p>No messages yet.</p>";
+                return;
+            }
+
+            messagesData.messages.forEach(msg => {
+                const messageElement = document.createElement("div");
+                messageElement.classList.add("message");
+                messageElement.innerHTML = `<strong>From:</strong> ${msg.from.address} <br> <strong>Subject:</strong> ${msg.subject} <br> <strong>Preview:</strong> ${msg.intro}`;
+                messagesContainer.appendChild(messageElement);
+            });
+        } catch (error) {
+            console.error("Error fetching messages:", error);
         }
-    } catch (error) {
-        console.error("Error checking inbox:", error);
-        showNotification("Failed to check inbox. Try again later.", "error");
-    }
-}
-
-// Function to delete the temporary email
-async function deleteEmail() {
-    if (!currentUsername) {
-        showNotification("Generate an email first!", "error");
-        return;
     }
 
-    try {
-        const response = await fetch(`${API_BASE}/deleteEmail`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: currentUsername }) // Use full email for deletion
-        });
-        const data = await response.json();
-
-        emailDisplay.value = "No email generated";
-        currentUsername = "";
-        inboxContainer.innerHTML = "";
-        showNotification("Temporary email deleted!");
-    } catch (error) {
-        console.error("Error deleting email:", error);
-        showNotification("Failed to delete email.", "error");
-    }
-}
-
-// Function to show notifications
-function showNotification(message, type = "success") {
-    const notification = document.createElement("div");
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
-}
-
-// Event Listeners
-generateBtn.addEventListener("click", generateEmail);
-copyBtn.addEventListener("click", () => copyToClipboard(emailDisplay.value)); // Use value instead of textContent
-checkInboxBtn.addEventListener("click", checkInbox);
-deleteBtn.addEventListener("click", deleteEmail);
-
-// Add event listener for refreshing inbox
-document.getElementById('refreshBtn').addEventListener('click', checkInbox);
+    document.getElementById("generateEmailBtn").addEventListener("click", createTempEmail);
+    document.getElementById("refreshInboxBtn").addEventListener("click", fetchEmails);
+});
