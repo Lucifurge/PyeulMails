@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,12 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        @keyframes rainbow-text {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         body {
             background-color: #ffe4e9;
             font-family: Arial, sans-serif;
@@ -32,11 +26,6 @@
         .navbar-brand {
             font-weight: bold;
             font-size: 1.8rem;
-            background: linear-gradient(90deg, #ff9bb3, #ff6fa1, #ffaad4, #ffccd9);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-text 3s ease infinite;
         }
 
         .container {
@@ -50,18 +39,9 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .form-control,
-        .btn {
-            border-radius: 8px;
-        }
-
         .btn-primary {
             background: #ff80ab;
             border: none;
-        }
-
-        .btn-primary:hover {
-            background: #ff6699;
         }
 
         .btn-danger {
@@ -69,18 +49,9 @@
             border: none;
         }
 
-        .btn-danger:hover {
-            background: #e55373;
-        }
-
         .btn-secondary {
             background: #ffccd9;
             border: none;
-            color: #5a1a5c;
-        }
-
-        .btn-secondary:hover {
-            background: #f4a1c4;
         }
 
         .inbox-container {
@@ -91,37 +62,17 @@
             border-radius: 15px;
             background: #fff5f8;
             padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .email-item {
-            padding: 15px;
-            border-bottom: 1px dashed #ffaad4;
-            background: #ffe4e9;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: background 0.3s;
-        }
-
-        .email-item:hover {
-            background: #ffc1d6;
-        }
-
-        .email-item:last-child {
-            border-bottom: none;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">PyeulMails</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container">
         <div class="card p-4">
             <h4 class="text-center">Temporary Email Generator</h4>
@@ -131,11 +82,7 @@
             </div>
             <div class="mb-3">
                 <label for="domain" class="form-label">Select Domain</label>
-                <select id="domain" class="form-control">
-                    <option value="1secmail.com">1secmail.com</option>
-                    <option value="1secmail.net">1secmail.net</option>
-                    <option value="1secmail.org">1secmail.org</option>
-                </select>
+                <select id="domain" class="form-control"></select>
             </div>
             <div class="mb-3">
                 <label for="emailDisplay" class="form-label">Temporary Email</label>
