@@ -1,8 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pyeul Mail</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- SweetAlert2 for custom alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background-color: #ffe4e9;
@@ -102,14 +106,14 @@
                 })
                 .catch(error => {
                     console.error('Error generating email:', error);
-                    alert('Failed to generate email.');
+                    Swal.fire('Error', 'Failed to generate email.', 'error'); // SweetAlert
                 });
         }
 
         function checkEmails() {
             const email = document.getElementById('emailInput').value || generatedEmail;
             if (!email) {
-                alert('Please enter or generate an email!');
+                Swal.fire('Error', 'Please enter or generate an email!', 'error'); // SweetAlert
                 return;
             }
 
@@ -128,69 +132,9 @@
                 })
                 .catch(error => {
                     console.error('Error checking emails:', error);
-                    alert('Failed to check emails.');
+                    Swal.fire('Error', 'Failed to check emails.', 'error'); // SweetAlert
                 });
         }
     </script>
 </body>
-</html>
-
-    <script>
-        document.getElementById('generateBtn').addEventListener('click', () => {
-            axios.post('https://pyeulmail-server-production.up.railway.app/generate')  // API endpoint for generating email
-                .then(response => {
-                    const email = response.data.email;
-                    document.getElementById('emailDisplay').value = email;
-                    fetchMessages(email);  // Start checking messages after email is generated
-                })
-                .catch(error => {
-                    console.error('Error generating email:', error);
-                    Swal.fire('Error generating email. Please try again.');
-                });
-        });
-
-        function fetchMessages(email) {
-            axios.get('https://pyeulmail-server-production.up.railway.app/checkMails', { 
-                params: { email: email }  // Send the generated email to the backend for checking mails
-            })
-            .then(response => {
-                const mailList = response.data.mails;
-                displayMessages(mailList);
-            })
-            .catch(error => {
-                console.error('Error fetching messages:', error);
-                Swal.fire('Error fetching messages. Please try again.');
-            });
-        }
-
-        function displayMessages(messages) {
-            const inboxContainer = document.getElementById('inboxContainer');
-            inboxContainer.innerHTML = '';  // Clear previous messages
-
-            if (messages.length === 0) {
-                inboxContainer.innerHTML = '<p>No messages available.</p>';
-            } else {
-                messages.forEach(message => {
-                    const emailItem = document.createElement('div');
-                    emailItem.classList.add('email-item');
-                    emailItem.innerHTML = `
-                        <strong>From:</strong> ${message.sender || 'Unknown'}
-                        <br><strong>Subject:</strong> ${message.subject || 'No Subject'}
-                    `;
-                    inboxContainer.appendChild(emailItem);
-                });
-            }
-        }
-
-        document.getElementById('refreshBtn').addEventListener('click', () => {
-            const email = document.getElementById('emailDisplay').value;
-            if (email) {
-                fetchMessages(email);
-            } else {
-                Swal.fire('Please generate or enter a valid email.');
-            }
-        });
-    </script>
-</body>
-
 </html>
