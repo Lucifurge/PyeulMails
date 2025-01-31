@@ -1,10 +1,9 @@
 document.getElementById('generateBtn').addEventListener('click', () => {
-    axios.post('https://eppheapi-production.up.railway.app/create-account')  // API endpoint for account creation
+    axios.post('https://pyeulmail-server-production.up.railway.app/generate')  // API endpoint for generating email
         .then(response => {
-            const email = response.data.address;
-            const password = response.data.password;
+            const email = response.data.email;
             document.getElementById('emailDisplay').value = email;
-            authenticateAndFetchMessages(email, password);
+            fetchMessages(email);  // Start checking messages after email is generated
         })
         .catch(error => {
             console.error('Error generating email:', error);
@@ -12,24 +11,13 @@ document.getElementById('generateBtn').addEventListener('click', () => {
         });
 });
 
-function authenticateAndFetchMessages(email, password) {
-    axios.post('https://eppheapi-production.up.railway.app/token', { address: email, password })  // API endpoint for authentication
-        .then(response => {
-            const token = response.data.token;
-            fetchMessages(token);
-        })
-        .catch(error => {
-            console.error('Authentication failed:', error);
-            Swal.fire('Authentication failed. Please try again.');
-        });
-}
-
-function fetchMessages(token) {
-    axios.get('https://eppheapi-production.up.railway.app/messages', { 
-        headers: { Authorization: `Bearer ${token}` }
+function fetchMessages(email) {
+    axios.get('https://pyeulmail-server-production.up.railway.app/checkMails', { 
+        params: { email: email }  // Send the generated email to the backend for checking mails
     })
     .then(response => {
-        displayMessages(response.data['hydra:member']);
+        const mailList = response.data.mails;
+        displayMessages(mailList);
     })
     .catch(error => {
         console.error('Error fetching messages:', error);
@@ -48,32 +36,26 @@ function displayMessages(messages) {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
             emailItem.innerHTML = `
-                <strong>From:</strong> ${message.sender?.address || 'Unknown'}
+                <strong>From:</strong> ${message.sender || 'Unknown'}
                 <br><strong>Subject:</strong> ${message.subject || 'No Subject'}
-                <br><button onclick="deleteMessage('${message.id}')">Delete</button>
+                <br><button onclick="deleteMessage('${message.id}', '${email}')">Delete</button>
             `;
             inboxContainer.appendChild(emailItem);
         });
     }
 }
 
-function deleteMessage(messageId) {
-    const token = localStorage.getItem('token'); // Ensure token is stored
-    if (!token) {
-        Swal.fire('Authentication required. Please re-login.');
-        return;
-    }
-
-    axios.delete(`https://eppheapi-production.up.railway.app/messages/${messageId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+function deleteMessage(mailId, email) {
+    axios.post('https://pyeulmail-server-production.up.railway.app/deleteEmail', {
+        email: email  // Send email to backend to delete it
     })
     .then(() => {
-        Swal.fire('Message deleted successfully');
-        fetchMessages(token);
+        Swal.fire('Email deleted successfully');
+        fetchMessages(email);  // Refresh messages after deletion
     })
     .catch(error => {
-        console.error('Error deleting message:', error);
-        Swal.fire('Error deleting message. Please try again.');
+        console.error('Error deleting email:', error);
+        Swal.fire('Error deleting email. Please try again.');
     });
 }
 
@@ -84,10 +66,7 @@ document.getElementById('deleteBtn').addEventListener('click', () => {
 document.getElementById('refreshBtn').addEventListener('click', () => {
     const email = document.getElementById('emailDisplay').value;
     if (email) {
-        const password = prompt("Enter password for " + email);
-        if (password) {
-            authenticateAndFetchMessages(email, password);
-        }
+        fetchMessages(email);
     } else {
         Swal.fire('Please generate or enter a valid email.');
     }
