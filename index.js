@@ -7,7 +7,7 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 
             // Store sidToken in localStorage
             localStorage.setItem('sidToken', sidToken);
-            
+
             fetchMessages(sidToken);  // Start checking messages after email is generated
         })
         .catch(error => {
@@ -17,9 +17,12 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 });
 
 function fetchMessages(sidToken, seq = 0) {
-    axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', {
-        sid_token: sidToken,
-        seq: seq
+    // Change POST to GET for /check_messages
+    axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {
+        params: {
+            sid_token: sidToken,
+            seq: seq
+        }
     })
     .then(response => {
         const mailList = response.data.messages;
@@ -55,9 +58,12 @@ function displayMessages(messages, seq) {
 function deleteMessage(mailId) {
     const sidToken = localStorage.getItem('sidToken');  // Retrieve sidToken from localStorage
 
-    axios.post('https://pyeulmail-server-production.up.railway.app/delete_email', {
-        mail_id: mailId,
-        sid_token: sidToken
+    // Change POST to GET for /delete_email
+    axios.get('https://pyeulmail-server-production.up.railway.app/delete_email', {
+        params: {
+            mail_id: mailId,
+            sid_token: sidToken
+        }
     })
     .then(() => {
         Swal.fire('Email deleted successfully');
