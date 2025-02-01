@@ -44,11 +44,9 @@ function fetchMessages(sidToken, seq = 0) {
         }
     });
 
-    axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {  // API route for fetching messages
-        params: {
-            sid_token: sidToken,
-            seq: seq  // Pass current seq to get new messages
-        }
+    axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', {  // Use POST here
+        sid_token: sidToken,  // Send SID token in the request body
+        seq: seq  // Pass current seq to get new messages
     })
     .then(response => {
         const mailList = response.data.messages;
@@ -59,10 +57,13 @@ function fetchMessages(sidToken, seq = 0) {
             Swal.fire('No new messages found. Checking again in 15 seconds...');
             
             // Stop current polling and restart after 15 seconds
+            clearInterval(localStorage.getItem('pollingInterval'));
             setTimeout(() => {
                 startPolling(sidToken); // Start polling again after 15 seconds
             }, 15000);  // 15 seconds delay
         } else {
+            // If messages are found, stop the timeout and interval to avoid multiple triggers
+            clearInterval(localStorage.getItem('pollingInterval'));
             displayMessages(mailList, newSeq);
         }
     })
