@@ -1,96 +1,171 @@
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const BASE_URL = "http://api.guerrillamail.com/ajax.php";
-const app = express();
+// Function to generate email address
+function generateEmail() {
+    // Show loading indication
+    Swal.fire({
+        title: 'Generating Email...',
+        text: 'Please wait while we generate your temporary email.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
-app.use(cors());
-app.use(bodyParser.json()); // Parse JSON payloads
+    axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')  // API route for generating email
+        .then(response => {
+            const { email, sid_token } = response.data;
+            console.log("Generated email:", email);  // Debugging log for email
+            console.log("SID Token:", sid_token);   // Debugging log for SID Token
 
-let emailData = {}; // Store user-specific email data keyed by SID token
+            // Check if email and sid_token are valid before updating the DOM
+            if (email && sid_token) {
+                document.getElementById('generatedEmail').value = email;  // Display the email in the input field
+                localStorage.setItem('sid_token', sid_token); // Save sid_token in local storage
+                startPolling(sid_token); // Start polling for new messages after email is generated
 
-// Function to generate a new email address
-async function getEmailAddress() {
-  const params = { f: 'get_email_address' };
-  try {
-    const response = await axios.get(BASE_URL, { params });
-    const data = response.data;
-    const email = data.email_addr || '';
-    const sidToken = data.sid_token || '';
-    return { email, sidToken };
-  } catch (error) {
-    console.error("Error generating email address:", error);
-    return null;
-  }
+                Swal.fire('Email Generated!', `Your email: ${email}`, 'success');
+            } else {
+                console.error('Invalid email or sid_token:', response.data);
+                Swal.fire('Error: Invalid response from server.');
+            }
+        })
+        .catch(error => {
+            console.error('Error generating email:', error);
+            Swal.fire('Error generating email. Please try again.');
+        });
 }
 
-// Function to check for new messages
-async function checkEmail(sidToken, seq) {
-  const params = { f: 'check_email', sid_token: sidToken, seq };
-  try {
-    const response = await axios.get(BASE_URL, { params });
-    const data = response.data;
-    return { messages: data.messages || [], seq: data.seq || seq };
-  } catch (error) {
-    console.error("Error fetching messages:", error);
-    return { messages: [], seq };
-  }
+// Function to fetch messages with the sidToken and sequence
+function fetchMessages(sidToken, seq = 0) {
+    // Show loading indication
+    Swal.fire({
+        title: 'Fetching Messages...',
+        text: 'Please wait while we fetch your messages.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {  // API route for fetching messages
+        params: {
+            sid_token: sidToken,
+            seq: seq  // Pass current seq to get new messages
+        }
+    })
+    .then(response => {
+        const mailList = response.data.messages;
+        const newSeq = response.data.seq; // Update the seq value for the next fetch
+
+        if (mailList.length === 0) {
+            console.log("[!] No new messages yet. Checking again in 15 seconds...");
+            Swal.fire('No new messages found. Checking again in 15 seconds...');
+            
+            // Stop current polling and restart after 15 seconds
+            setTimeout(() => {
+                startPolling(sidToken); // Start polling again after 15 seconds
+            }, 15000);  // 15 seconds delay
+        } else {
+            displayMessages(mailList, newSeq);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching messages:', error.response ? error.response.data : error.message);
+        Swal.fire('Error fetching messages. Please try again.');
+    });
 }
 
-// Function to fetch the full email content
-async function fetchEmail(mailId, sidToken) {
-  const params = { f: 'fetch_email', email_id: mailId, sid_token: sidToken };
-  try {
-    const response = await axios.get(BASE_URL, { params });
-    const data = response.data;
-    return data.mail_body || 'No content';
-  } catch (error) {
-    console.error("Error fetching email content:", error);
-    return 'Error fetching content';
-  }
-}
+// Function to display messages in the UI
+function displayMessages(messages, seq) {
+    const inboxContainer = document.getElementById('emailContent');
+    inboxContainer.innerHTML = '';  // Clear previous messages
 
-// API route to generate an email
-app.post('/generate_email', async (req, res) => {
-  const { email, sidToken } = await getEmailAddress();
-  
-  if (email) {
-    res.json({ email, sid_token: sidToken });
-    console.log(`[+] Email generated: ${email}`);
-    emailData[sidToken] = { email, seq: 0 }; // Store sidToken with sequence for checking emails
-  } else {
-    res.status(500).json({ error: 'Error generating email address' });
-  }
-});
+    if (messages.length === 0) {
+        inboxContainer.innerHTML = '<p>No messages available.</p>';
+    } else {
+        messages.forEach(message => {
+            // Log the entire raw message object for debugging
+            console.log('Raw message data:', message);
 
-// API route to check emails
-app.post('/check_messages', async (req, res) => {
-  const { sid_token } = req.body;
-  if (!sid_token || !emailData[sid_token]) {
-    return res.status(400).json({ error: 'Invalid or expired session token' });
-  }
+            const emailItem = document.createElement('div');
+            emailItem.classList.add('email-item');
 
-  const { seq } = emailData[sid_token];
-  
-  const { messages, seq: newSeq } = await checkEmail(sid_token, seq);
-  emailData[sid_token].seq = newSeq; // Update sequence
-  
-  if (messages.length > 0) {
-    const messageDetails = [];
-    for (const msg of messages) {
-      const { mail_id, mail_from, mail_subject } = msg;
-      const mailContent = await fetchEmail(mail_id, sid_token);
-      messageDetails.push({ mail_from, mail_subject, mailContent });
+            // Log sender to ensure it is being parsed correctly
+            console.log('Sender:', message.sender);
+
+            // If sender exists, use it directly
+            const sender = message.sender || 'Unknown';
+            let displaySender = 'Unknown';
+
+            // Check if the sender is a valid email (contains '@')
+            if (sender.includes('@')) {
+                // Extract the local part before '@' symbol
+                displaySender = sender.split('@')[0];
+            }
+
+            // Log parsed sender for debugging
+            console.log('Parsed Sender:', displaySender);
+
+            emailItem.innerHTML = ` 
+                <strong>From:</strong> ${displaySender}
+                <br><strong>Subject:</strong> ${message.subject || 'No Subject'}
+                <br><button onclick="viewEmailContent('${message.id}')">View</button>
+            `;
+            inboxContainer.appendChild(emailItem);
+        });
     }
-    return res.json({ messages: messageDetails });
-  } else {
-    return res.json({ messages: [] });
-  }
-});
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    // Store the updated seq for the next fetch
+    localStorage.setItem('lastSeq', seq); // Save seq for future use
+    console.log("Updated seq:", seq);  // Debugging line
+}
+
+// Function to view the full content of the email
+function viewEmailContent(mailId) {
+    const sidToken = localStorage.getItem('sid_token');  // Retrieve sid_token from localStorage
+
+    // Show loading indication
+    Swal.fire({
+        title: 'Fetching Email Content...',
+        text: 'Please wait while we retrieve the email content.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    axios.get('https://pyeulmail-server-production.up.railway.app/fetch_email', {
+        params: {
+            mail_id: mailId,
+            sid_token: sidToken
+        }
+    })
+    .then(response => {
+        const emailContent = response.data.content;
+        Swal.fire({
+            title: 'Email Content',
+            text: emailContent,
+            icon: 'info'
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching email content:', error);
+        Swal.fire('Error fetching email content. Please try again.');
+    });
+}
+
+// Function to start polling messages every 10 seconds
+function startPolling(sidToken) {
+    // Clear previous interval to avoid multiple polling loops
+    if (localStorage.getItem('pollingInterval')) {
+        clearInterval(localStorage.getItem('pollingInterval'));
+    }
+
+    // Initial polling call to fetch messages
+    fetchMessages(sidToken);
+
+    // Poll every 10 seconds and store interval ID in localStorage
+    const intervalId = setInterval(() => fetchMessages(sidToken), 10000);  // Poll every 10 seconds
+    localStorage.setItem('pollingInterval', intervalId); // Store polling interval ID for clearing it later
+}
+
+// Initialize the process when the page is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
 });
