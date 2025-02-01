@@ -171,6 +171,29 @@ function startPolling(sidToken) {
 
     // Store the interval id so we can clear it later if needed
     localStorage.setItem('pollingInterval', interval);
+
+    // Start the timer for exit prompt after 90 seconds (1 and a half minutes)
+    startExitPromptTimer();
+}
+
+// Function to handle exit prompt after 90 seconds (1 and a half minutes)
+function startExitPromptTimer() {
+    let startTime = Date.now(); // Get the current timestamp
+
+    const exitPromptInterval = setInterval(() => {
+        let elapsedTime = (Date.now() - startTime) / 1000; // Get elapsed time in seconds
+        if (elapsedTime >= 90) {  // 90 seconds (1 and a half minutes)
+            clearInterval(exitPromptInterval); // Stop the timer
+            if (confirm('It’s been 90 seconds with no new messages. Do you want to continue polling?')) {
+                startTime = Date.now(); // Reset the timer if user wants to continue
+            } else {
+                // Stop polling if user chooses to exit
+                clearInterval(localStorage.getItem('pollingInterval'));
+                localStorage.removeItem('pollingInterval');
+                alert('Exiting message polling.');
+            }
+        }
+    }, 1000); // Check every second for the 90-second mark
 }
 
 // Event listeners for frontend interactions
