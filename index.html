@@ -13,19 +13,21 @@
     <style>
        /* General page styling */
 /* General body styling */
+/* General body styling */
 body {
-    background-color: #2e1d2f;
-    color: #ffffff;
+    background-color: #2e1d2f; /* Dark background color */
+    color: #ffffff; /* White text color for contrast */
     font-family: "Fira Code", monospace;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     transition: background 0.5s ease, color 0.5s ease;
+    min-height: 100vh; /* Ensure full height */
 }
 
 /* Navbar styling */
 .navbar {
-    background: linear-gradient(90deg, #8b1c61, #5a1c3b);
+    background: linear-gradient(90deg, #8b1c61, #5a1c3b); /* Gradient navbar background */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     padding: 0.8rem 1.5rem;
 }
@@ -41,7 +43,7 @@ body {
 }
 
 .navbar-nav .nav-link {
-    color: #f8d2e2 !important;
+    color: #f8d2e2 !important; /* Light pink color for links */
     font-weight: bold;
     margin: 0 12px;
     transition: color 0.3s ease, transform 0.3s ease;
@@ -56,7 +58,7 @@ body {
 .hero {
     text-align: center;
     padding: 100px 20px;
-    background: linear-gradient(180deg, rgba(46, 29, 47, 0.95), rgba(32, 21, 34, 0.95));
+    background: linear-gradient(180deg, rgba(46, 29, 47, 0.95), rgba(32, 21, 34, 0.95)); /* Dark gradient */
     border-radius: 15px;
     color: white;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
@@ -73,20 +75,6 @@ body {
     -webkit-text-fill-color: transparent;
     animation: rainbow-pink 6s ease infinite;
     text-shadow: 0 0 15px rgba(255, 121, 198, 0.6), 0 0 30px rgba(255, 111, 174, 0.6);
-}
-
-@keyframes rainbow-pink {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
 }
 
 .hero p {
@@ -228,6 +216,7 @@ body {
     box-shadow: 0 6px 15px rgba(255, 111, 174, 0.7);
     transform: scale(1.05);
 }
+
 
     </style>
 </head>
