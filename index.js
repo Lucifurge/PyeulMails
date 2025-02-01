@@ -26,22 +26,25 @@ document.addEventListener("DOMContentLoaded", () => {
             `,
             confirmButtonText: "Login",
             allowOutsideClick: false,
-            preConfirm: () => {
-                const username = document.getElementById("lockUsername").value.trim();
-                const password = document.getElementById("lockPassword").value.trim();
-                
-                const valid = credentials.some(cred => cred.username === username && cred.password === password);
-                
-                if (valid) {
-                    return true;
-                } else {
-                    Swal.showValidationMessage("Invalid username or password");
-                    return false;
-                }
-            },
-        });
+           preConfirm: () => {
+    const username = document.getElementById("lockUsername").value.trim();
+    const password = document.getElementById("lockPassword").value.trim();
 
-        document.addEventListener("change", (e) => {
+    if (username === "" || password === "") {
+        Swal.showValidationMessage("Please enter both username and password");
+        return false;
+    }
+
+    const valid = credentials.some(cred => cred.username === username && cred.password === password);
+    
+    if (valid) {
+        return true;
+    } else {
+        Swal.showValidationMessage("Invalid username or password");
+        return false;
+    }
+},
+      document.addEventListener("change", (e) => {
             if (e.target && e.target.id === "toggleLockPassword") {
                 document.getElementById("lockPassword").type = e.target.checked ? "text" : "password";
             }
