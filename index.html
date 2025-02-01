@@ -26,8 +26,8 @@
         }
 
         body {
-            background-color: #ffe4e6;
-            color: #4f2a3c;
+            background-color: #1c1c1c;
+            color: #e8e8e8;
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -53,8 +53,8 @@
         }
 
         .navbar {
-            background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #ff79c6, #ff91d3, #ff79c6);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
             padding: 0.8rem 1.5rem;
         }
 
@@ -80,11 +80,12 @@
         .navbar-brand {
             font-weight: 900;
             font-size: 1.8rem;
-            background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ffa6c1, #ff79c6);
+            background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ff79c6);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: rainbow-pink 6s ease infinite;
+            text-shadow: 0px 0px 10px rgba(255, 121, 198, 0.8);
         }
 
         @keyframes rainbow-pink {
@@ -106,6 +107,7 @@
             font-weight: 900;
             margin: 0 12px;
             transition: color 0.3s ease, transform 0.3s ease;
+            text-shadow: 0px 0px 8px rgba(255, 121, 198, 0.6);
         }
 
         .navbar-nav .nav-link:hover {
@@ -116,11 +118,12 @@
         .hero {
             text-align: center;
             padding: 100px 20px;
-            background: linear-gradient(180deg, rgba(255, 236, 242, 0.95), rgba(255, 218, 228, 0.95));
+            background: linear-gradient(180deg, rgba(30, 30, 30, 0.85), rgba(0, 0, 0, 0.7));
             border-radius: 15px;
-            color: #4f2a3c;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
             margin-top: 2rem;
+            border: 3px solid #ff79c6;
         }
 
         .hero h1 {
@@ -132,10 +135,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: rainbow-pink 6s ease infinite;
+            text-shadow: 0px 0px 10px rgba(255, 121, 198, 0.8);
+            border: 3px solid #ff79c6;
+            padding: 10px;
         }
 
         .hero p {
             font-size: 1.4rem;
+            text-shadow: 0px 0px 8px rgba(255, 121, 198, 0.6);
+            border: 2px solid #ff79c6;
+            padding: 5px;
+            margin-top: 10px;
         }
 
         .btn,
@@ -147,15 +157,19 @@
             border-radius: 25px;
             box-shadow: 0 4px 10px rgba(255, 130, 200, 0.5);
             transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            text-shadow: 0px 0px 5px rgba(255, 121, 198, 0.6);
+            border: 2px solid #ff79c6;
         }
 
         .btn:hover,
         .btn:focus,
         .upload-btn:hover,
         .upload-btn:focus {
-            background: #ffa6c1;
+            background: #ff91d3;
             box-shadow: 0 6px 15px rgba(255, 166, 193, 0.7);
             transform: scale(1.05);
+            text-shadow: 0px 0px 15px rgba(255, 121, 198, 0.8);
+            border: 2px solid #ff91d3;
         }
 
         .features {
@@ -163,17 +177,21 @@
         }
 
         .feature-card {
-            background: #f4d1e0;
-            border: 1px solid #f3c0d7;
+            background: #2f2f2f;
+            border: 1px solid #3c3c3c;
             border-radius: 12px;
             padding: 20px;
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #fff;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+            border: 2px solid #ff79c6;
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            border-color: #ff91d3;
         }
 
         .footer {
@@ -181,25 +199,27 @@
             color: #dcdcdc;
             text-align: center;
             padding: 20px;
-            border-top: 1px solid #f3c0d7;
+            border-top: 1px solid #3c3c3c;
         }
 
         .footer a {
             color: #ff79c6;
             margin: 0 10px;
             transition: color 0.3s ease;
+            text-shadow: 0px 0px 8px rgba(255, 121, 198, 0.6);
         }
 
         .footer a:hover {
-            color: #ffa6c1;
+            color: #ff91d3;
         }
 
         #shareForm {
-            background: #f7c0d5;
+            background: #3a3a3a;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s ease;
+            border: 2px solid #ff79c6;
         }
 
         #shareForm:hover {
@@ -207,16 +227,17 @@
         }
 
         .form-control {
-            background: #f0e1eb;
-            color: #4f2a3c;
-            border: 1px solid #f3c0d7;
+            background: #444;
+            color: #e8e8e8;
+            border: 1px solid #555;
             transition: background 0.3s ease, border-color 0.3s ease;
+            text-shadow: 0px 0px 5px rgba(255, 121, 198, 0.5);
         }
 
         .form-control:focus {
-            background: #ffe0ea;
+            background: #333;
             border-color: #ff79c6;
-            color: #4f2a3c;
+            color: #e8e8e8;
             box-shadow: none;
         }
 
@@ -224,8 +245,8 @@
             height: 25px;
             border-radius: 15px;
             overflow: hidden;
-            background: #f3c0d7;
-            border: 1px solid #f4d1e0;
+            background: #555;
+            border: 1px solid #444;
             margin-top: 20px;
         }
 
@@ -271,69 +292,41 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="hero">
+    <section id="hero" class="hero">
         <h1>Welcome to Pyeul Mails</h1>
-        <p>Generate your temporary emails effortlessly!</p>
-    </header>
-
-    <!-- Temporary Email Form -->
-    <section id="generate" class="container">
-        <div class="card">
-            <h4 class="text-center">Generate Temporary Email</h4>
-            <div class="mb-3">
-                <label for="generatedEmail" class="form-label">Temporary Email Address</label>
-                <input type="text" id="generatedEmail" class="form-control" readonly>
-            </div>
-            <div class="d-flex justify-content-center mb-4">
-                <button id="generateEmailBtn" class="btn btn-primary">Generate Email</button>
-            </div>
-
-            <h3>Check Your Inbox</h3>
-            <div class="d-flex justify-content-center">
-                <input type="text" id="emailInput" class="form-control" placeholder="Enter generated email" readonly>
-                <button id="checkBtn" class="btn btn-secondary mx-2">Check Emails</button>
-            </div>
-            <div class="inbox-container mt-4">
-                <h5 class="text-center">Inbox</h5>
-                <div id="emailContent"></div>
-            </div>
-        </div>
+        <p>Your temporary email generator with style.</p>
     </section>
 
     <section id="features" class="features">
         <div class="container">
-            <h2 class="text-center mb-5">Features</h2>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 mb-4">
                     <div class="feature-card">
-                        <h4>Upload Images</h4>
-                        <p>Quickly upload and share images with your friends.</p>
+                        <h4>Email Generation</h4>
+                        <p>Create temporary email addresses with one click.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 mb-4">
                     <div class="feature-card">
-                        <h4>Share Mails</h4>
-                        <p>Send messages through our cool platform.</p>
+                        <h4>Inbox Access</h4>
+                        <p>Check your temporary inbox without any hassles.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 mb-4">
                     <div class="feature-card">
-                        <h4>Interactive Features</h4>
-                        <p>Enjoy engaging with fun interactions.</p>
+                        <h4>Privacy</h4>
+                        <p>Keep your main inbox clean and spam-free.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Pyeul Mails. All rights reserved. Made by The Husband of Pyeul Lihm</p>
         <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
     </footer>
 
-    <!-- Floating Hearts -->
     <div class="heart" style="top: 0%; left: 10%;">❤️</div>
     <div class="heart" style="top: 15%; left: 40%;">💖</div>
     <div class="heart" style="top: 30%; left: 70%;">💘</div>
