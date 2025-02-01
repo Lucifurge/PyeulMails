@@ -1,4 +1,4 @@
-import axios from 'axios';  // Use `import` for Axios, assuming you're using modules.
+import axios from 'axios';  
 
 function generateEmail() {
     axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
