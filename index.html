@@ -18,7 +18,10 @@
             font-family: 'Roboto', sans-serif;
             color: #5a1a5c;
             min-height: 100vh;
-            overflow: hidden; /* Prevents scroll bar from appearing */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .navbar {
@@ -53,8 +56,7 @@
         }
 
         .container {
-            margin-top: 140px; /* Added space for fixed navbar */
-            width: 100%;
+            width: 80%;
             max-width: 1200px;
             padding: 20px;
             display: flex;
@@ -62,17 +64,20 @@
             justify-content: center;
             align-items: center;
             position: relative;
+            margin-top: 160px;
         }
 
         .card {
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            padding: 3rem;
             margin-top: 2rem;
             width: 100%;
-            max-width: 700px;
+            max-width: 800px;
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         .inbox-container {
@@ -182,7 +187,8 @@
         .heart {
             width: 20px;
             height: 20px;
-            background: red;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/3/39/Hello_Kitty_Head.svg') no-repeat center center;
+            background-size: cover;
             position: absolute;
             transform: rotate(-45deg);
             animation: float 5s infinite;
@@ -193,7 +199,8 @@
             content: "";
             width: 20px;
             height: 20px;
-            background: red;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/3/39/Hello_Kitty_Head.svg') no-repeat center center;
+            background-size: cover;
             position: absolute;
             border-radius: 50%;
         }
@@ -262,7 +269,6 @@
         </div>
     </div>
 
-    <!-- Keep the script separate as you requested -->
     <script type="module" src="index.js"></script>
 </body>
 </html>
