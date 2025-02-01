@@ -11,157 +11,197 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            background-color: #2e1d2f;
-            color: #ffffff;
-            font-family: "Fira Code", monospace;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            transition: background 0.5s ease, color 0.5s ease;
-        }
+       /* General page styling */
+body {
+    background-color: #2e1d2f;
+    color: #ffffff;
+    font-family: "Fira Code", monospace;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transition: background 0.5s ease, color 0.5s ease;
+}
 
-        .navbar {
-            background: linear-gradient(90deg, #8b1c61, #5a1c3b);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            padding: 0.8rem 1.5rem;
-        }
+/* Navbar styling */
+.navbar {
+    background: linear-gradient(90deg, #8b1c61, #5a1c3b);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 0.8rem 1.5rem;
+}
 
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-pink 6s ease infinite;
-        }
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.8rem;
+    background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-pink 6s ease infinite;
+}
 
-        .navbar-nav .nav-link {
-            color: #f8d2e2 !important;
-            font-weight: bold;
-            margin: 0 12px;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
+.navbar-nav .nav-link {
+    color: #f8d2e2 !important;
+    font-weight: bold;
+    margin: 0 12px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
 
-        .navbar-nav .nav-link:hover {
-            color: #ff9fd6 !important;
-            transform: scale(1.1);
-        }
+.navbar-nav .nav-link:hover {
+    color: #ff9fd6 !important;
+    transform: scale(1.1);
+}
 
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-            background: linear-gradient(180deg, rgba(46, 29, 47, 0.95), rgba(32, 21, 34, 0.95));
-            border-radius: 15px;
-            color: white;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            margin-top: 1rem;
-        }
+/* Hero section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(180deg, rgba(46, 29, 47, 0.95), rgba(32, 21, 34, 0.95));
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    margin-top: 1rem;
+}
 
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-pink 6s ease infinite;
-            text-shadow: 0 0 15px rgba(255, 121, 198, 0.6), 0 0 30px rgba(255, 111, 174, 0.6);
-        }
+.hero h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-pink 6s ease infinite;
+    text-shadow: 0 0 15px rgba(255, 121, 198, 0.6), 0 0 30px rgba(255, 111, 174, 0.6);
+}
 
-        @keyframes rainbow-pink {
-            0% {
-                background-position: 0% 50%;
-            }
+@keyframes rainbow-pink {
+    0% {
+        background-position: 0% 50%;
+    }
 
-            50% {
-                background-position: 100% 50%;
-            }
+    50% {
+        background-position: 100% 50%;
+    }
 
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
-        .hero p {
-            font-size: 1.5rem;
-            margin-top: 20px;
-        }
+.hero p {
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
 
-        .btn,
-        .upload-btn {
-            background: #ff79c6;
-            color: white;
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 25px;
-            box-shadow: 0 4px 10px rgba(255, 121, 198, 0.5);
-            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-        }
+/* Button styles */
+.btn,
+.upload-btn {
+    background: #ff79c6;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(255, 121, 198, 0.5);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
 
-        .btn:hover,
-        .btn:focus,
-        .upload-btn:hover,
-        .upload-btn:focus {
-            background: #ff6fae;
-            box-shadow: 0 6px 15px rgba(255, 111, 174, 0.7);
-            transform: scale(1.05);
-        }
+.btn:hover,
+.btn:focus,
+.upload-btn:hover,
+.upload-btn:focus {
+    background: #ff6fae;
+    box-shadow: 0 6px 15px rgba(255, 111, 174, 0.7);
+    transform: scale(1.05);
+}
 
-        .footer {
-            background: linear-gradient(90deg, #5a1c3b, #8b1c61);
-            color: #f8d2e2;
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #5a3a5a;
-        }
+/* Footer */
+.footer {
+    background: linear-gradient(90deg, #5a1c3b, #8b1c61);
+    color: #f8d2e2;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #5a3a5a;
+}
 
-        .footer a {
-            color: #ff79c6;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-        }
+.footer a {
+    color: #ff79c6;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
 
-        .footer a:hover {
-            color: #ff6fae;
-        }
+.footer a:hover {
+    color: #ff6fae;
+}
 
-        #generate {
-            background: #2f1d30;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-        }
+/* Temporary Email Form */
+#generate {
+    background: #2f1d30;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
 
-        .form-control {
-            background: #3a273a;
-            color: #f8d2e2;
-            border: 1px solid #5a3a5a;
-            transition: background 0.3s ease, border-color 0.3s ease;
-        }
+.form-control {
+    background: #3a273a;
+    color: #f8d2e2;
+    border: 1px solid #5a3a5a;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
 
-        .form-control:focus {
-            background: #2f1d30;
-            border-color: #ff79c6;
-            color: #f8d2e2;
-            box-shadow: none;
-        }
+.form-control:focus {
+    background: #2f1d30;
+    border-color: #ff79c6;
+    color: #f8d2e2;
+    box-shadow: none;
+}
 
-        .progress {
-            height: 25px;
-            border-radius: 15px;
-            overflow: hidden;
-            background: #3a273a;
-            border: 1px solid #5a3a5a;
-            margin-top: 20px;
-        }
+/* Progress bar styling */
+.progress {
+    height: 25px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #3a273a;
+    border: 1px solid #5a3a5a;
+    margin-top: 20px;
+}
 
-        .progress-bar {
-            background: #ff79c6;
-            transition: width 0.5s ease;
-        }
+.progress-bar {
+    background: #ff79c6;
+    transition: width 0.5s ease;
+}
+
+/* Form container alignment and styling */
+#generate .container {
+    padding-top: 50px;
+}
+
+/* Text and Button adjustments for Inbox */
+.inbox-container {
+    background: #3a273a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.inbox-container h5 {
+    color: #f8d2e2;
+}
+
+#generate .btn-primary {
+    background: #ff79c6;
+    color: white;
+    font-size: 1rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(255, 121, 198, 0.5);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+#generate .btn-primary:hover {
+    background: #ff6fae;
+    box-shadow: 0 6px 15px rgba(255, 111, 174, 0.7);
+    transform: scale(1.05);
+}
+
     </style>
 </head>
 
