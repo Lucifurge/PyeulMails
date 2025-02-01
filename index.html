@@ -12,27 +12,160 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        html,
         body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            width: 100%;
-            font-weight: 900;
             font-family: 'Courier New', Courier, monospace;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            overflow-x: hidden;
+            padding-top: 80px;
         }
 
-        body {
-            background-color: #1c1c1c;
-            color: #e8e8e8;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        /* Navbar */
+        .navbar {
+            background: #222;
+            border-bottom: 2px solid #ff79c6;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff79c6;
+            text-shadow: 0 0 8px rgba(255, 121, 198, 0.7);
+        }
+
+        .navbar-nav .nav-link {
+            color: #d1d1d1;
+            margin-left: 20px;
+            font-weight: 600;
+            text-shadow: 0 0 6px rgba(255, 121, 198, 0.6);
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ff79c6;
+            text-shadow: 0 0 12px rgba(255, 121, 198, 0.9);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('your-background-image.jpg') no-repeat center center/cover;
+            text-align: center;
+            padding: 80px 20px;
+            color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ff79c6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-pink 6s ease infinite;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 121, 198, 0.8);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            text-shadow: 0 0 8px rgba(255, 121, 198, 0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .btn {
+            background: #ff79c6;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 30px;
+            border-radius: 30px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-shadow: 0 0 8px rgba(255, 121, 198, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn:hover {
+            background: #ff91d3;
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(255, 121, 198, 0.8);
+        }
+
+        /* Form and Input */
+        .form-control {
+            background: #333;
+            border: 1px solid #444;
+            color: #f0f0f0;
+            font-size: 1rem;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: #222;
+            border-color: #ff79c6;
+            color: #fff;
+        }
+
+        /* Feature Section */
+        .features {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .feature-card {
+            background-color: #333;
+            color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .feature-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #222;
+            color: #aaa;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #ff79c6;
+        }
+
+        .footer a {
+            color: #ff79c6;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ff91d3;
+        }
+
+        /* Floating Hearts */
         .heart {
             position: fixed;
             animation: floatUp 5s infinite ease-in-out;
@@ -52,42 +185,6 @@
             }
         }
 
-        .navbar {
-            background: linear-gradient(90deg, #ff79c6, #ff91d3, #ff79c6);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-            padding: 0.8rem 1.5rem;
-        }
-
-        .navbar .navbar-nav {
-            flex-grow: 1;
-            justify-content: flex-end;
-        }
-
-        .navbar-left {
-            background-color: #ff79c6;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            font-weight: 900;
-            font-size: 1.2rem;
-        }
-
-        .navbar-right {
-            background-color: transparent;
-            color: white;
-            padding: 0.8rem 1.5rem;
-        }
-
-        .navbar-brand {
-            font-weight: 900;
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ff79c6);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-pink 6s ease infinite;
-            text-shadow: 0px 0px 10px rgba(255, 121, 198, 0.8);
-        }
-
         @keyframes rainbow-pink {
             0% {
                 background-position: 0% 50%;
@@ -102,170 +199,17 @@
             }
         }
 
-        .navbar-nav .nav-link {
-            color: #fff7f9 !important;
-            font-weight: 900;
-            margin: 0 12px;
-            transition: color 0.3s ease, transform 0.3s ease;
-            text-shadow: 0px 0px 8px rgba(255, 121, 198, 0.6);
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #ffe0ea !important;
-            transform: scale(1.1);
-        }
-
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-            background: linear-gradient(180deg, rgba(30, 30, 30, 0.85), rgba(0, 0, 0, 0.7));
-            border-radius: 15px;
-            color: #fff;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
-            margin-top: 2rem;
-            border: 3px solid #ff79c6;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-pink 6s ease infinite;
-            text-shadow: 0px 0px 10px rgba(255, 121, 198, 0.8);
-            border: 3px solid #ff79c6;
-            padding: 10px;
-        }
-
-        .hero p {
-            font-size: 1.4rem;
-            text-shadow: 0px 0px 8px rgba(255, 121, 198, 0.6);
-            border: 2px solid #ff79c6;
-            padding: 5px;
-            margin-top: 10px;
-        }
-
-        .btn,
-        .upload-btn {
-            background: #ff79c6;
-            color: white;
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 25px;
-            box-shadow: 0 4px 10px rgba(255, 130, 200, 0.5);
-            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-            text-shadow: 0px 0px 5px rgba(255, 121, 198, 0.6);
-            border: 2px solid #ff79c6;
-        }
-
-        .btn:hover,
-        .btn:focus,
-        .upload-btn:hover,
-        .upload-btn:focus {
-            background: #ff91d3;
-            box-shadow: 0 6px 15px rgba(255, 166, 193, 0.7);
-            transform: scale(1.05);
-            text-shadow: 0px 0px 15px rgba(255, 121, 198, 0.8);
-            border: 2px solid #ff91d3;
-        }
-
-        .features {
-            padding: 40px 20px;
-        }
-
-        .feature-card {
-            background: #2f2f2f;
-            border: 1px solid #3c3c3c;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            color: #fff;
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
-            border: 2px solid #ff79c6;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
-            border-color: #ff91d3;
-        }
-
-        .footer {
-            background: linear-gradient(90deg, #f7b9d3, #ff79c6);
-            color: #dcdcdc;
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #3c3c3c;
-        }
-
-        .footer a {
-            color: #ff79c6;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-            text-shadow: 0px 0px 8px rgba(255, 121, 198, 0.6);
-        }
-
-        .footer a:hover {
-            color: #ff91d3;
-        }
-
-        #shareForm {
-            background: #3a3a3a;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease;
-            border: 2px solid #ff79c6;
-        }
-
-        #shareForm:hover {
-            transform: translateY(-5px);
-        }
-
-        .form-control {
-            background: #444;
-            color: #e8e8e8;
-            border: 1px solid #555;
-            transition: background 0.3s ease, border-color 0.3s ease;
-            text-shadow: 0px 0px 5px rgba(255, 121, 198, 0.5);
-        }
-
-        .form-control:focus {
-            background: #333;
-            border-color: #ff79c6;
-            color: #e8e8e8;
-            box-shadow: none;
-        }
-
-        .progress {
-            height: 25px;
-            border-radius: 15px;
-            overflow: hidden;
-            background: #555;
-            border: 1px solid #444;
-            margin-top: 20px;
-        }
-
-        .progress-bar {
-            background: #ff79c6;
-            transition: width 0.5s ease;
-        }
-
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2.3rem;
+                font-size: 2.5rem;
             }
 
             .hero p {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
 
             .feature-card {
-                margin-bottom: 20px;
+                margin-bottom: 30px;
             }
         }
     </style>
@@ -280,11 +224,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item">
-                        <label class="upload-btn">Change Background
-                            <input type="file" id="bgUploader" class="file-input" accept="image/*" style="display:none">
+                        <label class="btn">Change Background
+                            <input type="file" id="bgUploader" accept="image/*" style="display:none">
                         </label>
                     </li>
                 </ul>
@@ -294,28 +238,36 @@
 
     <section id="hero" class="hero">
         <h1>Welcome to Pyeul Mails</h1>
-        <p>Your temporary email generator with style.</p>
+        <p>Generate your temporary email address effortlessly, with a touch of style.</p>
+    </section>
+
+    <section id="generate" class="container text-center py-5">
+        <h2 class="text-white">Generate Temporary Email</h2>
+        <div class="card bg-dark text-white p-4">
+            <input type="text" id="generatedEmail" class="form-control" readonly placeholder="Your generated email will appear here">
+            <button id="generateEmailBtn" class="btn mt-3">Generate Email</button>
+        </div>
     </section>
 
     <section id="features" class="features">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4">
                     <div class="feature-card">
                         <h4>Email Generation</h4>
-                        <p>Create temporary email addresses with one click.</p>
+                        <p>Create temporary email addresses instantly.</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4">
                     <div class="feature-card">
                         <h4>Inbox Access</h4>
-                        <p>Check your temporary inbox without any hassles.</p>
+                        <p>Check your emails directly within the app.</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4">
                     <div class="feature-card">
-                        <h4>Privacy</h4>
-                        <p>Keep your main inbox clean and spam-free.</p>
+                        <h4>Privacy Protection</h4>
+                        <p>Protect your privacy and avoid spam.</p>
                     </div>
                 </div>
             </div>
@@ -327,11 +279,12 @@
         <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
     </footer>
 
-    <div class="heart" style="top: 0%; left: 10%;">❤️</div>
-    <div class="heart" style="top: 15%; left: 40%;">💖</div>
-    <div class="heart" style="top: 30%; left: 70%;">💘</div>
-    <div class="heart" style="top: 30%; left: 80%;">🎀</div>
-    <div class="heart" style="top: 30%; left: 90%;">💕</div>
+    <!-- Floating Hearts -->
+    <div class="heart" style="top: 10%; left: 15%;">❤️</div>
+    <div class="heart" style="top: 25%; left: 40%;">💖</div>
+    <div class="heart" style="top: 35%; left: 70%;">💘</div>
+    <div class="heart" style="top: 40%; left: 85%;">🎀</div>
+    <div class="heart" style="top: 50%; left: 90%;">💕</div>
 
     <script type="module" src="index.js"></script>
 </body>
