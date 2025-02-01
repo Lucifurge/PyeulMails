@@ -1,3 +1,6 @@
+let seq = 0;
+let intervalId; // To store the interval for continuous fetching
+
 document.getElementById('generateBtn').addEventListener('click', () => {
     axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
         .then(response => {
@@ -8,9 +11,9 @@ document.getElementById('generateBtn').addEventListener('click', () => {
             // Store sidToken in localStorage
             localStorage.setItem('sidToken', sidToken);
 
-            // Initialize sequence to 0 when fetching the first batch of emails
-            let seq = 0;
-            fetchMessages(sidToken, seq);  // Start checking messages after email is generated
+            // Start checking for messages with a reasonable delay
+            seq = 0; // Reset seq when a new email is generated
+            startFetchingMessages(sidToken);
         })
         .catch(error => {
             console.error('Error generating email:', error.response ? error.response.data : error.message);
@@ -18,7 +21,19 @@ document.getElementById('generateBtn').addEventListener('click', () => {
         });
 });
 
-function fetchMessages(sidToken, seq = 0) {
+function startFetchingMessages(sidToken) {
+    // Start fetching messages every 5 seconds (5000 milliseconds)
+    intervalId = setInterval(() => {
+        fetchMessages(sidToken, seq);
+    }, 5000); // Adjust this interval as needed
+}
+
+function stopFetchingMessages() {
+    // Stop the interval if needed (e.g., when you want to stop auto-fetching)
+    clearInterval(intervalId);
+}
+
+function fetchMessages(sidToken, seq) {
     axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {
         params: {
             sid_token: sidToken,
@@ -55,8 +70,8 @@ function displayMessages(messages, seq) {
         });
     }
 
-    // Recursively fetch messages using the updated seq
-    fetchMessages(localStorage.getItem('sidToken'), seq);
+    // Store the updated seq for the next fetch
+    seq = response.data.seq;
 }
 
 function deleteMessage(mailId) {
@@ -70,7 +85,7 @@ function deleteMessage(mailId) {
     })
     .then(() => {
         Swal.fire('Email deleted successfully');
-        fetchMessages(sidToken);  // Refresh messages after deletion
+        fetchMessages(sidToken, seq);  // Refresh messages after deletion
     })
     .catch(error => {
         console.error('Error deleting email:', error.response ? error.response.data : error.message);
