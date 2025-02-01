@@ -3,19 +3,18 @@ function generateEmail() {
     axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
         .then(response => {
             const { email, sid_token } = response.data;
+            console.log("Generated email:", email);  // Debugging log for email
+            console.log("SID Token:", sid_token);   // Debugging log for SID Token
 
-            // Display the generated email in the input field
-            const emailDisplay = document.getElementById('generatedEmail');
-            emailDisplay.value = email;  // Set the generated email to the input field
-
-            // Display the generated email in the designated div
-            document.getElementById('generated-email').innerText = `Generated Email: ${email}`;
-
-            // Save sid_token to use for fetching and deleting messages
-            localStorage.setItem('sid_token', sid_token);
-
-            // Fetch messages after generating email
-            fetchMessages(sid_token);
+            // Check if email and sid_token are valid before updating the DOM
+            if (email && sid_token) {
+                document.getElementById('generatedEmail').value = email;  // Display the email in the input field
+                localStorage.setItem('sid_token', sid_token); // Save sid_token in local storage
+                fetchMessages(sid_token); // Fetch messages after generating email
+            } else {
+                console.error('Invalid email or sid_token:', response.data);
+                Swal.fire('Error: Invalid response from server.');
+            }
         })
         .catch(error => {
             console.error('Error generating email:', error);
@@ -66,3 +65,36 @@ function displayMessages(messages, seq) {
     seq = seq || 0; // If no seq provided, start with 0
     console.log("Updated seq:", seq);  // Debugging line
 }
+
+// Function to delete an email message
+function deleteMessage(mailId) {
+    const sidToken = localStorage.getItem('sid_token');  // Retrieve sid_token from localStorage
+    axios.get('https://pyeulmail-server-production.up.railway.app/delete_email', {
+        params: {
+            mail_id: mailId,
+            sid_token: sidToken
+        }
+    })
+    .then(response => {
+        Swal.fire('Email deleted successfully!');
+        fetchMessages(sidToken, 0); // Fetch messages again after deleting
+    })
+    .catch(error => {
+        console.error('Error deleting email:', error);
+        Swal.fire('Error deleting email. Please try again.');
+    });
+}
+
+// Event listeners for frontend interactions
+document.addEventListener('DOMContentLoaded', () => {
+    // Generate email button
+    document.getElementById('generateBtn').addEventListener('click', () => {
+        generateEmail();  // Generate email when button is clicked
+    });
+
+    // Initial setup: check if an email is already generated
+    const sidToken = localStorage.getItem('sid_token');
+    if (sidToken) {
+        fetchMessages(sidToken);  // If email exists, fetch messages
+    }
+});
