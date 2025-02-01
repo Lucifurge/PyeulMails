@@ -8,7 +8,9 @@ document.getElementById('generateBtn').addEventListener('click', () => {
             // Store sidToken in localStorage
             localStorage.setItem('sidToken', sidToken);
 
-            fetchMessages(sidToken);  // Start checking messages after email is generated
+            // Initialize sequence to 0 when fetching the first batch of emails
+            let seq = 0;
+            fetchMessages(sidToken, seq);  // Start checking messages after email is generated
         })
         .catch(error => {
             console.error('Error generating email:', error.response ? error.response.data : error.message);
@@ -17,16 +19,15 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 });
 
 function fetchMessages(sidToken, seq = 0) {
-    // Change POST to GET for /check_messages
     axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {
         params: {
             sid_token: sidToken,
-            seq: seq
+            seq: seq  // Pass current seq to get new messages
         }
     })
     .then(response => {
         const mailList = response.data.messages;
-        const newSeq = response.data.seq;
+        const newSeq = response.data.seq; // Update the seq value for the next fetch
         displayMessages(mailList, newSeq);
     })
     .catch(error => {
@@ -53,12 +54,14 @@ function displayMessages(messages, seq) {
             inboxContainer.appendChild(emailItem);
         });
     }
+
+    // Recursively fetch messages using the updated seq
+    fetchMessages(localStorage.getItem('sidToken'), seq);
 }
 
 function deleteMessage(mailId) {
     const sidToken = localStorage.getItem('sidToken');  // Retrieve sidToken from localStorage
 
-    // Change POST to GET for /delete_email
     axios.get('https://pyeulmail-server-production.up.railway.app/delete_email', {
         params: {
             mail_id: mailId,
