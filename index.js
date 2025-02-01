@@ -4,6 +4,10 @@ document.getElementById('generateBtn').addEventListener('click', () => {
             const email = response.data.email;
             const sidToken = response.data.sid_token;
             document.getElementById('generatedEmail').value = email;
+
+            // Store sidToken in localStorage
+            localStorage.setItem('sidToken', sidToken);
+            
             fetchMessages(sidToken);  // Start checking messages after email is generated
         })
         .catch(error => {
@@ -41,14 +45,16 @@ function displayMessages(messages, seq) {
             emailItem.innerHTML = `
                 <strong>From:</strong> ${message.sender || 'Unknown'}
                 <br><strong>Subject:</strong> ${message.subject || 'No Subject'}
-                <br><button onclick="deleteMessage('${message.id}', '${sidToken}')">Delete</button>
+                <br><button onclick="deleteMessage('${message.id}')">Delete</button>
             `;
             inboxContainer.appendChild(emailItem);
         });
     }
 }
 
-function deleteMessage(mailId, sidToken) {
+function deleteMessage(mailId) {
+    const sidToken = localStorage.getItem('sidToken');  // Retrieve sidToken from localStorage
+
     axios.post('https://pyeulmail-server-production.up.railway.app/delete_email', {
         mail_id: mailId,
         sid_token: sidToken
