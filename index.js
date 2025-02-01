@@ -9,7 +9,7 @@ function generateEmail() {
         }
     });
 
-    axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
+    axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')  // API route for generating email
         .then(response => {
             const { email, sid_token } = response.data;
             console.log("Generated email:", email);  // Debugging log for email
@@ -44,7 +44,7 @@ function fetchMessages(sidToken, seq = 0) {
         }
     });
 
-    axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {
+    axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {  // API route for fetching messages
         params: {
             sid_token: sidToken,
             seq: seq  // Pass current seq to get new messages
@@ -141,8 +141,8 @@ function viewEmailContent(mailId) {
         const emailContent = response.data.content;
         Swal.fire({
             title: 'Email Content',
-            html: `<p>${emailContent}</p>`,
-            confirmButtonText: 'Close'
+            text: emailContent,
+            icon: 'info'
         });
     })
     .catch(error => {
@@ -151,60 +151,14 @@ function viewEmailContent(mailId) {
     });
 }
 
-// Function to start polling for new messages every 15 seconds
+// Function to start polling messages every 10 seconds
 function startPolling(sidToken) {
-    // Ensure no polling interval exists
-    const existingInterval = localStorage.getItem('pollingInterval');
-    if (existingInterval) {
-        clearInterval(existingInterval);
-    }
-
-    // Retrieve the last known sequence from localStorage
-    let lastSeq = localStorage.getItem('lastSeq');
-    lastSeq = lastSeq ? parseInt(lastSeq) : 0;  // Default to 0 if not available
-
-    // Start new polling interval with 15 seconds delay
-    const interval = setInterval(() => {
-        fetchMessages(sidToken, lastSeq);
-    }, 15000);  // Poll for new messages every 15 seconds
-
-    // Store the interval id so we can clear it later if needed
-    localStorage.setItem('pollingInterval', interval);
-
-    // Start the timer for exit prompt after 90 seconds (1 and a half minutes)
-    startExitPromptTimer();
+    // Initial polling call to fetch messages
+    fetchMessages(sidToken);
+    setInterval(() => fetchMessages(sidToken), 10000);  // Poll every 10 seconds
 }
 
-// Function to handle exit prompt after 90 seconds (1 and a half minutes)
-function startExitPromptTimer() {
-    let startTime = Date.now(); // Get the current timestamp
-
-    const exitPromptInterval = setInterval(() => {
-        let elapsedTime = (Date.now() - startTime) / 1000; // Get elapsed time in seconds
-        if (elapsedTime >= 90) {  // 90 seconds (1 and a half minutes)
-            clearInterval(exitPromptInterval); // Stop the timer
-            if (confirm('It’s been 90 seconds with no new messages. Do you want to continue polling?')) {
-                startTime = Date.now(); // Reset the timer if user wants to continue
-            } else {
-                // Stop polling if user chooses to exit
-                clearInterval(localStorage.getItem('pollingInterval'));
-                localStorage.removeItem('pollingInterval');
-                alert('Exiting message polling.');
-            }
-        }
-    }, 1000); // Check every second for the 90-second mark
-}
-
-// Event listeners for frontend interactions
+// Initialize the process when the page is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Generate email button
-    document.getElementById('generateBtn').addEventListener('click', () => {
-        generateEmail();  // Generate email when button is clicked
-    });
-
-    // Initial setup: check if an email is already generated
-    const sidToken = localStorage.getItem('sid_token');
-    if (sidToken) {
-        startPolling(sidToken);  // If email exists, start polling for messages
-    }
+    document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
 });
