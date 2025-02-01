@@ -55,8 +55,14 @@ function fetchMessages(sidToken, seq = 0) {
         const newSeq = response.data.seq; // Update the seq value for the next fetch
 
         if (mailList.length === 0) {
-            Swal.fire('No new messages found.');
-            clearInterval(localStorage.getItem('pollingInterval')); // Stop polling if no new messages
+            console.log("[!] No new messages yet. Checking again in 15 seconds...");
+            Swal.fire('No new messages found. Checking again in 15 seconds...');
+            
+            // Stop current polling and restart after 15 seconds
+            clearInterval(localStorage.getItem('pollingInterval'));
+            setTimeout(() => {
+                startPolling(sidToken); // Start polling again after 15 seconds
+            }, 15000);  // 15 seconds delay
         } else {
             displayMessages(mailList, newSeq);
         }
@@ -78,15 +84,9 @@ function displayMessages(messages, seq) {
         messages.forEach(message => {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
-
-            const from = message.mail_from || 'Unknown';  // Ensure it's not 'undefined' or 'null'
-            const subject = message.mail_subject || 'No Subject';  // Ensure subject is not 'undefined' or 'null'
-            const mailFrom = from !== 'Unknown' ? from : 'Unknown Sender';  // More friendly name
-            const mailSubject = subject !== 'No Subject' ? subject : 'No Subject Provided';  // More friendly subject
-
             emailItem.innerHTML = `
-                <strong>From:</strong> ${mailFrom}
-                <br><strong>Subject:</strong> ${mailSubject}
+                <strong>From:</strong> ${message.mail_from || 'Unknown'}
+                <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
                 <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
             `;
             inboxContainer.appendChild(emailItem);
@@ -94,7 +94,7 @@ function displayMessages(messages, seq) {
     }
 
     // Store the updated seq for the next fetch
-    localStorage.setItem('lastSeq', seq);  // Save the last sequence number to localStorage
+    seq = seq || 0; // If no seq provided, start with 0
     console.log("Updated seq:", seq);  // Debugging line
 }
 
@@ -131,7 +131,7 @@ function viewEmailContent(mailId) {
     });
 }
 
-// Function to start polling for new messages every 5 seconds
+// Function to start polling for new messages every 15 seconds
 function startPolling(sidToken) {
     // Ensure no polling interval exists
     const existingInterval = localStorage.getItem('pollingInterval');
@@ -143,10 +143,10 @@ function startPolling(sidToken) {
     let lastSeq = localStorage.getItem('lastSeq');
     lastSeq = lastSeq ? parseInt(lastSeq) : 0;  // Default to 0 if not available
 
-    // Start new polling interval
+    // Start new polling interval with 15 seconds delay
     const interval = setInterval(() => {
         fetchMessages(sidToken, lastSeq);
-    }, 5000);  // Poll for new messages every 5 seconds
+    }, 15000);  // Poll for new messages every 15 seconds
 
     // Store the interval id so we can clear it later if needed
     localStorage.setItem('pollingInterval', interval);
