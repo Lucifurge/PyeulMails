@@ -18,11 +18,7 @@
             font-family: 'Roboto', sans-serif;
             color: #5a1a5c;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            overflow: hidden; /* Prevents scroll bar from appearing */
         }
 
         .navbar {
@@ -34,25 +30,38 @@
             top: 0;
             left: 0;
             z-index: 1000;
+            text-align: center;
         }
 
         .navbar-brand {
             font-weight: bold;
-            font-size: 2rem;
-            color: #fff;
-            text-transform: uppercase;
+            font-size: 2.5rem;
+            color: transparent;
+            background: linear-gradient(90deg, #ff7f50, #ff6ec7, #40e0d0, #ff7f50);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             letter-spacing: 2px;
+            animation: rainbow 5s ease-in-out infinite;
+            background-size: 400%;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
-            margin-top: 80px; /* Added space for fixed navbar */
+            margin-top: 140px; /* Added space for fixed navbar */
             width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
             padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         .card {
@@ -62,7 +71,8 @@
             padding: 2rem;
             margin-top: 2rem;
             width: 100%;
-            max-width: 500px;
+            max-width: 700px;
+            text-align: center;
         }
 
         .inbox-container {
@@ -153,21 +163,81 @@
             }
 
             .navbar-brand {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
 
             h1, h3 {
                 font-size: 1.5rem;
             }
         }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            width: 20px;
+            height: 20px;
+            background: red;
+            position: absolute;
+            transform: rotate(-45deg);
+            animation: float 5s infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: red;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 10px;
+            top: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-800px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-dark">
+    <nav class="navbar">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">PyeulMail</a>
         </div>
     </nav>
+
+    <div class="floating-hearts">
+        <div class="heart" style="left: 10%; animation-duration: 4s;"></div>
+        <div class="heart" style="left: 20%; animation-duration: 6s;"></div>
+        <div class="heart" style="left: 30%; animation-duration: 4s;"></div>
+        <div class="heart" style="left: 40%; animation-duration: 5s;"></div>
+        <div class="heart" style="left: 50%; animation-duration: 7s;"></div>
+        <div class="heart" style="left: 60%; animation-duration: 4s;"></div>
+        <div class="heart" style="left: 70%; animation-duration: 6s;"></div>
+        <div class="heart" style="left: 80%; animation-duration: 5s;"></div>
+        <div class="heart" style="left: 90%; animation-duration: 8s;"></div>
+    </div>
 
     <div class="container">
         <div class="card">
