@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Lock feature: Prompt for username and password
-    const lockScreen = () => {
+    const lockScreen = () => { 
         const credentials = [
             { username: "mariz", password: "mariz2006" },
             { username: "lucifurge", password: "09100909" },
