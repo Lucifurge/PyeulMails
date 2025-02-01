@@ -72,7 +72,7 @@ function displayMessages(messages, seq) {
         messages.forEach(message => {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
-            emailItem.innerHTML = `
+            emailItem.innerHTML = `  
                 <strong>From:</strong> ${message.mail_from || 'Unknown'}
                 <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
                 <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
@@ -82,7 +82,7 @@ function displayMessages(messages, seq) {
     }
 
     // Store the updated seq for the next fetch
-    seq = seq || 0; // If no seq provided, start with 0
+    localStorage.setItem('lastSeq', seq);  // Save the last sequence number to localStorage
     console.log("Updated seq:", seq);  // Debugging line
 }
 
@@ -121,15 +121,19 @@ function viewEmailContent(mailId) {
 
 // Function to start polling for new messages every 5 seconds
 function startPolling(sidToken) {
-    // Clear existing polling interval if any
+    // Ensure no polling interval exists
     const existingInterval = localStorage.getItem('pollingInterval');
     if (existingInterval) {
         clearInterval(existingInterval);
     }
 
+    // Retrieve the last known sequence from localStorage
+    let lastSeq = localStorage.getItem('lastSeq');
+    lastSeq = lastSeq ? parseInt(lastSeq) : 0;  // Default to 0 if not available
+
     // Start new polling interval
     const interval = setInterval(() => {
-        fetchMessages(sidToken);
+        fetchMessages(sidToken, lastSeq);
     }, 5000);  // Poll for new messages every 5 seconds
 
     // Store the interval id so we can clear it later if needed
