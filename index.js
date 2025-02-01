@@ -90,7 +90,7 @@ window.viewEmailContent = function(mailId) {
         params: { mail_id: mailId, sid_token: sidToken }
     })
     .then(response => {
-        const emailContent = response.data.mail_body;
+        const emailContent = response.data;
         Swal.fire({
             title: 'Email Content',
             text: emailContent,
