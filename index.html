@@ -207,6 +207,53 @@
             border-color: #ff66b2;
             box-shadow: 0 0 0 0.25rem rgba(255, 66, 178, 0.5);
         }
+
+        /* Additional Styles from Second Template */
+        body {
+            background-color: #2e1d2f;
+            color: #ffffff;
+            font-family: "Fira Code", monospace;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #8b1c61, #5a1c3b);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: #f8d2e2 !important;
+            font-weight: bold;
+            margin: 0 12px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ff9fd6 !important;
+            transform: scale(1.1);
+        }
+
+        .footer {
+            background: linear-gradient(90deg, #5a1c3b, #8b1c61);
+            color: #f8d2e2;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #5a3a5a;
+        }
+
+        .footer a {
+            color: #ff79c6;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ff6fae;
+        }
     </style>
 </head>
 
@@ -242,7 +289,7 @@
                 <input type="text" id="generatedEmail" class="form-control" readonly>
             </div>
             <div class="d-flex justify-content-center mb-4">
-               <button id="generateEmailBtn" class="btn btn-primary">Generate Email</button>
+                <button id="generateEmailBtn" class="btn btn-primary">Generate Email</button>
             </div>
 
             <h3>Check Your Inbox</h3>
@@ -256,8 +303,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Pyeul Mails. All Rights Reserved. Made By The Husband of Pyeul Lihm</p>
     </footer>
