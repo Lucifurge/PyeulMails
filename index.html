@@ -22,24 +22,44 @@
             padding: 0;
             overflow-x: hidden;
             width: 100%;
-            font-weight: bold; /* Making all text bold globally */
+            font-weight: bold; /* Bold text globally */
+            font-family: 'Fira Code', monospace;
         }
 
         body {
-            background-color: #f9f9f9;
-            color: #212121;
-            font-family: 'Poppins', sans-serif;
+            background-color: #ffe4e6;
+            color: #4f2a3c;
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
             overflow-x: hidden;
         }
 
+        /* Animated Hearts */
+        .heart {
+            position: fixed;
+            animation: floatUp 5s infinite ease-in-out;
+            color: #ff79c6;
+            font-size: 2rem;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
         /* Navbar Styling */
         .navbar {
-            background: linear-gradient(90deg, #ff66b2, #ff80bf);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            padding: 1rem 2rem;
+            background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 1.5rem;
         }
 
         .navbar .navbar-nav {
@@ -47,7 +67,30 @@
             justify-content: flex-end;
         }
 
-        /* Rainbow Gradient Animation */
+        .navbar-left {
+            background-color: #ff79c6;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .navbar-right {
+            background-color: transparent;
+            color: white;
+            padding: 0.8rem 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ffa6c1, #ff79c6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-pink 6s ease infinite;
+        }
+
         @keyframes rainbow-pink {
             0% {
                 background-position: 0% 50%;
@@ -62,25 +105,15 @@
             }
         }
 
-        /* For the navbar title */
-        .navbar-left,
-        .navbar-brand {
-            background: linear-gradient(90deg, #ff66b2, #ff80bf, #ff66b2);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-pink 6s ease infinite;
-        }
-
         .navbar-nav .nav-link {
-            color: #fff;
+            color: #fff7f9 !important;
             font-weight: bold;
-            margin: 0 15px;
+            margin: 0 12px;
             transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #ff66b2;
+            color: #ffe0ea !important;
             transform: scale(1.1);
         }
 
@@ -88,19 +121,18 @@
         .hero {
             text-align: center;
             padding: 100px 20px;
-            background: linear-gradient(180deg, rgba(255, 236, 242, 0.9), rgba(255, 218, 228, 0.9));
-            border-radius: 20px;
-            color: #212121;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            margin-top: 3rem;
+            background: linear-gradient(180deg, rgba(255, 236, 242, 0.95), rgba(255, 218, 228, 0.95));
+            border-radius: 15px;
+            color: #4f2a3c;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            margin-top: 2rem;
         }
 
-        /* For the Hero Heading with Rainbow Animation */
         .hero h1 {
-            font-size: 4.5rem;
+            font-size: 4rem;
             font-weight: bold;
             text-transform: uppercase;
-            background: linear-gradient(90deg, #ff66b2, #ff80bf, #ff66b2);
+            background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -114,54 +146,36 @@
 
         /* Footer Styling */
         .footer {
-            background: linear-gradient(90deg, #ff66b2, #ff80bf);
-            color: #fff;
+            background: linear-gradient(90deg, #ff79c6, #ffa6c1);
+            color: #ffffff;
             text-align: center;
-            padding: 30px;
-            border-top: 1px solid #ff66b2;
+            padding: 20px;
+            border-top: 1px solid #ffb2d9;
         }
 
         .footer a {
             color: #ffe0ea;
-            margin: 0 12px;
+            margin: 0 10px;
             transition: color 0.3s ease;
         }
 
         .footer a:hover {
-            color: #ff66b2;
+            color: #ff79c6;
         }
 
         /* Pink Buttons */
         .btn-primary {
-            background-color: #ff66b2;
-            border-color: #ff66b2;
-            font-size: 1.2rem;
-            padding: 12px 30px;
+            background-color: #ff79c6;
+            border-color: #ff79c6;
         }
 
         .btn-primary:hover {
-            background-color: #ff80bf;
-            border-color: #ff80bf;
+            background-color: #ffb2d9;
+            border-color: #ffb2d9;
         }
 
         .btn-primary:focus {
-            box-shadow: 0 0 0 0.3rem rgba(255, 121, 198, 0.5);
-        }
-
-        .btn-secondary {
-            background-color: #ffb3cc;
-            border-color: #ffb3cc;
-            font-size: 1.2rem;
-            padding: 12px 30px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #ff66b2;
-            border-color: #ff66b2;
-        }
-
-        .btn-secondary:focus {
-            box-shadow: 0 0 0 0.3rem rgba(255, 66, 178, 0.5);
+            box-shadow: 0 0 0 0.2rem rgba(255, 121, 198, 0.5);
         }
 
         /* Form Layout Styling */
@@ -174,7 +188,7 @@
         }
 
         .card h4 {
-            color: #ff66b2;
+            color: #ff79c6;
             font-size: 2rem;
             margin-bottom: 1.5rem;
         }
@@ -196,60 +210,13 @@
             font-size: 1.1rem;
             padding: 15px;
             border-radius: 8px;
-            border: 2px solid #ff66b2;
+            border: 2px solid #ff79c6;
             transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            border-color: #ff66b2;
+            border-color: #ff79c6;
             box-shadow: 0 0 0 0.25rem rgba(255, 66, 178, 0.5);
-        }
-
-        /* Additional Styles from Second Template */
-        body {
-            background-color: #2e1d2f;
-            color: #ffffff;
-            font-family: "Fira Code", monospace;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            transition: background 0.5s ease, color 0.5s ease;
-        }
-
-        .navbar {
-            background: linear-gradient(90deg, #8b1c61, #5a1c3b);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            padding: 0.8rem 1.5rem;
-        }
-
-        .navbar-nav .nav-link {
-            color: #f8d2e2 !important;
-            font-weight: bold;
-            margin: 0 12px;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #ff9fd6 !important;
-            transform: scale(1.1);
-        }
-
-        .footer {
-            background: linear-gradient(90deg, #5a1c3b, #8b1c61);
-            color: #f8d2e2;
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #5a3a5a;
-        }
-
-        .footer a {
-            color: #ff79c6;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: #ff6fae;
         }
     </style>
 </head>
@@ -292,18 +259,26 @@
             <h3>Check Your Inbox</h3>
             <div class="d-flex justify-content-center">
                 <input type="text" id="emailInput" class="form-control" placeholder="Enter generated email" readonly>
-                <button id="checkBtn" class="btn btn-secondary mx-2">Check Emails</button>
+                <button id="checkBtn" class="btn btn-primary">Check Inbox</button>
             </div>
-            <div class="inbox-container mt-4">
-                <h5 class="text-center">Inbox</h5>
-                <div id="emailContent"></div>
+
+            <div class="inbox-container">
+                <h5>Inbox</h5>
+                <div id="inbox"></div>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 Pyeul Mails. All Rights Reserved. Made By The Husband of Pyeul Lihm</p>
+        <p>&copy; 2025 Pyeul Mails. All rights reserved. Made by The Husband of Pyeul Lihm</p>
+        <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
     </footer>
+
+    <!-- Floating Hearts -->
+    <div class="heart" style="top: 0%; left: 10%;">❤️</div>
+    <div class="heart" style="top: 15%; left: 40%;">💖</div>
+    <div class="heart" style="top: 30%; left: 70%;">💘</div>
 
     <script type="module" src="index.js"></script>
 </body>
