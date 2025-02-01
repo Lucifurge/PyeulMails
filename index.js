@@ -10,7 +10,7 @@ function generateEmail() {
             if (email && sid_token) {
                 document.getElementById('generatedEmail').value = email;  // Display the email in the input field
                 localStorage.setItem('sid_token', sid_token); // Save sid_token in local storage
-                fetchMessages(sid_token); // Fetch messages after generating email
+                startPolling(sid_token); // Start polling for new messages after email is generated
             } else {
                 console.error('Invalid email or sid_token:', response.data);
                 Swal.fire('Error: Invalid response from server.');
@@ -85,6 +85,16 @@ function deleteMessage(mailId) {
     });
 }
 
+// Function to start polling for new messages every 5 seconds
+function startPolling(sidToken) {
+    const interval = setInterval(() => {
+        fetchMessages(sidToken);
+    }, 5000);  // Poll for new messages every 5 seconds
+
+    // Store the interval id so we can clear it later if needed
+    localStorage.setItem('pollingInterval', interval);
+}
+
 // Event listeners for frontend interactions
 document.addEventListener('DOMContentLoaded', () => {
     // Generate email button
@@ -95,6 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial setup: check if an email is already generated
     const sidToken = localStorage.getItem('sid_token');
     if (sidToken) {
-        fetchMessages(sidToken);  // If email exists, fetch messages
+        startPolling(sidToken);  // If email exists, start polling for messages
     }
 });
