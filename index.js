@@ -1,106 +1,134 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const generateEmailButton = document.getElementById("generateEmail");
-    const checkMessagesButton = document.getElementById("checkMessages");
-    const emailDisplay = document.getElementById("emailDisplay");
-    const messagesList = document.getElementById("messagesList");
+// Function to generate email address
+function generateEmail() {
+    Swal.fire({
+        title: 'Generating Email...',
+        text: 'Please wait while we generate your temporary email.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
-    let sidToken = null;
-    let currentSeq = 0; // Store sequence number for checking messages
-
-    // Base URL of the deployed API
-    const API_BASE_URL = "https://pyeulmail-server-production.up.railway.app";
-
-    // Function to generate a new email address
-    async function generateEmail() {
-        try {
-            const response = await fetch(`${API_BASE_URL}/generate_email`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            });
-
-            const data = await response.json();
-            if (data.email && data.sid_token) {
-                sidToken = data.sid_token;
-                currentSeq = 0; // Reset seq for new email
-                emailDisplay.textContent = `Your Email: ${data.email}`;
-                messagesList.innerHTML = ""; // Clear previous messages
-                console.log(`[+] Generated Email: ${data.email}`);
+    axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
+        .then(response => {
+            const { email, sid_token } = response.data;
+            if (email && sid_token) {
+                document.getElementById('generatedEmail').value = email;
+                localStorage.setItem('sid_token', sid_token);
+                startPolling(sid_token);
+                Swal.fire('Email Generated!', `Your email: ${email}`, 'success');
             } else {
-                emailDisplay.textContent = "Failed to generate email.";
+                console.error('Invalid email or sid_token:', response.data);
+                Swal.fire('Error', 'Invalid response from server.', 'error');
             }
-        } catch (error) {
-            console.error("Error generating email:", error);
+        })
+        .catch(error => {
+            console.error('Error generating email:', error);
+            Swal.fire('Error', 'Error generating email. Please try again.', 'error');
+        });
+}
+
+// Function to fetch messages
+function fetchMessages(sidToken, seq = 0) {
+    Swal.fire({
+        title: 'Fetching Messages...',
+        text: 'Please wait while we fetch your messages.',
+        didOpen: () => {
+            Swal.showLoading();
         }
-    }
+    });
 
-    // Function to check for new messages
-    async function checkMessages() {
-        if (!sidToken) {
-            alert("Generate an email first!");
-            return;
-        }
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/check_messages`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ sid_token: sidToken, seq: currentSeq })
-            });
-
-            const data = await response.json();
-            if (data.messages.length > 0) {
-                currentSeq = data.seq; // Update sequence number
-
-                data.messages.forEach(msg => {
-                    const listItem = document.createElement("li");
-                    listItem.innerHTML = `
-                        <strong>From:</strong> ${msg.mail_from} <br>
-                        <strong>Subject:</strong> ${msg.mail_subject} <br>
-                        <button class="viewMessage" data-id="${msg.mail_id}">View Message</button>
-                        <div class="messageContent" id="message-${msg.mail_id}" style="display:none;"></div>
-                    `;
-                    messagesList.appendChild(listItem);
-                });
-
-                attachViewMessageHandlers(); // Attach event listeners to new buttons
+    axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
+        .then(response => {
+            const mailList = response.data.messages;
+            if (mailList.length === 0) {
+                console.log("[!] No new messages yet. Checking again in 15 seconds...");
+                Swal.fire('No new messages found. Checking again in 15 seconds...');
+                clearInterval(localStorage.getItem('pollingInterval'));
+                setTimeout(() => {
+                    startPolling(sidToken);
+                }, 15000);
             } else {
-                alert("No new messages.");
+                clearInterval(localStorage.getItem('pollingInterval'));
+                displayMessages(mailList, seq);
             }
-        } catch (error) {
-            console.error("Error checking messages:", error);
-        }
-    }
+        })
+        .catch(error => {
+            console.error('Error fetching messages:', error.response ? error.response.data : error.message);
+            Swal.fire('Error', 'Error fetching messages. Please try again.', 'error');
+        });
+}
 
-    // Function to attach event listeners to message buttons
-    function attachViewMessageHandlers() {
-        document.querySelectorAll(".viewMessage").forEach(button => {
-            button.addEventListener("click", async () => {
-                const mailId = button.dataset.id;
-                const messageContentDiv = document.getElementById(`message-${mailId}`);
+// Function to display messages
+function displayMessages(messages, seq) {
+    const inboxContainer = document.getElementById('emailContent');
+    inboxContainer.innerHTML = '';
 
-                if (!mailId || !sidToken) {
-                    alert("Invalid request.");
-                    return;
-                }
+    if (messages.length === 0) {
+        inboxContainer.innerHTML = '<p>No messages available.</p>';
+    } else {
+        messages.forEach(message => {
+            const emailItem = document.createElement('div');
+            emailItem.classList.add('email-item');
+            const sender = message.mail_from || 'Unknown';
+            let displaySender = 'Unknown';
+            if (sender.includes('@')) {
+                displaySender = sender.split('@')[0];
+            }
 
-                try {
-                    const response = await fetch(`${API_BASE_URL}/fetch_email?mail_id=${mailId}&sid_token=${sidToken}`);
-                    const data = await response.json();
-
-                    if (data.content) {
-                        messageContentDiv.innerHTML = `<strong>Message:</strong><br>${data.content}`;
-                        messageContentDiv.style.display = "block";
-                    } else {
-                        messageContentDiv.innerHTML = "<strong>Failed to fetch message.</strong>";
-                    }
-                } catch (error) {
-                    console.error("Error fetching email:", error);
-                }
-            });
+            emailItem.innerHTML = `
+                <strong>From:</strong> ${displaySender}
+                <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
+                <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
+            `;
+            inboxContainer.appendChild(emailItem);
         });
     }
 
-    // Event Listeners
-    generateEmailButton.addEventListener("click", generateEmail);
-    checkMessagesButton.addEventListener("click", checkMessages);
+    localStorage.setItem('lastSeq', seq);
+    console.log("Updated seq:", seq);
+}
+
+// Function to view full email content
+function viewEmailContent(mailId) {
+    const sidToken = localStorage.getItem('sid_token');
+    Swal.fire({
+        title: 'Fetching Email Content...',
+        text: 'Please wait while we retrieve the email content.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    axios.get('https://pyeulmail-server-production.up.railway.app/fetch_email', {
+        params: { mail_id: mailId, sid_token: sidToken }
+    })
+    .then(response => {
+        const emailContent = response.data;
+        Swal.fire({
+            title: 'Email Content',
+            text: emailContent,
+            icon: 'info'
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching email content:', error);
+        Swal.fire('Error', 'Error fetching email content. Please try again.', 'error');
+    });
+}
+
+// Function to start polling messages
+function startPolling(sidToken) {
+    if (localStorage.getItem('pollingInterval')) {
+        clearInterval(localStorage.getItem('pollingInterval'));
+    }
+
+    fetchMessages(sidToken);
+
+    const intervalId = setInterval(() => fetchMessages(sidToken), 10000);
+    localStorage.setItem('pollingInterval', intervalId);
+}
+
+// Initialize the process
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
 });
