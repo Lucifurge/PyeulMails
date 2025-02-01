@@ -53,9 +53,9 @@ function displayMessages(messages, seq) {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
             emailItem.innerHTML = `
-                <strong>From:</strong> ${message.sender || 'Unknown'}
-                <br><strong>Subject:</strong> ${message.subject || 'No Subject'}
-                <br><button onclick="deleteMessage('${message.id}')">Delete</button>
+                <strong>From:</strong> ${message.mail_from || 'Unknown'}
+                <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
+                <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
             `;
             inboxContainer.appendChild(emailItem);
         });
@@ -66,22 +66,26 @@ function displayMessages(messages, seq) {
     console.log("Updated seq:", seq);  // Debugging line
 }
 
-// Function to delete an email message
-function deleteMessage(mailId) {
+// Function to view the full content of the email
+function viewEmailContent(mailId) {
     const sidToken = localStorage.getItem('sid_token');  // Retrieve sid_token from localStorage
-    axios.get('https://pyeulmail-server-production.up.railway.app/delete_email', {
+    axios.get('https://pyeulmail-server-production.up.railway.app/fetch_email', {
         params: {
             mail_id: mailId,
             sid_token: sidToken
         }
     })
     .then(response => {
-        Swal.fire('Email deleted successfully!');
-        fetchMessages(sidToken, 0); // Fetch messages again after deleting
+        const emailContent = response.data.content;
+        Swal.fire({
+            title: 'Email Content',
+            html: `<p>${emailContent}</p>`,
+            confirmButtonText: 'Close'
+        });
     })
     .catch(error => {
-        console.error('Error deleting email:', error);
-        Swal.fire('Error deleting email. Please try again.');
+        console.error('Error fetching email content:', error);
+        Swal.fire('Error fetching email content. Please try again.');
     });
 }
 
