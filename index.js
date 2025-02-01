@@ -1,4 +1,24 @@
-function fetchMessages(sidToken, seq) {
+// Assuming you're using Axios for HTTP requests
+const axios = require('axios');
+
+// Function to generate email address
+function generateEmail() {
+    axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
+        .then(response => {
+            const { email, sid_token } = response.data;
+            document.getElementById('generated-email').innerText = `Generated Email: ${email}`;
+            // Save sid_token to use for fetching and deleting messages
+            localStorage.setItem('sid_token', sid_token);
+            fetchMessages(sid_token); // Fetch messages after generating email
+        })
+        .catch(error => {
+            console.error('Error generating email:', error);
+            Swal.fire('Error generating email. Please try again.');
+        });
+}
+
+// Function to fetch messages with the sidToken and sequence
+function fetchMessages(sidToken, seq = 0) {
     axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {
         params: {
             sid_token: sidToken,
@@ -16,6 +36,7 @@ function fetchMessages(sidToken, seq) {
     });
 }
 
+// Function to display messages in the UI
 function displayMessages(messages, seq) {
     const inboxContainer = document.getElementById('emailContent');
     inboxContainer.innerHTML = '';  // Clear previous messages
@@ -40,9 +61,9 @@ function displayMessages(messages, seq) {
     console.log("Updated seq:", seq);  // Debugging line
 }
 
+// Function to delete an email message
 function deleteMessage(mailId) {
-    // Call the backend delete email route
-    const sidToken = 'your_sid_token';  // Replace with your actual sid_token
+    const sidToken = localStorage.getItem('sid_token');  // Retrieve sid_token from localStorage
     axios.get('https://pyeulmail-server-production.up.railway.app/delete_email', {
         params: {
             mail_id: mailId,
@@ -58,3 +79,17 @@ function deleteMessage(mailId) {
         Swal.fire('Error deleting email. Please try again.');
     });
 }
+
+// Event listeners for frontend interactions
+document.addEventListener('DOMContentLoaded', () => {
+    // Generate email button
+    document.getElementById('generate-btn').addEventListener('click', () => {
+        generateEmail();  // Generate email when button is clicked
+    });
+
+    // Initial setup: check if an email is already generated
+    const sidToken = localStorage.getItem('sid_token');
+    if (sidToken) {
+        fetchMessages(sidToken);  // If email exists, fetch messages
+    }
+});
