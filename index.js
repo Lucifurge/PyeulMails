@@ -88,14 +88,14 @@ function displayMessages(messages, seq) {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
 
-            // Log mail_from to ensure it is being parsed correctly
-            console.log('Mail from:', message.mail_from);
+            // Log sender to ensure it is being parsed correctly
+            console.log('Sender:', message.sender);
 
-            // If mail_from exists, check and extract the local part of the email (before the '@')
-            const sender = message.mail_from || 'Unknown';
+            // If sender exists, use it directly
+            const sender = message.sender || 'Unknown';
             let displaySender = 'Unknown';
 
-            // Check if the mail_from is a valid email (contains '@')
+            // Check if the sender is a valid email (contains '@')
             if (sender.includes('@')) {
                 // Extract the local part before '@' symbol
                 displaySender = sender.split('@')[0];
@@ -104,10 +104,10 @@ function displayMessages(messages, seq) {
             // Log parsed sender for debugging
             console.log('Parsed Sender:', displaySender);
 
-            emailItem.innerHTML = `
+            emailItem.innerHTML = ` 
                 <strong>From:</strong> ${displaySender}
-                <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
-                <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
+                <br><strong>Subject:</strong> ${message.subject || 'No Subject'}
+                <br><button onclick="viewEmailContent('${message.id}')">View</button>
             `;
             inboxContainer.appendChild(emailItem);
         });
