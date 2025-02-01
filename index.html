@@ -11,227 +11,249 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-  /* General Body Styling */
-* {
-    box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    width: 100%;
-    font-weight: 900; /* Make all fonts thicker */
-    font-family: 'Courier New', Courier, monospace; /* Monospace font for all text */
-}
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            width: 100%;
+            font-weight: 900;
+            font-family: 'Courier New', Courier, monospace;
+        }
 
-body {
-    background-color: #ffe4e6;
-    color: #4f2a3c;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow-x: hidden;
-}
+        body {
+            background-color: #ffe4e6;
+            color: #4f2a3c;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
 
-/* Animated Hearts */
-.heart {
-    position: fixed;
-    animation: floatUp 5s infinite ease-in-out;
-    color: #ff79c6;
-    font-size: 2rem;
-}
+        .heart {
+            position: fixed;
+            animation: floatUp 5s infinite ease-in-out;
+            color: #ff79c6;
+            font-size: 2rem;
+        }
 
-@keyframes floatUp {
-    0% {
-        transform: translateY(100vh) scale(1);
-        opacity: 1;
-    }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(1);
+                opacity: 1;
+            }
 
-    100% {
-        transform: translateY(-10vh) scale(0.5);
-        opacity: 0;
-    }
-}
+            100% {
+                transform: translateY(-10vh) scale(0.5);
+                opacity: 0;
+            }
+        }
 
-/* Navbar Styling */
-.navbar {
-    background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 0.8rem 1.5rem;
-}
+        .navbar {
+            background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 1.5rem;
+        }
 
-.navbar .navbar-nav {
-    flex-grow: 1;
-    justify-content: flex-end;
-}
+        .navbar .navbar-nav {
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
 
-.navbar-left {
-    background-color: #ff79c6;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    font-weight: 900; /* Make it thicker */
-    font-size: 1.2rem;
-}
+        .navbar-left {
+            background-color: #ff79c6;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
 
-.navbar-right {
-    background-color: transparent;
-    color: white;
-    padding: 0.8rem 1.5rem;
-}
+        .navbar-right {
+            background-color: transparent;
+            color: white;
+            padding: 0.8rem 1.5rem;
+        }
 
-.navbar-brand {
-    font-weight: 900; /* Make it thicker */
-    font-size: 1.8rem;
-    background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ffa6c1, #ff79c6);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbow-pink 6s ease infinite;
-}
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ffa6c1, #ff79c6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-pink 6s ease infinite;
+        }
 
-@keyframes rainbow-pink {
-    0% {
-        background-position: 0% 50%;
-    }
+        @keyframes rainbow-pink {
+            0% {
+                background-position: 0% 50%;
+            }
 
-    50% {
-        background-position: 100% 50%;
-    }
+            50% {
+                background-position: 100% 50%;
+            }
 
-    100% {
-        background-position: 0% 50%;
-    }
-}
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
-.navbar-nav .nav-link {
-    color: #fff7f9 !important;
-    font-weight: 900; /* Make it thicker */
-    margin: 0 12px;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
+        .navbar-nav .nav-link {
+            color: #fff7f9 !important;
+            font-weight: 900;
+            margin: 0 12px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
 
-.navbar-nav .nav-link:hover {
-    color: #ffe0ea !important;
-    transform: scale(1.1);
-}
+        .navbar-nav .nav-link:hover {
+            color: #ffe0ea !important;
+            transform: scale(1.1);
+        }
 
-/* Hero Section Styling */
-.hero {
-    text-align: center;
-    padding: 100px 20px;
-    background: linear-gradient(180deg, rgba(255, 236, 242, 0.95), rgba(255, 218, 228, 0.95));
-    border-radius: 15px;
-    color: #4f2a3c;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    margin-top: 2rem;
-}
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(180deg, rgba(255, 236, 242, 0.95), rgba(255, 218, 228, 0.95));
+            border-radius: 15px;
+            color: #4f2a3c;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            margin-top: 2rem;
+        }
 
-.hero h1 {
-    font-size: 4rem;
-    font-weight: 900; /* Make it thicker */
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbow-pink 6s ease infinite;
-}
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-pink 6s ease infinite;
+        }
 
-.hero p {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    font-weight: 900; /* Make it thicker */
-}
+        .hero p {
+            font-size: 1.4rem;
+        }
 
-/* Footer Styling */
-.footer {
-    background: linear-gradient(90deg, #ff79c6, #ffa6c1);
-    color: #ffffff;
-    text-align: center;
-    padding: 20px;
-    border-top: 1px solid #ffb2d9;
-}
+        .btn,
+        .upload-btn {
+            background: #ff79c6;
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(255, 130, 200, 0.5);
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
 
-.footer a {
-    color: #ffe0ea;
-    margin: 0 10px;
-    transition: color 0.3s ease;
-}
+        .btn:hover,
+        .btn:focus,
+        .upload-btn:hover,
+        .upload-btn:focus {
+            background: #ffa6c1;
+            box-shadow: 0 6px 15px rgba(255, 166, 193, 0.7);
+            transform: scale(1.05);
+        }
 
-.footer a:hover {
-    color: #ff79c6;
-}
+        .features {
+            padding: 40px 20px;
+        }
 
-/* Pink Buttons */
-.btn-primary {
-    background-color: #ff79c6;
-    border-color: #ff79c6;
-}
+        .feature-card {
+            background: #f4d1e0;
+            border: 1px solid #f3c0d7;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.btn-primary:hover {
-    background-color: #ffb2d9;
-    border-color: #ffb2d9;
-}
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
 
-.btn-primary:focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 121, 198, 0.5);
-}
+        .footer {
+            background: linear-gradient(90deg, #f7b9d3, #ff79c6);
+            color: #dcdcdc;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #f3c0d7;
+        }
 
-/* Form Layout Styling */
-.card {
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin-top: 2rem;
-}
+        .footer a {
+            color: #ff79c6;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
 
-.card h4 {
-    color: #ff79c6;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    font-weight: 900; /* Make it thicker */
-}
+        .footer a:hover {
+            color: #ffa6c1;
+        }
 
-.inbox-container {
-    margin-top: 3rem;
-}
+        #shareForm {
+            background: #f7c0d5;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
 
-.inbox-container h5 {
-    font-size: 1.5rem;
-    color: #212121;
-    font-weight: 900; /* Make it thicker */
-}
+        #shareForm:hover {
+            transform: translateY(-5px);
+        }
 
-.form-label {
-    color: #212121;
-    font-weight: 900; /* Make it thicker */
-}
+        .form-control {
+            background: #f0e1eb;
+            color: #4f2a3c;
+            border: 1px solid #f3c0d7;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
 
-.form-control {
-    font-size: 1.1rem;
-    padding: 15px;
-    border-radius: 8px;
-    border: 2px solid #ff79c6;
-    transition: all 0.3s ease;
-    font-weight: 900; /* Make it thicker */
-}
+        .form-control:focus {
+            background: #ffe0ea;
+            border-color: #ff79c6;
+            color: #4f2a3c;
+            box-shadow: none;
+        }
 
-.form-control:focus {
-    border-color: #ff79c6;
-    box-shadow: 0 0 0 0.25rem rgba(255, 66, 178, 0.5);
-}
+        .progress {
+            height: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #f3c0d7;
+            border: 1px solid #f4d1e0;
+            margin-top: 20px;
+        }
 
+        .progress-bar {
+            background: #ff79c6;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .feature-card {
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="navbar-left">Pyeul Mails</div>
         <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pyeul Mails</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -239,6 +261,11 @@ body {
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
+                    <li class="nav-item">
+                        <label class="upload-btn">Change Background
+                            <input type="file" id="bgUploader" class="file-input" accept="image/*" style="display:none">
+                        </label>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -262,7 +289,7 @@ body {
                 <button id="generateEmailBtn" class="btn btn-primary">Generate Email</button>
             </div>
 
-        <h3>Check Your Inbox</h3>
+            <h3>Check Your Inbox</h3>
             <div class="d-flex justify-content-center">
                 <input type="text" id="emailInput" class="form-control" placeholder="Enter generated email" readonly>
                 <button id="checkBtn" class="btn btn-secondary mx-2">Check Emails</button>
@@ -274,6 +301,32 @@ body {
         </div>
     </section>
 
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="text-center mb-5">Features</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h4>Upload Images</h4>
+                        <p>Quickly upload and share images with your friends.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h4>Share Mails</h4>
+                        <p>Send messages through our cool platform.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <h4>Interactive Features</h4>
+                        <p>Enjoy engaging with fun interactions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Pyeul Mails. All rights reserved. Made by The Husband of Pyeul Lihm</p>
@@ -281,11 +334,12 @@ body {
     </footer>
 
     <!-- Floating Hearts -->
-   <div class="heart" style="top: 0%; left: 10%;">❤️</div>
+    <div class="heart" style="top: 0%; left: 10%;">❤️</div>
     <div class="heart" style="top: 15%; left: 40%;">💖</div>
     <div class="heart" style="top: 30%; left: 70%;">💘</div>
-     <div class="heart" style="top: 30%; left: 80%;">🎀</div>
-     <div class="heart" style="top: 30%; left: 90%;">💕</div>
+    <div class="heart" style="top: 30%; left: 80%;">🎀</div>
+    <div class="heart" style="top: 30%; left: 90%;">💕</div>
+
     <script type="module" src="index.js"></script>
 </body>
 
