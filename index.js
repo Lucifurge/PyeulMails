@@ -53,7 +53,13 @@ function fetchMessages(sidToken, seq = 0) {
     .then(response => {
         const mailList = response.data.messages;
         const newSeq = response.data.seq; // Update the seq value for the next fetch
-        displayMessages(mailList, newSeq);
+
+        if (mailList.length === 0) {
+            Swal.fire('No new messages found.');
+            clearInterval(localStorage.getItem('pollingInterval')); // Stop polling if no new messages
+        } else {
+            displayMessages(mailList, newSeq);
+        }
     })
     .catch(error => {
         console.error('Error fetching messages:', error.response ? error.response.data : error.message);
@@ -72,9 +78,15 @@ function displayMessages(messages, seq) {
         messages.forEach(message => {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
-            emailItem.innerHTML = `  
-                <strong>From:</strong> ${message.mail_from || 'Unknown'}
-                <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
+
+            const from = message.mail_from || 'Unknown';  // Ensure it's not 'undefined' or 'null'
+            const subject = message.mail_subject || 'No Subject';  // Ensure subject is not 'undefined' or 'null'
+            const mailFrom = from !== 'Unknown' ? from : 'Unknown Sender';  // More friendly name
+            const mailSubject = subject !== 'No Subject' ? subject : 'No Subject Provided';  // More friendly subject
+
+            emailItem.innerHTML = `
+                <strong>From:</strong> ${mailFrom}
+                <br><strong>Subject:</strong> ${mailSubject}
                 <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
             `;
             inboxContainer.appendChild(emailItem);
