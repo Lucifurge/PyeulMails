@@ -114,7 +114,6 @@ function displayMessages(messages, seq) {
     }
 
     // Store the updated seq for the next fetch
-    seq = seq || 0; // If no seq provided, start with 0
     localStorage.setItem('lastSeq', seq); // Save seq for future use
     console.log("Updated seq:", seq);  // Debugging line
 }
