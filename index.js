@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const lockScreen = () => {
         const credentials = [
             { username: "mariz", password: "mariz2006" },
-            { username: "addarkin", password: "arkin.mel" },
             { username: "realwifenimingyu", password: "arousseau_18" },
             { username: "lucifurge", password: "09100909" },
             { username: "kupikupin", password: "mwamwachopchop_lezi" },
