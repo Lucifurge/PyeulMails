@@ -1,10 +1,9 @@
-import axios from 'axios';  
-
+// Function to generate email address
 function generateEmail() {
     axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
         .then(response => {
             const { email, sid_token } = response.data;
-            document.getElementById('generated-email').innerText = `Generated Email: ${email}`;
+            document.getElementById('generatedEmail').innerText = `Generated Email: ${email}`;
             // Save sid_token to use for fetching and deleting messages
             localStorage.setItem('sid_token', sid_token);
             fetchMessages(sid_token); // Fetch messages after generating email
@@ -81,7 +80,7 @@ function deleteMessage(mailId) {
 // Event listeners for frontend interactions
 document.addEventListener('DOMContentLoaded', () => {
     // Generate email button
-    document.getElementById('generate-btn').addEventListener('click', () => {
+    document.getElementById('generateBtn').addEventListener('click', () => {
         generateEmail();  // Generate email when button is clicked
     });
 
