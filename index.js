@@ -84,8 +84,16 @@ function displayMessages(messages, seq) {
         messages.forEach(message => {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
+
+            // Debugging mail_from field
+            console.log('Mail from:', message.mail_from);
+
+            // Extract the local part of the email if it's an email address
+            const sender = message.mail_from || 'Unknown';
+            const displaySender = sender.includes('@') ? sender.split('@')[0] : sender; // Only local part of the email
+
             emailItem.innerHTML = `
-                <strong>From:</strong> ${message.mail_from || 'Unknown'}
+                <strong>From:</strong> ${displaySender}
                 <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
                 <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
             `;
@@ -95,6 +103,7 @@ function displayMessages(messages, seq) {
 
     // Store the updated seq for the next fetch
     seq = seq || 0; // If no seq provided, start with 0
+    localStorage.setItem('lastSeq', seq); // Save seq for future use
     console.log("Updated seq:", seq);  // Debugging line
 }
 
