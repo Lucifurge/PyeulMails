@@ -1,38 +1,3 @@
-let seq = 0;
-let intervalId; // To store the interval for continuous fetching
-
-document.getElementById('generateBtn').addEventListener('click', () => {
-    axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
-        .then(response => {
-            const email = response.data.email;
-            const sidToken = response.data.sid_token;
-            document.getElementById('generatedEmail').value = email;
-
-            // Store sidToken in localStorage
-            localStorage.setItem('sidToken', sidToken);
-
-            // Start checking for messages with a reasonable delay
-            seq = 0; // Reset seq when a new email is generated
-            startFetchingMessages(sidToken);
-        })
-        .catch(error => {
-            console.error('Error generating email:', error.response ? error.response.data : error.message);
-            Swal.fire('Error generating email. Please try again.');
-        });
-});
-
-function startFetchingMessages(sidToken) {
-    // Start fetching messages every 5 seconds (5000 milliseconds)
-    intervalId = setInterval(() => {
-        fetchMessages(sidToken, seq);
-    }, 5000); // Adjust this interval as needed
-}
-
-function stopFetchingMessages() {
-    // Stop the interval if needed (e.g., when you want to stop auto-fetching)
-    clearInterval(intervalId);
-}
-
 function fetchMessages(sidToken, seq) {
     axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {
         params: {
@@ -71,24 +36,25 @@ function displayMessages(messages, seq) {
     }
 
     // Store the updated seq for the next fetch
-    seq = response.data.seq;
+    seq = seq || 0; // If no seq provided, start with 0
+    console.log("Updated seq:", seq);  // Debugging line
 }
 
 function deleteMessage(mailId) {
-    const sidToken = localStorage.getItem('sidToken');  // Retrieve sidToken from localStorage
-
+    // Call the backend delete email route
+    const sidToken = 'your_sid_token';  // Replace with your actual sid_token
     axios.get('https://pyeulmail-server-production.up.railway.app/delete_email', {
         params: {
             mail_id: mailId,
             sid_token: sidToken
         }
     })
-    .then(() => {
-        Swal.fire('Email deleted successfully');
-        fetchMessages(sidToken, seq);  // Refresh messages after deletion
+    .then(response => {
+        Swal.fire('Email deleted successfully!');
+        fetchMessages(sidToken, 0); // Fetch messages again after deleting
     })
     .catch(error => {
-        console.error('Error deleting email:', error.response ? error.response.data : error.message);
+        console.error('Error deleting email:', error);
         Swal.fire('Error deleting email. Please try again.');
     });
 }
