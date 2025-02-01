@@ -46,34 +46,26 @@
             justify-content: flex-end;
         }
 
-        .navbar-left {
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 2rem;
-            background: linear-gradient(90deg, #ff66b2, #ff80bf);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow-pink 6s ease infinite;
-        }
-
+        /* Rainbow Gradient Animation */
         @keyframes rainbow-pink {
             0% {
                 background-position: 0% 50%;
             }
-
             50% {
                 background-position: 100% 50%;
             }
-
             100% {
                 background-position: 0% 50%;
             }
+        }
+
+        /* For the navbar title */
+        .navbar-left, .navbar-brand {
+            background: linear-gradient(90deg, #ff66b2, #ff80bf, #ff66b2);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-pink 6s ease infinite;
         }
 
         .navbar-nav .nav-link {
@@ -99,6 +91,7 @@
             margin-top: 3rem;
         }
 
+        /* For the Hero Heading */
         .hero h1 {
             font-size: 4.5rem;
             font-weight: bold;
