@@ -124,11 +124,19 @@ function startPolling(sidToken) {
 
     fetchMessages(sidToken);
 
-    const intervalId = setInterval(() => fetchMessages(sidToken), 10000);
+    const intervalId = setInterval(() => fetchMessages(sidToken), 15000); // Poll every 15 seconds
     localStorage.setItem('pollingInterval', intervalId);
 }
 
 // Initialize the process
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
+    document.getElementById('checkBtn').addEventListener('click', () => {
+        const sidToken = localStorage.getItem('sid_token');
+        if (sidToken) {
+            fetchMessages(sidToken);
+        } else {
+            Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
+        }
+    });
 });
