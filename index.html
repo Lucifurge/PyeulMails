@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,30 +55,17 @@
             margin-bottom: 10px;
         }
 
-        h1,
-        h3 {
+        h1, h3 {
             text-align: center;
             color: #5a1a5c;
         }
 
-        #generatedEmail,
-        #emailContent {
+        #generatedEmail, #emailContent {
             text-align: center;
             margin-top: 20px;
         }
-
-        .btn-primary {
-            background-color: #ff80ab;
-            border: none;
-        }
-
-        .btn-secondary {
-            background-color: #ffaad4;
-            border: none;
-        }
     </style>
 </head>
-
 <body>
     <nav class="navbar navbar-dark">
         <div class="container-fluid">
@@ -99,7 +85,8 @@
             </div>
             <h3>Check Emails</h3>
             <div class="d-flex justify-content-center">
-                <button id="refreshBtn" class="btn btn-secondary mx-2">Refresh Emails</button>
+                <input type="text" id="emailInput" class="form-control" placeholder="Enter generated email">
+                <button id="checkBtn" class="btn btn-secondary mx-2">Check Emails</button>
             </div>
             <div class="inbox-container mt-4">
                 <h5 class="text-center">Inbox</h5>
@@ -108,74 +95,6 @@
         </div>
     </div>
 
-    <script>
-        let sidToken = '';
-        let seq = 0;
-
-        document.getElementById('generateBtn').addEventListener('click', () => {
-            axios.get('https://pyeulmail-server-production.up.railway.app/generate_email')  // API endpoint for generating email
-                .then(response => {
-                    const email = response.data.email;
-                    sidToken = response.data.sid_token;  // Store the sid_token for later use
-                    document.getElementById('generatedEmail').value = email;
-                    fetchMessages(sidToken);  // Start checking messages after email is generated
-                })
-                .catch(error => {
-                    console.error('Error generating email:', error);
-                    Swal.fire('Error generating email. Please try again.');
-                });
-        });
-
-        function fetchMessages(sidToken, seq = 0) {
-            axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', { 
-                sid_token: sidToken,  // Send sid_token for checking messages
-                seq: seq  // Send the current sequence number to fetch the latest messages
-            })
-            .then(response => {
-                const mailList = response.data.messages;
-                displayMessages(mailList, response.data.seq);  // Pass seq to update it for next request
-            })
-            .catch(error => {
-                console.error('Error fetching messages:', error);
-                Swal.fire('Error fetching messages. Please try again.');
-            });
-        }
-
-        function displayMessages(messages, seq) {
-            const inboxContainer = document.getElementById('emailContent');
-            inboxContainer.innerHTML = '';  // Clear previous messages
-
-            if (messages.length === 0) {
-                inboxContainer.innerHTML = '<p>No messages available.</p>';
-            } else {
-                messages.forEach(message => {
-                    const emailItem = document.createElement('div');
-                    emailItem.classList.add('email-item');
-                    emailItem.innerHTML = `
-                        <strong>From:</strong> ${message.from || 'Unknown'}
-                        <br><strong>Subject:</strong> ${message.subject || 'No Subject'}
-                        <br><button onclick="deleteMessage('${message.mail_id}')">Delete</button>
-                    `;
-                    inboxContainer.appendChild(emailItem);
-                });
-            }
-
-            // Update the sequence number for next request
-            seq = seq;
-        }
-
-        function deleteMessage(mailId) {
-            Swal.fire('This is a placeholder for deleting messages.');
-        }
-
-        document.getElementById('refreshBtn').addEventListener('click', () => {
-            if (sidToken) {
-                fetchMessages(sidToken, seq);  // Refresh the messages using stored sidToken and seq
-            } else {
-                Swal.fire('Please generate or enter a valid email.');
-            }
-        });
-    </script>
+    <script src="index.js"></script>
 </body>
-
 </html>
