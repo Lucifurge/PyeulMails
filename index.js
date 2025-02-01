@@ -1,5 +1,14 @@
 // Function to generate email address
 function generateEmail() {
+    // Show loading indication
+    Swal.fire({
+        title: 'Generating Email...',
+        text: 'Please wait while we generate your temporary email.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
         .then(response => {
             const { email, sid_token } = response.data;
@@ -11,6 +20,8 @@ function generateEmail() {
                 document.getElementById('generatedEmail').value = email;  // Display the email in the input field
                 localStorage.setItem('sid_token', sid_token); // Save sid_token in local storage
                 startPolling(sid_token); // Start polling for new messages after email is generated
+
+                Swal.fire('Email Generated!', `Your email: ${email}`, 'success');
             } else {
                 console.error('Invalid email or sid_token:', response.data);
                 Swal.fire('Error: Invalid response from server.');
@@ -24,6 +35,15 @@ function generateEmail() {
 
 // Function to fetch messages with the sidToken and sequence
 function fetchMessages(sidToken, seq = 0) {
+    // Show loading indication
+    Swal.fire({
+        title: 'Fetching Messages...',
+        text: 'Please wait while we fetch your messages.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     axios.get('https://pyeulmail-server-production.up.railway.app/check_messages', {
         params: {
             sid_token: sidToken,
@@ -69,6 +89,16 @@ function displayMessages(messages, seq) {
 // Function to view the full content of the email
 function viewEmailContent(mailId) {
     const sidToken = localStorage.getItem('sid_token');  // Retrieve sid_token from localStorage
+
+    // Show loading indication
+    Swal.fire({
+        title: 'Fetching Email Content...',
+        text: 'Please wait while we retrieve the email content.',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     axios.get('https://pyeulmail-server-production.up.railway.app/fetch_email', {
         params: {
             mail_id: mailId,
@@ -91,6 +121,13 @@ function viewEmailContent(mailId) {
 
 // Function to start polling for new messages every 5 seconds
 function startPolling(sidToken) {
+    // Clear existing polling interval if any
+    const existingInterval = localStorage.getItem('pollingInterval');
+    if (existingInterval) {
+        clearInterval(existingInterval);
+    }
+
+    // Start new polling interval
     const interval = setInterval(() => {
         fetchMessages(sidToken);
     }, 5000);  // Poll for new messages every 5 seconds
