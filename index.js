@@ -1,7 +1,5 @@
-// Assuming you're using Axios for HTTP requests
-const axios = require('axios');
+import axios from 'axios';  // Use `import` for Axios, assuming you're using modules.
 
-// Function to generate email address
 function generateEmail() {
     axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
         .then(response => {
