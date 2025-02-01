@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ...Array(35).fill({ username: "", password: "" })
         ];
 
-        Swal.fire({
+      Swal.fire({
             title: "Login Required",
             html: `
                 <div class="mb-3">
@@ -26,27 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
             `,
             confirmButtonText: "Login",
             allowOutsideClick: false,
-           preConfirm: () => {
-    const username = document.getElementById("lockUsername").value.trim();
-    const password = document.getElementById("lockPassword").value.trim();
+            preConfirm: () => {
+                const username = document.getElementById("lockUsername").value.trim();
+                const password = document.getElementById("lockPassword").value.trim();
 
-    if (username === "" || password === "") {
-        Swal.showValidationMessage("Please enter both username and password");
-        return false;
-    }
+                const valid = credentials.some(
+                    (cred) => cred.username === username && cred.password === password
+                );
 
-    const valid = credentials.some(cred => cred.username === username && cred.password === password);
-    
-    if (valid) {
-        return true;
-    } else {
-        Swal.showValidationMessage("Invalid username or password");
-        return false;
-    }
-},
-      document.addEventListener("change", (e) => {
+                if (valid) {
+                    return true;
+                } else {
+                    Swal.showValidationMessage("Invalid username or password");
+                    return false;
+                }
+            },
+        });
+
+        // Toggle password visibility
+        document.addEventListener("change", (e) => {
             if (e.target && e.target.id === "toggleLockPassword") {
-                document.getElementById("lockPassword").type = e.target.checked ? "text" : "password";
+                const passwordField = document.getElementById("lockPassword");
+                passwordField.type = e.target.checked ? "text" : "password";
             }
         });
     };
