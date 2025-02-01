@@ -16,7 +16,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
             overflow-x: hidden;
@@ -24,9 +25,9 @@
         }
 
         body {
-            background-color: #ffe4e6;
-            color: #4f2a3c;
-            font-family: "Fira Code", monospace;
+            background-color: #f9f9f9;
+            color: #212121;
+            font-family: 'Poppins', sans-serif;
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -35,10 +36,9 @@
 
         /* Navbar Styling */
         .navbar {
-            background: linear-gradient(90deg, #ffa6c1, #ff79c6, #ffa6c1);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            padding: 0.8rem 1.5rem;
-            width: 100%;
+            background: linear-gradient(90deg, #ff66b2, #ff80bf);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 1rem 2rem;
         }
 
         .navbar .navbar-nav {
@@ -47,17 +47,15 @@
         }
 
         .navbar-left {
-            background-color: #ff79c6;
-            color: white;
-            padding: 0.8rem 1.5rem;
+            color: #fff;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
         }
 
         .navbar-brand {
             font-weight: bold;
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, #ff79c6, #ffb2d9, #ffa6c1, #ff79c6);
+            font-size: 2rem;
+            background: linear-gradient(90deg, #ff66b2, #ff80bf);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -79,14 +77,14 @@
         }
 
         .navbar-nav .nav-link {
-            color: #fff7f9 !important;
+            color: #fff;
             font-weight: bold;
-            margin: 0 12px;
+            margin: 0 15px;
             transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #ffe0ea !important;
+            color: #ff66b2;
             transform: scale(1.1);
         }
 
@@ -94,18 +92,18 @@
         .hero {
             text-align: center;
             padding: 100px 20px;
-            background: linear-gradient(180deg, rgba(255, 236, 242, 0.95), rgba(255, 218, 228, 0.95));
-            border-radius: 15px;
-            color: #4f2a3c;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            margin-top: 2rem;
+            background: linear-gradient(180deg, rgba(255, 236, 242, 0.9), rgba(255, 218, 228, 0.9));
+            border-radius: 20px;
+            color: #212121;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 3rem;
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: bold;
             text-transform: uppercase;
-            background: linear-gradient(90deg, #ff79c6, #ffa6c1, #ff79c6);
+            background: linear-gradient(90deg, #ff66b2, #ff80bf, #ff66b2);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -119,50 +117,69 @@
 
         /* Footer Styling */
         .footer {
-            background: linear-gradient(90deg, #ff79c6, #ffa6c1);
-            color: #ffffff;
+            background: linear-gradient(90deg, #ff66b2, #ff80bf);
+            color: #fff;
             text-align: center;
-            padding: 20px;
-            border-top: 1px solid #ffb2d9;
+            padding: 30px;
+            border-top: 1px solid #ff66b2;
         }
 
         .footer a {
             color: #ffe0ea;
-            margin: 0 10px;
+            margin: 0 12px;
             transition: color 0.3s ease;
         }
 
         .footer a:hover {
-            color: #ff79c6;
+            color: #ff66b2;
         }
 
         /* Pink Buttons */
         .btn-primary {
-            background-color: #ff79c6;
-            border-color: #ff79c6;
+            background-color: #ff66b2;
+            border-color: #ff66b2;
+            font-size: 1.2rem;
+            padding: 12px 30px;
         }
 
         .btn-primary:hover {
-            background-color: #ffb2d9;
-            border-color: #ffb2d9;
+            background-color: #ff80bf;
+            border-color: #ff80bf;
         }
 
         .btn-primary:focus {
-            box-shadow: 0 0 0 0.2rem rgba(255, 121, 198, 0.5);
+            box-shadow: 0 0 0 0.3rem rgba(255, 121, 198, 0.5);
+        }
+
+        .btn-secondary {
+            background-color: #ffb3cc;
+            border-color: #ffb3cc;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ff66b2;
+            border-color: #ff66b2;
+        }
+
+        .btn-secondary:focus {
+            box-shadow: 0 0 0 0.3rem rgba(255, 66, 178, 0.5);
         }
 
         /* Form Layout Styling */
         .card {
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             margin-top: 2rem;
         }
 
         .card h4 {
-            color: #ff79c6;
-            font-size: 1.8rem;
+            color: #ff66b2;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .inbox-container {
@@ -170,12 +187,25 @@
         }
 
         .inbox-container h5 {
-            font-size: 1.4rem;
-            color: #4f2a3c;
+            font-size: 1.5rem;
+            color: #212121;
         }
 
         .form-label {
-            color: #4f2a3c;
+            color: #212121;
+        }
+
+        .form-control {
+            font-size: 1.1rem;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ff66b2;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #ff66b2;
+            box-shadow: 0 0 0 0.25rem rgba(255, 66, 178, 0.5);
         }
     </style>
 </head>
@@ -234,4 +264,5 @@
 
     <script type="module" src="index.js"></script>
 </body>
+
 </html>
