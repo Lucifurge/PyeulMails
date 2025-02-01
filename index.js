@@ -13,6 +13,7 @@ function generateEmail() {
             const { email, sid_token } = response.data;
             if (email && sid_token) {
                 document.getElementById('generatedEmail').value = email;
+                document.getElementById('emailInput').value = email;
                 localStorage.setItem('sid_token', sid_token);
                 startPolling(sid_token);
                 Swal.fire('Email Generated!', `Your email: ${email}`, 'success');
@@ -29,26 +30,12 @@ function generateEmail() {
 
 // Function to fetch messages
 function fetchMessages(sidToken, seq = 0) {
-    Swal.fire({
-        title: 'Fetching Messages...',
-        text: 'Please wait while we fetch your messages.',
-        didOpen: () => {
-            Swal.showLoading();
-        }
-    });
-
     axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
         .then(response => {
             const mailList = response.data.messages;
             if (mailList.length === 0) {
                 console.log("[!] No new messages yet. Checking again in 15 seconds...");
-                Swal.fire('No new messages found. Checking again in 15 seconds...');
-                clearInterval(localStorage.getItem('pollingInterval'));
-                setTimeout(() => {
-                    startPolling(sidToken);
-                }, 15000);
             } else {
-                clearInterval(localStorage.getItem('pollingInterval'));
                 displayMessages(mailList, seq);
             }
         })
@@ -89,7 +76,7 @@ function displayMessages(messages, seq) {
 }
 
 // Function to view full email content
-function viewEmailContent(mailId) {
+window.viewEmailContent = function(mailId) {
     const sidToken = localStorage.getItem('sid_token');
     Swal.fire({
         title: 'Fetching Email Content...',
@@ -103,7 +90,7 @@ function viewEmailContent(mailId) {
         params: { mail_id: mailId, sid_token: sidToken }
     })
     .then(response => {
-        const emailContent = response.data;
+        const emailContent = response.data.mail_body;
         Swal.fire({
             title: 'Email Content',
             text: emailContent,
