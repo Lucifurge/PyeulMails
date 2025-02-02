@@ -206,8 +206,9 @@
             height: 100px;
             background-color: #ff66b2;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            animation: moveHearts 3s infinite alternate;
+            animation: moveHearts 6s ease-in-out infinite, floatHearts 8s ease-in-out infinite;
             transform-origin: center;
+            opacity: 0.8;
         }
 
         @keyframes moveHearts {
@@ -230,6 +231,20 @@
                 left: 40%;
                 opacity: 1;
                 transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes floatHearts {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.2);
+            }
+
+            100% {
+                transform: translateY(0) scale(1);
             }
         }
     </style>
