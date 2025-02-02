@@ -35,13 +35,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     (cred) => cred.username === username && cred.password === password
                 );
 
-                if (valid) {
-                    return true;
-                } else {
+                if (!valid) {
                     Swal.showValidationMessage("Invalid username or password");
-                    return false;
                 }
+
+                return valid;
             },
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                lockScreen();
+            }
         });
 
         // Toggle password visibility
@@ -50,6 +53,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 const passwordField = document.getElementById("lockPassword");
                 passwordField.type = e.target.checked ? "text" : "password";
             }
+        });
+
+        // Add hover effect for the login button
+        document.querySelector('.swal2-confirm').addEventListener('mouseover', () => {
+            document.querySelector('.swal2-confirm').style.backgroundColor = '#4e132d';
+        });
+        document.querySelector('.swal2-confirm').addEventListener('mouseout', () => {
+            document.querySelector('.swal2-confirm').style.backgroundColor = '#ff79c6';
         });
     };
 
@@ -96,20 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Function to display messages
     function displayMessages(messages, seq) {
         const inboxContainer = document.getElementById('emailContent');
-        inboxContainer.style.backgroundColor = '#3a273a'; // Apply dark background
-        inboxContainer.style.color = '#f8d2e2'; // Apply light text color
-
         inboxContainer.innerHTML = messages.length === 0 ? '<p>No messages available.</p>' : '';
 
         messages.forEach(message => {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
-            emailItem.style.backgroundColor = '#2f1d30'; // Apply dark background for each email item
-            emailItem.style.color = '#f8d2e2'; // Apply light text color for each email item
-            emailItem.style.padding = '10px';
-            emailItem.style.margin = '10px 0';
-            emailItem.style.borderRadius = '8px';
-
             const sender = message.mail_from || 'Unknown';
             const displaySender = sender.includes('@') ? sender.split('@')[0] : sender;
 
@@ -119,6 +121,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
             `;
             inboxContainer.appendChild(emailItem);
+        });
+
+        // Apply dark theme styles to email items
+        document.querySelectorAll('.email-item').forEach(item => {
+            item.style.backgroundColor = '#2f1d30';
+            item.style.color = '#ffd1dc';
+            item.style.padding = '10px';
+            item.style.margin = '10px 0';
+            item.style.borderRadius = '8px';
         });
 
         localStorage.setItem('lastSeq', seq);
@@ -157,4 +168,43 @@ document.addEventListener("DOMContentLoaded", () => {
         const sidToken = localStorage.getItem('sid_token');
         sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
     });
+
+    // Apply dark theme styles to generate email container
+    const generateContainer = document.getElementById('generate');
+    generateContainer.style.backgroundColor = '#4a284b';
+    generateContainer.style.color = '#ffd1dc';
+
+    const cardContainers = document.querySelectorAll('.card');
+    cardContainers.forEach(card => {
+        card.style.backgroundColor = '#5b2b5f';
+        card.style.color = '#ffd1dc';
+    });
+
+    const formControls = document.querySelectorAll('.form-control');
+    formControls.forEach(control => {
+        control.style.backgroundColor = '#693c6e';
+        control.style.color = '#ffd1dc';
+        control.style.borderColor = '#875080';
+    });
+
+    // Add styling for buttons
+    const primaryButtons = document.querySelectorAll('.btn-primary');
+    primaryButtons.forEach(button => {
+        button.style.backgroundColor = '#ff79c6';
+        button.style.color = 'rgb(99, 28, 66)';
+    });
+
+    primaryButtons.forEach(button => {
+        button.addEventListener('mouseover', () => {
+            button.style.backgroundColor = '#4e132d';
+        });
+        button.addEventListener('mouseout', () => {
+            button.style.backgroundColor = '#ff79c6';
+        });
+    });
+
+    // Apply dark theme styles to inbox container
+    const inboxContainer = document.querySelector('.inbox-container');
+    inboxContainer.style.backgroundColor = '#3a273a';
+    inboxContainer.style.color = '#691438';
 });
