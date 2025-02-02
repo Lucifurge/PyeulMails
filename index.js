@@ -176,5 +176,5 @@ document.addEventListener("DOMContentLoaded", () => {
         const sidToken = localStorage.getItem('sid_token');
         sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
     });
-
+ 
 });
