@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     // Select elements
     const loginForm = document.getElementById("loginForm");
     const usernameInput = document.getElementById("username");
@@ -56,6 +55,22 @@ document.addEventListener("DOMContentLoaded", () => {
         // Hide the login form and refresh the page
         loginForm.style.display = 'none';
         location.reload();
+    });
+
+    // Toggle password visibility
+    document.addEventListener("change", (e) => {
+        if (e.target && e.target.id === "toggleLockPassword") {
+            const passwordField = document.getElementById("lockPassword");
+            passwordField.type = e.target.checked ? "text" : "password";
+        }
+    });
+
+    // Add hover effect for the login button
+    document.querySelector('.swal2-confirm').addEventListener('mouseover', () => {
+        document.querySelector('.swal2-confirm').style.backgroundColor = '#4e132d';
+    });
+    document.querySelector('.swal2-confirm').addEventListener('mouseout', () => {
+        document.querySelector('.swal2-confirm').style.backgroundColor = '#ff79c6';
     });
 
     // Function to generate email address
@@ -176,5 +191,5 @@ document.addEventListener("DOMContentLoaded", () => {
         const sidToken = localStorage.getItem('sid_token');
         sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
     });
- 
+
 });
