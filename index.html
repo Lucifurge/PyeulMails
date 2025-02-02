@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,185 +11,205 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-       /* General page styling */
-body {
-    background-color: #2e1d2f;
-    color: #4c123f;
-    font-family: "Fira Code", monospace;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    transition: background 0.5s ease, color 0.5s ease;
-    min-height: 100vh;
-}
+        /* General page styling */
+        body {
+            background-color: #2e1d2f;
+            color: #4c123f;
+            font-family: "Fira Code", monospace;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            transition: background 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+        }
 
-/* Navbar styling */
-.navbar {
-    background: linear-gradient(90deg, #8b1c61, #5a1c3b);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 0.8rem 1.5rem;
-}
+        /* Navbar styling */
+        .navbar {
+            background: linear-gradient(90deg, #8b1c61, #5a1c3b);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 1.5rem;
+        }
 
-.navbar-brand {
-    font-weight: bold;
-    font-size: 1.8rem;
-    background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbow-pink 6s ease infinite;
-}
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-pink 6s ease infinite;
+        }
 
-.navbar-nav .nav-link {
-    color: #f8d2e2 !important;
-    font-weight: bold;
-    margin: 0 12px;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
+        .navbar-nav .nav-link {
+            color: #f8d2e2 !important;
+            font-weight: bold;
+            margin: 0 12px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
 
-.navbar-nav .nav-link:hover {
-    color: #ff9fd6 !important;
-    transform: scale(1.1);
-}
+        .navbar-nav .nav-link:hover {
+            color: #ff9fd6 !important;
+            transform: scale(1.1);
+        }
 
-/* Hero section */
-.hero {
-    text-align: center;
-    padding: 100px 20px;
-    background: linear-gradient(180deg, rgba(46, 29, 47, 0.95), rgba(32, 21, 34, 0.95));
-    border-radius: 15px;
-    color: white;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    margin-top: 1rem;
-}
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(180deg, rgba(46, 29, 47, 0.95), rgba(32, 21, 34, 0.95));
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            margin-top: 1rem;
+        }
 
-.hero h1 {
-    font-size: 4rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbow-pink 6s ease infinite;
-    text-shadow: 0 0 15px rgba(255, 121, 198, 0.6), 0 0 30px rgba(255, 111, 174, 0.6);
-}
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-pink 6s ease infinite;
+            text-shadow: 0 0 15px rgba(255, 121, 198, 0.6), 0 0 30px rgba(255, 111, 174, 0.6);
+        }
 
-.hero p {
-    font-size: 1.5rem;
-    margin-top: 20px;
-}
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
 
-/* Updated styling for the email form container */
-#generate {
-    background: #4a284b;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    color: #ffd1dc;
-    margin-top: 2rem;
-}
+        /* Updated styling for the email form container */
+        #generate {
+            background: #4a284b;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            color: #ffd1dc;
+            margin-top: 2rem;
+        }
 
-.card {
-    background: #5b2b5f;
-    color: #ffd1dc;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
+        .card {
+            background: #5b2b5f;
+            color: #ffd1dc;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
 
-/* Form input styling */
-.form-control {
-    background: #693c6e;
-    color: #ffd1dc;
-    border: 1px solid #875080;
-    transition: background 0.3s ease, border-color 0.3s ease;
-}
+        /* Form input styling */
+        .form-control {
+            background: #693c6e;
+            color: #ffd1dc;
+            border: 1px solid #875080;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
 
-.form-control:focus {
-    background: #5b2b5f;
-    border-color: #ff79c6;
-    color: #ffd1dc;
-    box-shadow: none;
-}
+        .form-control:focus {
+            background: #5b2b5f;
+            border-color: #ff79c6;
+            color: #ffd1dc;
+            box-shadow: none;
+        }
 
-/* Button styling */
-.btn-primary {
-    background: #ff79c6;
-    color: rgb(99, 28, 66);
-    font-size: 1rem;
-    border-radius: 25px;
-    box-shadow: 0 4px 10px rgba(255, 121, 198, 0.5);
-    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-}
+        /* Button styling */
+        .btn-primary {
+            background: #ff79c6;
+            color: rgb(99, 28, 66);
+            font-size: 1rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(255, 121, 198, 0.5);
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
 
-.btn-primary:hover {
-    background: #4e132d;
-    box-shadow: 0 6px 15px rgba(93, 29, 57, 0.7);
-    transform: scale(1.05);
-}
+        .btn-primary:hover {
+            background: #4e132d;
+            box-shadow: 0 6px 15px rgba(93, 29, 57, 0.7);
+            transform: scale(1.05);
+        }
 
-/* Inbox container styling */
-.inbox-container {
-    background: #3a273a;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
+        .btn-secondary {
+            background: #5b2b5f;
+            color: #ffd1dc;
+            font-size: 1rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(93, 29, 57, 0.5);
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
 
-.inbox-container h5 {
-    color: #691438;
-}
+        .btn-secondary:hover {
+            background: #4e132d;
+            box-shadow: 0 6px 15px rgba(93, 29, 57, 0.7);
+            transform: scale(1.05);
+        }
 
-/* Features section */
-.features {
-    background: #4a284b;
-    padding: 40px 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    margin-top: 2rem;
-}
+        /* Inbox container styling */
+        .inbox-container {
+            background: #3a273a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
 
-.feature-card {
-    background: #5b2b5f;
-    color: #ffd1dc;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    margin-bottom: 2rem;
-    text-align: center;
-}
+        .inbox-container h5 {
+            color: #691438;
+        }
 
-.feature-card h4 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
+        /* Features section */
+        .features {
+            background: #4a284b;
+            padding: 40px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            margin-top: 2rem;
+        }
 
-.feature-card p {
-    font-size: 1rem;
-}
+        .feature-card {
+            background: #5b2b5f;
+            color: #ffd1dc;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
 
-/* Footer styling */
-.footer {
-    background: linear-gradient(90deg, #5a1c3b, #8b1c61);
-    color: #f8d2e2;
-    text-align: center;
-    padding: 20px;
-    border-top: 1px solid #5a3a5a;
-    margin-top: 2rem;
-}
+        .feature-card h4 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
 
-.footer a {
-    color: #ff79c6;
-    margin: 0 10px;
-    transition: color 0.3s ease;
-}
+        .feature-card p {
+            font-size: 1rem;
+        }
 
-.footer a:hover {
-    color: #ff6fae;
-}
+        /* Footer styling */
+        .footer {
+            background: linear-gradient(90deg, #5a1c3b, #8b1c61);
+            color: #f8d2e2;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #5a3a5a;
+            margin-top: 2rem;
+        }
 
+        .footer a {
+            color: #ff79c6;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ff6fae;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            background-color: #4a284b;
+            color: #ffd1dc;
+        }
     </style>
 </head>
 
@@ -219,7 +239,7 @@ body {
     <header class="hero">
         <h1>Pyeulmails</h1>
         <p>Effortlessly generate temporary emails for enhanced privacy!</p>
-        <a href="#generate" class="btn">Get Started</a>
+        <a href="#generate" class="btn btn-primary">Get Started</a>
     </header>
 
     <!-- Temporary Email Form -->
