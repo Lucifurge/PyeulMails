@@ -1,195 +1,170 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Select elements
-    const loginForm = document.getElementById("loginForm");
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const generateEmailBtn = document.getElementById("generateEmailBtn");
-    const generatedEmailInput = document.getElementById("generatedEmail");
-    const checkInboxBtn = document.getElementById("checkInboxBtn");
-    const bgUploader = document.getElementById("bgUploader");
-    const inboxContainer = document.getElementById('emailContent');
+("DOMContentLoaded", () => { 
+  // Lock feature: Prompt for username and password
+  const lockScreen = () => {
+      const credentials = [
+          { username: "mariz", password: "mariz2006" },
+          { username: "lucifurge", password: "09100909" },
+          { username: "asherfinn", password: "asher00" },
+          // 36 blank entries for additional usernames and passwords
+          ...Array(35).fill({ username: "", password: "" })
+      ];
 
-    // Predefined credentials
-    const credentials = [
-        { username: "mariz", password: "mariz2006" },
-        { username: "lucifurge", password: "09100909" },
-        { username: "asherfinn", password: "asher00" }
-    ];
+      Swal.fire({
+          title: "Login Required",
+          html: 
+              <div class="mb-3">
+                  <label for="lockUsername" class="form-label">Username</label>
+                  <input type="text" id="lockUsername" class="form-control" placeholder="Enter Username">
+              </div>
+              <div class="mb-3">
+                  <label for="lockPassword" class="form-label">Password</label>
+                  <input type="password" id="lockPassword" class="form-control" placeholder="Enter Password">
+                  <div class="mt-2">
+                      <input type="checkbox" id="toggleLockPassword" class="form-check-input">
+                      <label for="toggleLockPassword" class="form-check-label">Show Password</label>
+                  </div>
+              </div>
+          ,
+          confirmButtonText: "Login",
+          allowOutsideClick: false,
+          preConfirm: () => {
+              const username = document.getElementById("lockUsername").value.trim();
+              const password = document.getElementById("lockPassword").value.trim();
 
-    // Function to check login
-    function isLoggedIn() {
-        return localStorage.getItem('sid_token') !== null && localStorage.getItem("username") !== null;
-    }
+              const valid = credentials.some(
+                  (cred) => cred.username === username && cred.password === password
+              );
 
-    // Check if user is already logged in
-    if (localStorage.getItem("username")) {
-        // If user is logged in, hide the login form and show email generation section
-        loginForm.style.display = 'none';
-        alert(`Welcome back, ${localStorage.getItem("username")}!`);
-    }
+              if (!valid) {
+                  Swal.showValidationMessage("Invalid username or password");
+              }
 
-    // Handle login form submission
-    loginForm.addEventListener("submit", (event) => {
-        event.preventDefault(); // Prevent form submission
+              return valid;
+          },
+      }).then((result) => {
+          if (!result.isConfirmed) {
+              lockScreen();
+          }
+      });
 
-        const username = usernameInput.value;
-        const password = passwordInput.value;
+      // Toggle password visibility
+      document.addEventListener("change", (e) => {
+          if (e.target && e.target.id === "toggleLockPassword") {
+              const passwordField = document.getElementById("lockPassword");
+              passwordField.type = e.target.checked ? "text" : "password";
+          }
+      });
 
-        // Check if the entered credentials match any of the predefined ones
-        const validCredentials = credentials.find(
-            (cred) => cred.username === username && cred.password === password
-        );
+      // Add hover effect for the login button
+      document.querySelector('.swal2-confirm').addEventListener('mouseover', () => {
+          document.querySelector('.swal2-confirm').style.backgroundColor = '#4e132d';
+      });
+      document.querySelector('.swal2-confirm').addEventListener('mouseout', () => {
+          document.querySelector('.swal2-confirm').style.backgroundColor = '#ff79c6';
+      });
+  };
 
-        // Perform validation
-        if (!validCredentials) {
-            alert("Invalid username or password. Please try again.");
-            return;
-        }
+  lockScreen();
 
-        // If credentials are valid, store user data
-        alert(`Logged in as ${username}`);
+  // Function to generate email address
+  function generateEmail() {
+      Swal.fire({
+          title: 'Generating Email...',
+          text: 'Please wait while we generate your temporary email.',
+          didOpen: () => Swal.showLoading()
+      });
 
-        // Store user data in session or localStorage
-        localStorage.setItem("username", username);
+      axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
+          .then(response => {
+              const { email, sid_token } = response.data;
+              if (email && sid_token) {
+                  document.getElementById('generatedEmail').value = email;
+                  document.getElementById('emailInput').value = email;
+                  localStorage.setItem('sid_token', sid_token);
+                  startPolling(sid_token);
+                  Swal.fire('Email Generated!', Your email: ${email}, 'success');
+              } else {
+                  Swal.fire('Error', 'Invalid response from server.', 'error');
+              }
+          })
+          .catch(() => Swal.fire('Error', 'Error generating email. Please try again.', 'error'));
+  }
 
-        // Hide the login form and refresh the page
-        loginForm.style.display = 'none';
-        location.reload();
-    });
+  // Function to fetch messages
+  function fetchMessages(sidToken, seq = 0) {
+      axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
+          .then(response => {
+              const mailList = response.data.messages;
+              if (mailList.length > 0) {
+                  displayMessages(mailList, seq);
+              } else {
+                  console.log("[!] No new messages yet. Checking again in 15 seconds...");
+              }
+          })
+          .catch(() => Swal.fire('Error', 'Error fetching messages. Please try again.', 'error'));
+  }
 
-    // Toggle password visibility
-    document.addEventListener("change", (e) => {
-        if (e.target && e.target.id === "toggleLockPassword") {
-            const passwordField = document.getElementById("lockPassword");
-            passwordField.type = e.target.checked ? "text" : "password";
-        }
-    });
+  // Function to display messages
+  function displayMessages(messages, seq) {
+      const inboxContainer = document.getElementById('emailContent');
+      inboxContainer.innerHTML = messages.length === 0 ? '<p>No messages available.</p>' : '';
 
-    // Add hover effect for the login button
-    document.querySelector('.swal2-confirm').addEventListener('mouseover', () => {
-        document.querySelector('.swal2-confirm').style.backgroundColor = '#4e132d';
-    });
-    document.querySelector('.swal2-confirm').addEventListener('mouseout', () => {
-        document.querySelector('.swal2-confirm').style.backgroundColor = '#ff79c6';
-    });
+      messages.forEach(message => {
+          const emailItem = document.createElement('div');
+          emailItem.classList.add('email-item');
+          const sender = message.mail_from || 'Unknown';
+          const displaySender = sender.includes('@') ? sender.split('@')[0] : sender;
 
-    // Function to generate email address
-    function generateEmail() {
-        if (!isLoggedIn()) {
-            return Swal.fire('Error', 'You must log in first to generate a temporary email.', 'error');
-        }
+          emailItem.innerHTML = 
+              <strong>From:</strong> ${displaySender}
+              <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
+              <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
+          ;
+          inboxContainer.appendChild(emailItem);
+      });
 
-        Swal.fire({
-            title: 'Generating Email...',
-            text: 'Please wait while we generate your temporary email.',
-            didOpen: () => Swal.showLoading()
-        });
+      // Apply dark theme styles to email items
+      document.querySelectorAll('.email-item').forEach(item => {
+          item.style.backgroundColor = '#2f1d30';
+          item.style.color = '#ffd1dc';
+          item.style.padding = '10px';
+          item.style.margin = '10px 0';
+          item.style.borderRadius = '8px';
+      });
 
-        axios.post('https://pyeulmail-server-production.up.railway.app/generate_email')
-            .then(response => {
-                const { email, sid_token } = response.data;
-                if (email && sid_token) {
-                    document.getElementById('generatedEmail').value = email;
-                    document.getElementById('emailInput').value = email;
-                    localStorage.setItem('sid_token', sid_token);
-                    startPolling(sid_token);
-                    Swal.fire('Email Generated!', `Your email: ${email}`, 'success');
-                } else {
-                    Swal.fire('Error', 'Invalid response from server.', 'error');
-                }
-            })
-            .catch(() => Swal.fire('Error', 'Error generating email. Please try again.', 'error'));
-    }
+      localStorage.setItem('lastSeq', seq);
+      console.log("Updated seq:", seq);
+  }
 
-    // Function to fetch messages
-    function fetchMessages(sidToken, seq = 0) {
-        if (!isLoggedIn()) {
-            return Swal.fire('Error', 'You must log in first to fetch messages.', 'error');
-        }
+  // Function to view full email content
+  window.viewEmailContent = function(mailId) {
+      const sidToken = localStorage.getItem('sid_token');
+      Swal.fire({
+          title: 'Fetching Email Content...',
+          text: 'Please wait while we retrieve the email content.',
+          didOpen: () => Swal.showLoading()
+      });
 
-        axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
-            .then(response => {
-                const mailList = response.data.messages;
-                if (mailList.length > 0) {
-                    displayMessages(mailList, seq);
-                } else {
-                    console.log("[!] No new messages yet. Checking again in 15 seconds...");
-                }
-            })
-            .catch(() => Swal.fire('Error', 'Error fetching messages. Please try again.', 'error'));
-    }
+      axios.get('https://pyeulmail-server-production.up.railway.app/fetch_email', {
+          params: { mail_id: mailId, sid_token: sidToken }
+      })
+      .then(response => Swal.fire({ title: 'Email Content', text: response.data, icon: 'info' }))
+      .catch(() => Swal.fire('Error', 'Error fetching email content. Please try again.', 'error'));
+  }
 
-    // Function to display messages
-    function displayMessages(messages, seq) {
-        const inboxContainer = document.getElementById('emailContent');
-        inboxContainer.innerHTML = messages.length === 0 ? '<p>No messages available.</p>' : '';
+  // Function to start polling messages
+  function startPolling(sidToken) {
+      if (localStorage.getItem('pollingInterval')) {
+          clearInterval(localStorage.getItem('pollingInterval'));
+      }
+      fetchMessages(sidToken);
+      const intervalId = setInterval(() => fetchMessages(sidToken), 15000);
+      localStorage.setItem('pollingInterval', intervalId);
+  }
 
-        messages.forEach(message => {
-            const emailItem = document.createElement('div');
-            emailItem.classList.add('email-item');
-            const sender = message.mail_from || 'Unknown';
-            const displaySender = sender.includes('@') ? sender.split('@')[0] : sender;
-
-            emailItem.innerHTML = `
-                <strong>From:</strong> ${displaySender}
-                <br><strong>Subject:</strong> ${message.mail_subject || 'No Subject'}
-                <br><button onclick="viewEmailContent('${message.mail_id}')">View</button>
-            `;
-            inboxContainer.appendChild(emailItem);
-        });
-
-        // Apply dark theme styles to email items
-        document.querySelectorAll('.email-item').forEach(item => {
-            item.style.backgroundColor = '#2f1d30';
-            item.style.color = '#ffd1dc';
-            item.style.padding = '10px';
-            item.style.margin = '10px 0';
-            item.style.borderRadius = '8px';
-        });
-
-        localStorage.setItem('lastSeq', seq);
-        console.log("Updated seq:", seq);
-    }
-
-    // Function to view full email content
-    window.viewEmailContent = function(mailId) {
-        if (!isLoggedIn()) {
-            return Swal.fire('Error', 'You must log in first to view email content.', 'error');
-        }
-
-        const sidToken = localStorage.getItem('sid_token');
-        Swal.fire({
-            title: 'Fetching Email Content...',
-            text: 'Please wait while we retrieve the email content.',
-            didOpen: () => Swal.showLoading()
-        });
-
-        axios.get('https://pyeulmail-server-production.up.railway.app/fetch_email', {
-            params: { mail_id: mailId, sid_token: sidToken }
-        })
-        .then(response => Swal.fire({ title: 'Email Content', text: response.data, icon: 'info' }))
-        .catch(() => Swal.fire('Error', 'Error fetching email content. Please try again.', 'error'));
-    }
-
-    // Function to start polling messages
-    function startPolling(sidToken) {
-        if (!isLoggedIn()) {
-            return Swal.fire('Error', 'You must log in first to start polling.', 'error');
-        }
-
-        if (localStorage.getItem('pollingInterval')) {
-            clearInterval(localStorage.getItem('pollingInterval'));
-        }
-        fetchMessages(sidToken);
-        const intervalId = setInterval(() => fetchMessages(sidToken), 15000);
-        localStorage.setItem('pollingInterval', intervalId);
-    }
-
-    // Initialize event listeners
-    generateEmailBtn.addEventListener('click', generateEmail);
-    checkInboxBtn.addEventListener('click', () => {
-        const sidToken = localStorage.getItem('sid_token');
-        sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
-    });
-
-});
+  // Initialize event listeners
+  document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
+  document.getElementById('checkBtn').addEventListener('click', () => {
+      const sidToken = localStorage.getItem('sid_token');
+      sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
+  });
