@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-            /* General page styling */
+       /* General page styling */
 body {
     background-color: #2e1d2f;
     color: #4c123f;
@@ -23,6 +23,63 @@ body {
     min-height: 100vh;
 }
 
+/* Navbar styling */
+.navbar {
+    background: linear-gradient(90deg, #8b1c61, #5a1c3b);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 0.8rem 1.5rem;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.8rem;
+    background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-pink 6s ease infinite;
+}
+
+.navbar-nav .nav-link {
+    color: #f8d2e2 !important;
+    font-weight: bold;
+    margin: 0 12px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff9fd6 !important;
+    transform: scale(1.1);
+}
+
+/* Hero section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(180deg, rgba(46, 29, 47, 0.95), rgba(32, 21, 34, 0.95));
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    margin-top: 1rem;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ff79c6, #ff9fd6, #ff6fae, #ff79c6);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-pink 6s ease infinite;
+    text-shadow: 0 0 15px rgba(255, 121, 198, 0.6), 0 0 30px rgba(255, 111, 174, 0.6);
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
 /* Updated styling for the email form container */
 #generate {
     background: #4a284b;
@@ -30,6 +87,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
     color: #ffd1dc;
+    margin-top: 2rem;
 }
 
 .card {
@@ -81,6 +139,55 @@ body {
 
 .inbox-container h5 {
     color: #691438;
+}
+
+/* Features section */
+.features {
+    background: #4a284b;
+    padding: 40px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    margin-top: 2rem;
+}
+
+.feature-card {
+    background: #5b2b5f;
+    color: #ffd1dc;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.feature-card h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    font-size: 1rem;
+}
+
+/* Footer styling */
+.footer {
+    background: linear-gradient(90deg, #5a1c3b, #8b1c61);
+    color: #f8d2e2;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #5a3a5a;
+    margin-top: 2rem;
+}
+
+.footer a {
+    color: #ff79c6;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #ff6fae;
 }
 
     </style>
