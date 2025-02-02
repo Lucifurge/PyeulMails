@@ -10,6 +10,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const bgUploader = document.getElementById("bgUploader");
     const inboxContainer = document.getElementById('emailContent');
 
+    // Predefined credentials
+    const credentials = [
+        { username: "mariz", password: "mariz2006" },
+        { username: "lucifurge", password: "09100909" },
+        { username: "asherfinn", password: "asher00" }
+    ];
+
+    // Function to check login
+    function isLoggedIn() {
+        return localStorage.getItem('sid_token') !== null && localStorage.getItem("username") !== null;
+    }
+
     // Check if user is already logged in
     if (localStorage.getItem("username")) {
         // If user is logged in, hide the login form and show email generation section
@@ -24,13 +36,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const username = usernameInput.value;
         const password = passwordInput.value;
 
-        // Perform validation (this can be more advanced depending on your backend)
-        if (!username || !password) {
-            alert("Please fill in both fields.");
+        // Check if the entered credentials match any of the predefined ones
+        const validCredentials = credentials.find(
+            (cred) => cred.username === username && cred.password === password
+        );
+
+        // Perform validation
+        if (!validCredentials) {
+            alert("Invalid username or password. Please try again.");
             return;
         }
 
-        // Simulate a successful login (replace with your API call for real authentication)
+        // If credentials are valid, store user data
         alert(`Logged in as ${username}`);
 
         // Store user data in session or localStorage
@@ -43,6 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to generate email address
     function generateEmail() {
+        if (!isLoggedIn()) {
+            return Swal.fire('Error', 'You must log in first to generate a temporary email.', 'error');
+        }
+
         Swal.fire({
             title: 'Generating Email...',
             text: 'Please wait while we generate your temporary email.',
@@ -67,6 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to fetch messages
     function fetchMessages(sidToken, seq = 0) {
+        if (!isLoggedIn()) {
+            return Swal.fire('Error', 'You must log in first to fetch messages.', 'error');
+        }
+
         axios.post('https://pyeulmail-server-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
             .then(response => {
                 const mailList = response.data.messages;
@@ -81,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to display messages
     function displayMessages(messages, seq) {
+        const inboxContainer = document.getElementById('emailContent');
         inboxContainer.innerHTML = messages.length === 0 ? '<p>No messages available.</p>' : '';
 
         messages.forEach(message => {
@@ -97,12 +123,25 @@ document.addEventListener("DOMContentLoaded", () => {
             inboxContainer.appendChild(emailItem);
         });
 
+        // Apply dark theme styles to email items
+        document.querySelectorAll('.email-item').forEach(item => {
+            item.style.backgroundColor = '#2f1d30';
+            item.style.color = '#ffd1dc';
+            item.style.padding = '10px';
+            item.style.margin = '10px 0';
+            item.style.borderRadius = '8px';
+        });
+
         localStorage.setItem('lastSeq', seq);
         console.log("Updated seq:", seq);
     }
 
     // Function to view full email content
     window.viewEmailContent = function(mailId) {
+        if (!isLoggedIn()) {
+            return Swal.fire('Error', 'You must log in first to view email content.', 'error');
+        }
+
         const sidToken = localStorage.getItem('sid_token');
         Swal.fire({
             title: 'Fetching Email Content...',
@@ -119,6 +158,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to start polling messages
     function startPolling(sidToken) {
+        if (!isLoggedIn()) {
+            return Swal.fire('Error', 'You must log in first to start polling.', 'error');
+        }
+
         if (localStorage.getItem('pollingInterval')) {
             clearInterval(localStorage.getItem('pollingInterval'));
         }
@@ -128,33 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Initialize event listeners
-    document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
-    document.getElementById('checkBtn').addEventListener('click', () => {
+    generateEmailBtn.addEventListener('click', generateEmail);
+    checkInboxBtn.addEventListener('click', () => {
         const sidToken = localStorage.getItem('sid_token');
         sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
     });
 
-    // ** New Feature: Background image change functionality **
-    bgUploader.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function () {
-            document.body.style.backgroundImage = `url(${reader.result})`;
-        };
-        reader.readAsDataURL(file);
-    });
-
-    // ** New Feature: Change background color of inbox message when hovered **
-    inboxContainer.addEventListener('mouseover', function (e) {
-        if (e.target && e.target.classList.contains('email-item')) {
-            e.target.style.backgroundColor = '#f0f0f0';  // Highlight the email item
-        }
-    });
-
-    inboxContainer.addEventListener('mouseout', function (e) {
-        if (e.target && e.target.classList.contains('email-item')) {
-            e.target.style.backgroundColor = '';  // Remove highlight
-        }
-    });
-
-}); // End of DOMContentLoaded
+});
