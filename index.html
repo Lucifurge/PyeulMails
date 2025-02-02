@@ -318,23 +318,21 @@
         <a href="#generate" class="btn btn-primary">Get Started</a>
     </header>
 
-    <!-- Temporary Email Form -->
+    <!-- Login Form -->
     <section id="generate" class="container">
         <div class="card">
-            <h4 class="text-center">Generate Temporary Email</h4>
-            <div class="mb-3">
-                <label for="generatedEmail" class="form-label">Temporary Email Address</label>
-                <input type="text" id="generatedEmail" class="form-control" readonly>
-            </div>
-            <button id="generateEmailBtn" class="btn btn-primary w-100">Generate Email</button>
-        </div>
-        <div class="card mt-4">
-            <h4 class="text-center">Check Inbox</h4>
-            <div class="mb-3">
-                <input type="text" id="emailInput" class="form-control" placeholder="Enter your email to check inbox">
-            </div>
-            <button id="checkBtn" class="btn btn-secondary w-100">Check Inbox</button>
-            <div id="emailContent" class="mt-3"></div>
+            <h4 class="text-center">Login</h4>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
         </div>
     </section>
 
@@ -343,6 +341,7 @@
         <p>&copy; 2025 Pyeulmails. All Rights Reserved.</p>
         <p>Made with 💖 by The Husband of Pyeul lihm</p>
     </footer>
+ <script type="module" src="index.js"></script>
 </body>
 
 </html>
