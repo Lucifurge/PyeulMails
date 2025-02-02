@@ -29,36 +29,55 @@ body {
     scroll-behavior: smooth;
 }
 
-/* Navbar styling */
-.navbar {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
-    padding: 1.5rem 1.5rem;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
 
-.navbar-brand {
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 2rem;
-    color: white;
-    transition: color 0.3s ease;
-}
+        /* Navbar styling */
+        .navbar {
+            background: linear-gradient(45deg, #ff66b2, #ff3399);
+            padding: 1.5rem 1.5rem;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
 
-.navbar-brand:hover {
-    color: #ffe6f1;
-}
+        .navbar-brand {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 2rem;
+            color: white;
+            transition: color 0.3s ease;
+        }
 
-.navbar-nav .nav-link {
-    color: #ffe6f1 !important;
-    font-weight: bold;
-    margin: 0 12px;
-    transition: color 0.3s ease;
-}
+        .navbar-brand:hover {
+            color: #ffe6f1;
+        }
 
-.navbar-nav .nav-link:hover {
-    color: #ff66b2 !important;
-}
+        .navbar-nav .nav-link {
+            color: #ffe6f1 !important;
+            font-weight: bold;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ff66b2 !important;
+        }
+
+        /* Enhanced button in navbar */
+        .nav-item label.btn {
+            background: linear-gradient(45deg, #ff66b2, #ff3399);
+            color: white;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            display: inline-block;
+        }
+
+        .nav-item label.btn:hover {
+            background: linear-gradient(45deg, #ff3399, #ff66b2);
+            transform: scale(1.05);
+        }
 
 /* Hero section */
 .hero {
@@ -203,7 +222,7 @@ body {
     <!-- Floating Heart -->
     <div class="heart"></div>
 
-    <!-- Navbar -->
+       <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Pyeulmails</a>
@@ -215,9 +234,8 @@ body {
                     <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
                     <li class="nav-item">
-                        <label class="upload-btn">Change Background
-                            <input type="file" id="bgUploader" class="file-input" accept="image/*" style="display: none;">
-                        </label>
+                        <label for="bgUploader" class="btn">🌆 Change Background</label>
+                        <input type="file" id="bgUploader" class="file-input" accept="image/*" style="display: none;">
                     </li>
                 </ul>
             </div>
