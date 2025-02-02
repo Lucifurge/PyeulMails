@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => { 
     // Lock feature: Prompt for username and password
     const lockScreen = () => {
         const credentials = [
@@ -37,13 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (!valid) {
                     Swal.showValidationMessage("Invalid username or password");
+                    return false;  // Prevent proceeding if invalid
                 }
 
-                return valid;
+                return true;  // Allow proceeding if valid
             },
         }).then((result) => {
             if (!result.isConfirmed) {
-                lockScreen();
+                lockScreen();  // Lock again if the user clicks "Cancel" or enters invalid credentials
             }
         });
 
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    lockScreen();
+    lockScreen();  // Call lockScreen function when the page loads
 
     // Function to generate email address
     function generateEmail() {
