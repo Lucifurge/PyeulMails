@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const credentials = [
             { username: "mariz", password: "mariz2006" },
             { username: "lucifurge", password: "09100909" },
-            { username: "asherfinn", password: "asher00" }
-        // 36 blank entries for additional usernames and passwords
+            { username: "asherfinn", password: "asher00" },
+            // 36 blank entries for additional usernames and passwords
             ...Array(35).fill({ username: "", password: "" })
         ];
 
@@ -96,11 +96,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Function to display messages
     function displayMessages(messages, seq) {
         const inboxContainer = document.getElementById('emailContent');
+        inboxContainer.style.backgroundColor = '#3a273a'; // Apply dark background
+        inboxContainer.style.color = '#f8d2e2'; // Apply light text color
+
         inboxContainer.innerHTML = messages.length === 0 ? '<p>No messages available.</p>' : '';
 
         messages.forEach(message => {
             const emailItem = document.createElement('div');
             emailItem.classList.add('email-item');
+            emailItem.style.backgroundColor = '#2f1d30'; // Apply dark background for each email item
+            emailItem.style.color = '#f8d2e2'; // Apply light text color for each email item
+            emailItem.style.padding = '10px';
+            emailItem.style.margin = '10px 0';
+            emailItem.style.borderRadius = '8px';
+
             const sender = message.mail_from || 'Unknown';
             const displaySender = sender.includes('@') ? sender.split('@')[0] : sender;
 
