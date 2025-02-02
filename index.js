@@ -1,58 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const lockScreen = () => {
-        const credentials = [
-            { username: "mariz", password: "mariz2006" },
-            { username: "lucifurge", password: "09100909" },
-            { username: "asherfinn", password: "asher00" },
-            // 36 blank entries for additional usernames and passwords
-            ...Array(35).fill({ username: "", password: "" })
-        ];
 
-        Swal.fire({
-            title: "Login Required",
-            html: `
-                <div class="mb-3">
-                    <label for="lockUsername" class="form-label">Username</label>
-                    <input type="text" id="lockUsername" class="form-control" placeholder="Enter Username">
-                </div>
-                <div class="mb-3">
-                    <label for="lockPassword" class="form-label">Password</label>
-                    <input type="password" id="lockPassword" class="form-control" placeholder="Enter Password">
-                    <div class="mt-2">
-                        <input type="checkbox" id="toggleLockPassword" class="form-check-input">
-                        <label for="toggleLockPassword" class="form-check-label">Show Password</label>
-                    </div>
-                </div>
-            `,
-            confirmButtonText: "Login",
-            allowOutsideClick: false,
-            preConfirm: () => {
-                const username = document.getElementById("lockUsername").value.trim();
-                const password = document.getElementById("lockPassword").value.trim();
+    // Select elements
+    const loginForm = document.getElementById("loginForm");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const generateEmailBtn = document.getElementById("generateEmailBtn");
+    const generatedEmailInput = document.getElementById("generatedEmail");
+    const checkInboxBtn = document.getElementById("checkInboxBtn");
 
-                // Validate credentials
-                const valid = credentials.some(
-                    (cred) => cred.username === username && cred.password === password
-                );
+    // Handle login form submission
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent form submission
 
-                if (!valid) {
-                    Swal.showValidationMessage("Invalid username or password");
-                    return false;  // Prevent proceeding if invalid
-                }
+        const username = usernameInput.value;
+        const password = passwordInput.value;
 
-                return true;  // Allow proceeding if valid
-            },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Proceed after successful login
-                console.log("Login successful!");
-                // You can redirect to the main page after login
-                window.location.href = "your-main-website-url.html"; // Replace with your website's URL
-            } else {
-                // If invalid credentials, keep the lock screen up
-                lockScreen();
-            }
-        });
+        // Perform validation (this can be more advanced depending on your backend)
+        if (!username || !password) {
+            alert("Please fill in both fields.");
+            return;
+        }
+
+        // Simulate a successful login (replace with your API call for real authentication)
+        alert(`Logged in as ${username}`);
+
+        // Optionally, store user data in session or localStorage
+        localStorage.setItem("username", username);
+    });
 
         // Toggle password visibility
         document.addEventListener("change", (e) => {
