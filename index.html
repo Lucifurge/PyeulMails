@@ -294,10 +294,40 @@ body {
         </div>
     </section>
 
+
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Pyeulmails. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
     </footer>
 </body>
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Invoke the lock screen on page load
+            lockScreen();
+        });
 
+        const bgUploader = document.getElementById("bgUploader");
+
+        bgUploader.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    document.body.style.backgroundImage = `url('${e.target.result}')`;
+                    document.body.style.backgroundSize = "cover";
+                    document.body.style.backgroundRepeat = "no-repeat";
+                    document.body.style.backgroundAttachment = "fixed";
+                };
+
+                reader.onerror = () => {
+                    alert("Failed to load the image. Please try again with a valid image.");
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                alert("No file selected. Please select an image.");
+            }
+        });
+    </script>
 </html>
