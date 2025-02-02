@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => { 
+document.addEventListener("DOMContentLoaded", () => {
     // Lock feature: Prompt for username and password
     const lockScreen = () => {
         const credentials = [
@@ -44,8 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 return true;  // Allow proceeding if valid
             },
         }).then((result) => {
-            if (!result.isConfirmed) {
-                lockScreen();  // Lock again if the user clicks "Cancel" or enters invalid credentials
+            if (result.isConfirmed) {
+                // Proceed after successful login
+                console.log("Login successful!");
+            } else {
+                // If invalid credentials, keep the lock screen up
+                lockScreen();
             }
         });
 
