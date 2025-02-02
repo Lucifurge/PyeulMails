@@ -154,4 +154,28 @@ document.addEventListener("DOMContentLoaded", () => {
         sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
     });
 
-});
+    // ** New Feature: Background image change functionality **
+    document.getElementById("bgUploader").addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+            document.body.style.backgroundImage = `url(${reader.result})`;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // ** New Feature: Change background color of inbox message when hovered **
+    const inboxContainer = document.getElementById('emailContent');
+    inboxContainer.addEventListener('mouseover', function (e) {
+        if (e.target && e.target.classList.contains('email-item')) {
+            e.target.style.backgroundColor = '#f0f0f0';  // Highlight the email item
+        }
+    });
+
+    inboxContainer.addEventListener('mouseout', function (e) {
+        if (e.target && e.target.classList.contains('email-item')) {
+            e.target.style.backgroundColor = '';  // Remove highlight
+        }
+    });
+
+}); // End of DOMContentLoaded
