@@ -355,33 +355,44 @@ body {
     </footer>
 </body>
 <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Invoke the lock screen on page load
-            lockScreen();
-        });
+      document.addEventListener("DOMContentLoaded", () => {
+    // Ensure lockScreen is defined before calling
+    if (typeof lockScreen === "function") {
+        lockScreen();
+    } else {
+        console.error("Error: lockScreen function is not defined.");
+    }
+});
 
-        const bgUploader = document.getElementById("bgUploader");
+const bgUploader = document.getElementById("bgUploader");
 
-        bgUploader.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
+bgUploader.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
 
-                reader.onload = (e) => {
-                    document.body.style.backgroundImage = `url('${e.target.result}')`;
-                    document.body.style.backgroundSize = "cover";
-                    document.body.style.backgroundRepeat = "no-repeat";
-                    document.body.style.backgroundAttachment = "fixed";
-                };
+        reader.onload = (e) => {
+            document.body.style.backgroundImage = `url('${e.target.result}')`;
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundRepeat = "no-repeat";
+            document.body.style.backgroundAttachment = "fixed";
+        };
 
-                reader.onerror = () => {
-                    alert("Failed to load the image. Please try again with a valid image.");
-                };
+        reader.onerror = () => {
+            alert("Failed to load the image. Please try again with a valid image.");
+        };
 
-                reader.readAsDataURL(file);
-            } else {
-                alert("No file selected. Please select an image.");
-            }
-        });
+        reader.readAsDataURL(file);
+    } else {
+        alert("No file selected. Please select an image.");
+    }
+});
+
+// Define the lockScreen function
+function lockScreen() {
+    console.log("Screen is locked.");
+    // Add actual lock screen logic here
+}
+
     </script>
 </html>
