@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
     // Lock feature: Prompt for username and password
     const lockScreen = () => {
@@ -69,33 +71,31 @@ document.addEventListener("DOMContentLoaded", () => {
     lockScreen();  // Call lockScreen function when the page loads
 
     // Function to generate email address
-    (function() {
+    function generateEmail() {
         Swal.fire({
             title: 'Generating Email...',
             text: 'Please wait while we generate your temporary email.',
             didOpen: () => Swal.showLoading()
         });
 
-        (function() {
-            axios.post('https://pyeulmail-serverapi-production.up.railway.app/generate_email')
-                .then(response => {
-                    const { email, sid_token } = response.data;
-                    if (email && sid_token) {
-                        document.getElementById('generatedEmail').value = email;
-                        document.getElementById('emailInput').value = email;
-                        localStorage.setItem('sid_token', sid_token);
-                        startPolling(sid_token);
-                        Swal.fire('Email Generated!', `Your email: ${email}`, 'success');
-                    } else {
-                        Swal.fire('Error', 'Invalid response from server.', 'error');
-                    }
-                })
-                .catch(() => Swal.fire('Error', 'Error generating email. Please try again.', 'error'));
-        })();
-    })();
+        axios.post('https://pyeulmail-serverapi-production.up.railway.app/generate_email')
+            .then(response => {
+                const { email, sid_token } = response.data;
+                if (email && sid_token) {
+                    document.getElementById('generatedEmail').value = email;
+                    document.getElementById('emailInput').value = email;
+                    localStorage.setItem('sid_token', sid_token);
+                    startPolling(sid_token);
+                    Swal.fire('Email Generated!', `Your email: ${email}`, 'success');
+                } else {
+                    Swal.fire('Error', 'Invalid response from server.', 'error');
+                }
+            })
+            .catch(() => Swal.fire('Error', 'Error generating email. Please try again.', 'error'));
+    }
 
     // Function to fetch messages
-    (function(sidToken, seq = 0) {
+    function fetchMessages(sidToken, seq = 0) {
         axios.post('https://pyeulmail-serverapi-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
             .then(response => {
                 const mailList = response.data.messages;
@@ -106,10 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             })
             .catch(() => Swal.fire('Error', 'Error fetching messages. Please try again.', 'error'));
-    })(localStorage.getItem('sid_token'));
+    }
 
     // Function to display messages
-    (function(messages, seq) {
+    function displayMessages(messages, seq) {
         const inboxContainer = document.getElementById('emailContent');
         inboxContainer.innerHTML = messages.length === 0 ? '<p>No messages available.</p>' : '';
 
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         localStorage.setItem('lastSeq', seq);
         console.log("Updated seq:", seq);
-    })([ /* Some Dummy Messages */ ], 0);
+    }
 
     // Function to view full email content
     window.viewEmailContent = function(mailId) {
@@ -140,24 +140,22 @@ document.addEventListener("DOMContentLoaded", () => {
             didOpen: () => Swal.showLoading()
         });
 
-        (function() {
-            axios.get('https://pyeulmail-serverapi-production.up.railway.app/fetch_email', {
-                params: { mail_id: mailId, sid_token: sidToken }
-            })
-            .then(response => Swal.fire({ title: 'Email Content', text: response.data, icon: 'info' }))
-            .catch(() => Swal.fire('Error', 'Error fetching email content. Please try again.', 'error'));
-        })();
+        axios.get('https://pyeulmail-serverapi-production.up.railway.app/fetch_email', {
+            params: { mail_id: mailId, sid_token: sidToken }
+        })
+        .then(response => Swal.fire({ title: 'Email Content', text: response.data, icon: 'info' }))
+        .catch(() => Swal.fire('Error', 'Error fetching email content. Please try again.', 'error'));
     }
 
     // Function to start polling messages
-    (function(sidToken) {
+    function startPolling(sidToken) {
         if (localStorage.getItem('pollingInterval')) {
             clearInterval(localStorage.getItem('pollingInterval'));
         }
         fetchMessages(sidToken);
         const intervalId = setInterval(() => fetchMessages(sidToken), 15000);
         localStorage.setItem('pollingInterval', intervalId);
-    })(localStorage.getItem('sid_token'));
+    }
 
     // Initialize event listeners
     document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
@@ -167,20 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ** New Feature: Background image change functionality **
-    (function() {
-        document.getElementById("bgUploader").addEventListener("change", function (e) {
-            const file = e.target.files[0];
-            if (file && file.type.startsWith("image/")) {  // Ensure it's an image
-                const reader = new FileReader();
-                reader.onload = function () {
-                    document.body.style.backgroundImage = `url(${reader.result})`;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                Swal.fire('Error', 'Please upload a valid image file.', 'error');
-            }
-        });
-    })();
+    document.getElementById("bgUploader").addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith("image/")) {  // Ensure it's an image
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.body.style.backgroundImage = `url(${reader.result})`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            Swal.fire('Error', 'Please upload a valid image file.', 'error');
+        }
+    });
 
     // ** New Feature: Change background color of inbox message when hovered **
     const inboxContainer = document.getElementById('emailContent');
