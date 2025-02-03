@@ -355,15 +355,6 @@ body {
     </footer>
 </body>
 <script>
-      document.addEventListener("DOMContentLoaded", () => {
-    // Ensure lockScreen is defined before calling
-    if (typeof lockScreen === "function") {
-        lockScreen();
-    } else {
-        console.error("Error: lockScreen function is not defined.");
-    }
-});
-
 const bgUploader = document.getElementById("bgUploader");
 
 bgUploader.addEventListener("change", (event) => {
@@ -387,12 +378,5 @@ bgUploader.addEventListener("change", (event) => {
         alert("No file selected. Please select an image.");
     }
 });
-
-// Define the lockScreen function
-function lockScreen() {
-    console.log("Screen is locked.");
-    // Add actual lock screen logic here
-}
-
     </script>
 </html>
