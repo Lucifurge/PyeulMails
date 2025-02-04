@@ -13,22 +13,21 @@
     <script type="module" src="design.js"></script>
     <style>
         /* General page styling */
-body {
-    background-color: #fce5f2;
-    color: #3f3d56;
-    font-family: "Quicksand", sans-serif;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-    transition: background 0.5s ease-in-out;
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
-}
-
+        body {
+            background-color: #fce5f2;
+            color: #3f3d56;
+            font-family: "Quicksand", sans-serif;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: background 0.5s ease-in-out;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
 
         /* Navbar styling */
         .navbar {
@@ -79,169 +78,225 @@ body {
             transform: scale(1.05);
         }
 
-/* Hero section */
-.hero {
-    text-align: center;
-    padding: 150px 20px;
-    background: #ff66b2;
-    border-radius: 25px;
-    color: white;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1;
-    animation: heroAnimation 4s ease-out infinite alternate;
-}
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 150px 20px;
+            background: #ff66b2;
+            border-radius: 25px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            animation: heroAnimation 4s ease-out infinite alternate;
+        }
 
-@keyframes heroAnimation {
-    0% {
-        background-color: #ff66b2;
-        transform: scale(1);
-    }
+        @keyframes heroAnimation {
+            0% {
+                background-color: #ff66b2;
+                transform: scale(1);
+            }
 
-    50% {
-        background-color: #ff3399;
-        transform: scale(1.05);
-    }
+            50% {
+                background-color: #ff3399;
+                transform: scale(1.05);
+            }
 
-    100% {
-        background-color: #ff66b2;
-        transform: scale(1);
-    }
-}
+            100% {
+                background-color: #ff66b2;
+                transform: scale(1);
+            }
+        }
 
-.hero h1 {
-    font-size: 4.5rem;
-    font-weight: bold;
-    animation: rainbow-pink 6s ease infinite;
-    text-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
-}
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: bold;
+            animation: rainbow-pink 6s ease infinite;
+            text-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
+        }
 
-.hero p {
-    font-size: 1.6rem;
-    margin-top: 20px;
-    letter-spacing: 1px;
-}
+        .hero p {
+            font-size: 1.6rem;
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
 
-/* Button styling */
-.btn-primary {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
-    color: white;
-    font-size: 1.3rem;
-    font-weight: bold;
-    border-radius: 25px;
-    padding: 14px 28px;
-    transition: all 0.4s ease-in-out;
-    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-    position: relative;
-    overflow: hidden;
-}
+        /* Button styling */
+        .btn-primary {
+            background: linear-gradient(45deg, #ff66b2, #ff3399);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 25px;
+            padding: 14px 28px;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
 
-.btn-primary::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 70%);
-    transform: scale(0);
-    transition: transform 0.4s ease-out;
-}
+        .btn-primary::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.4s ease-out;
+        }
 
-.btn-primary:hover::before {
-    transform: scale(1);
-}
+        .btn-primary:hover::before {
+            transform: scale(1);
+        }
 
-.btn-primary:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 51, 153, 0.8);
-}
+        .btn-primary:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 51, 153, 0.8);
+        }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(255, 51, 153, 0.8);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-    }
-}
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+            }
 
-.btn-primary {
-    animation: pulse 2s infinite;
-}
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(255, 51, 153, 0.8);
+            }
 
-/* Footer styling */
-.footer {
-    background: #ff66b2;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    border-top: 2px solid #ff3399;
-    margin-top: 3rem;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
-}
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+            }
+        }
 
-.footer a {
-    color: #ffe6f1;
-    margin: 0 15px;
-    transition: color 0.3s ease;
-}
+        .btn-primary {
+            animation: pulse 2s infinite;
+        }
 
-.footer a:hover {
-    color: #ff3399;
-}
+        /* Footer styling */
+        .footer {
+            background: #ff66b2;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #ff3399;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+        }
 
-/* Features Section */
-.features {
-    background: #fff;
-    padding: 60px 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    margin-top: 3rem;
-    animation: fadeIn 2s ease;
-}
+        .footer a {
+            color: #ffe6f1;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+        .footer a:hover {
+            color: #ff3399;
+        }
 
-    100% {
-        opacity: 1;
-    }
-}
+        /* Features Section */
+        .features {
+            background: #fff;
+            padding: 60px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+            animation: fadeIn 2s ease;
+        }
 
-.feature-card {
-    background: #ffebf1;
-    color: #ff66b2;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 3rem;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
 
-.feature-card:hover {
-    transform: scale(1.05);
-}
+            100% {
+                opacity: 1;
+            }
+        }
 
-.feature-card h4 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
+        .feature-card {
+            background: #ffebf1;
+            color: #ff66b2;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
 
-.feature-card p {
-    font-size: 1.2rem;
-}
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
 
+        .feature-card h4 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            font-size: 1.2rem;
+        }
+
+        /* About Section */
+        .about {
+            background-color: #ffebf1;
+            padding: 50px 20px;
+            border-radius: 15px;
+            margin-top: 3rem;
+        }
+
+        .about h2 {
+            color: #ff3399;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .about p {
+            font-size: 1.2rem;
+            color: #3f3d56;
+            margin-top: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: #fff;
+            padding: 60px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #ff3399;
+            margin-bottom: 40px;
+        }
+
+        .testimonial-card {
+            background: #ffebf1;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-card p {
+            font-size: 1.2rem;
+            color: #3f3d56;
+        }
+
+        .testimonial-card h5 {
+            color: #ff3399;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -249,36 +304,83 @@ body {
     <!-- Floating Heart -->
     <div class="heart"></div>
 
-     <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Pyeulmails</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://mega.nz/file/22Ij1CCT#F6lxbT02K82rywv9IWRmD2h0x4UL1vivxUsP_DP1D7Q" target="_blank">📱 Mobile App</a></li>
-                <li class="nav-item">
-                    <label for="bgUploader" class="btn">🌆 Change Background</label>
-                    <input type="file" id="bgUploader" class="file-input" accept="image/*" style="display: none;">
-                </li>
-            </ul>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pyeulmails</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://mega.nz/file/22Ij1CCT#F6lxbT02K82rywv9IWRmD2h0x4UL1vivxUsP_DP1D7Q" target="_blank">📱 Mobile App</a></li>
+                    <li class="nav-item">
+                        <label for="bgUploader" class="btn">🌆 Change Background</label>
+                        <input type="file" id="bgUploader" style="display: none;" />
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-
+    </nav>
 
     <!-- Hero Section -->
-    <header class="hero">
+    <section class="hero">
         <h1>Pyeulmails</h1>
-        <p>Effortlessly generate temporary emails for enhanced privacy!</p>
+        <p>Instant Email Creation & Management for Your Needs</p>
         <a href="#generate" class="btn btn-primary">Get Started</a>
-    </header>
+    </section>
 
-   
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <h4>Email Generation</h4>
+                        <p>Generate disposable emails to maintain privacy.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <h4>Email Checking</h4>
+                        <p>Check messages for OTP and more.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <h4>Fast Access</h4>
+                        <p>Quick access to your generated emails.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Pyeulmails</h2>
+            <p>Pyeulmails offers an easy-to-use platform for generating temporary email addresses. Whether you need to avoid spam, maintain privacy, or access special services, Pyeulmails is your go-to tool for email management.</p>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-card">
+                <p>"Pyeulmails has been a game-changer for my privacy. It's fast and reliable!"</p>
+                <h5>John Doe</h5>
+            </div>
+            <div class="testimonial-card">
+                <p>"This is the best email service I've used for avoiding spam. Highly recommended!"</p>
+                <h5>Jane Smith</h5>
+            </div>
+        </div>
+    </section>
+       
 <!-- Temporary Email Form -->
 <section id="generate" class="container mt-5">
     <div class="card p-4 rounded-4 shadow-lg" style="background: rgba(255, 102, 178, 0.1); border: 2px solid #ff66b2;">
@@ -325,60 +427,37 @@ body {
         </div>
     </div>
 </section>
-    <!-- Features Section -->
-    <section id="features" class="features container">
-        <h2 class="text-center">Why Use Pyeulmails?</h2>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <h4>Privacy</h4>
-                    <p>Keep your real email address private and secure with temporary emails.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <h4>Ease of Use</h4>
-                    <p>Quickly generate a temporary email with just one click!</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <h4>Free</h4>
-                    <p>Our service is completely free, with no hidden costs!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Footer -->
+    <!-- Feature Footer -->
     <footer class="footer">
-        <p>&copy; 2025 Pyeulmails. All Rights Reserved Made By The Husband of Pyeul Lihm. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <div class="container">
+            <p>&copy; 2025 Pyeulmails. All Rights Reserved.</p>
+            <a href="#about">About Us</a> | <a href="https://twitter.com/pyeulmails">Twitter</a> | <a href="#features">Features</a>
+        </div>
     </footer>
-</body>
-<script>
-const bgUploader = document.getElementById("bgUploader");
 
-bgUploader.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            document.body.style.backgroundImage = `url('${e.target.result}')`;
-            document.body.style.backgroundSize = "cover";
-            document.body.style.backgroundRepeat = "no-repeat";
-            document.body.style.backgroundAttachment = "fixed";
-        };
-
-        reader.onerror = () => {
-            alert("Failed to load the image. Please try again with a valid image.");
-        };
-
-        reader.readAsDataURL(file);
-    } else {
-        alert("No file selected. Please select an image.");
-    }
-});
-    </script>
-</html>
+    <script>
+        const bgUploader = document.getElementById("bgUploader");
+        
+        bgUploader.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+        
+                reader.onload = (e) => {
+                    document.body.style.backgroundImage = `url('${e.target.result}')`;
+                    document.body.style.backgroundSize = "cover";
+                    document.body.style.backgroundRepeat = "no-repeat";
+                    document.body.style.backgroundAttachment = "fixed";
+                };
+        
+                reader.onerror = () => {
+                    alert("Failed to load the image. Please try again with a valid image.");
+                };
+        
+                reader.readAsDataURL(file);
+            } else {
+                alert("No file selected. Please select an image.");
+            }
+        });
+            </script>
+        </html>
