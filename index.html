@@ -297,6 +297,66 @@
             font-weight: bold;
             margin-top: 10px;
         }
+        /* Floating Arrows Animation */
+.arrow {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: white;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+/* Floating Hearts Animation */
+@keyframes floatingHearts {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-50px) scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) scale(0.5);
+        opacity: 0;
+    }
+}
+
+.floating-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    color: pink;
+    animation: floatingHearts 3s infinite;
+}
+
+/* Rotating Star Animation */
+@keyframes rotateStar {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating-star {
+    position: absolute;
+    font-size: 1.5rem;
+    color: yellow;
+    animation: rotateStar 3s linear infinite;
+}
+
     </style>
 </head>
 
@@ -331,6 +391,17 @@
         <p>Instant Email Creation & Management for Your Needs</p>
         <a href="#generate" class="btn btn-primary">Get Started</a>
     </section>
+<!-- Animated Arrow -->
+<div class="arrow">↓</div>
+
+<!-- Floating Hearts -->
+<div class="floating-heart" style="top: 50px; left: 30px;">❤️</div>
+<div class="floating-heart" style="top: 100px; left: 80px;">💖</div>
+<div class="floating-heart" style="top: 150px; left: 130px;">💗</div>
+
+<!-- Rotating Stars -->
+<div class="rotating-star" style="top: 40px; right: 40px;">⭐</div>
+<div class="rotating-star" style="top: 90px; right: 80px;">🌟</div>
 
     <!-- Features Section -->
     <section id="features" class="features">
@@ -365,7 +436,52 @@
             <p>Pyeulmails offers an easy-to-use platform for generating temporary email addresses. Whether you need to avoid spam, maintain privacy, or access special services, Pyeulmails is your go-to tool for email management.</p>
         </div>
     </section>
+<!-- Temporary Email Form -->
+<section id="generate" class="container mt-5">
+    <div class="card p-4 rounded-4 shadow-lg" style="background: rgba(255, 102, 178, 0.1); border: 2px solid #ff66b2;">
+        <h4 class="text-center mb-4" style="color: #ff3399; font-weight: bold;">🎀 Generate Temporary Email 🎀</h4>
 
+        <!-- Generated Email Section -->
+        <div class="mb-3 position-relative">
+            <label for="generatedEmail" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
+            <div class="input-group">
+                <input type="text" id="generatedEmail" class="form-control rounded-pill" readonly placeholder="Click 'Generate'" 
+                    style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
+                <button id="copyEmailBtn" class="btn rounded-pill" 
+                    style="background: #ff3399; color: white; border: none;">🎗 Copy</button>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mb-4">
+            <button id="generateEmailBtn" class="btn px-4 py-2 rounded-pill" 
+                style="background: linear-gradient(45deg, #ff66b2, #ff3399); color: white; font-size: 1.2rem; transition: 0.3s;">
+                🎀💟 Generate Email
+            </button>
+        </div>
+
+        <hr style="border-top: 2px dashed #ff3399;">
+
+        <!-- Inbox Section -->
+        <h4 class="text-center mb-3" style="color: #ff3399; font-weight: bold;">📩 Check Your Inbox</h4>
+        <div class="mb-3">
+            <label for="emailInput" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
+            <div class="input-group">
+                <input type="text" id="emailInput" class="form-control rounded-pill" readonly placeholder="Your generated email" 
+                    style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
+                <button id="checkBtn" class="btn rounded-pill" 
+                    style="background: #ff66b2; color: white; border: none;">💗Check Emails</button>
+            </div>
+        </div>
+
+        <!-- Inbox Display -->
+        <div class="inbox-container mt-4 p-3 rounded-4" style="
+            max-height: 300px; overflow-y: auto; 
+            border: 2px solid #ff3399; background: rgba(255, 102, 178, 0.1);">
+            <h5 class="text-center" style="color: #ff3399;">💌 Inbox</h5>
+            <div id="emailContent" class="p-2 text-dark" style="font-weight: bold; color: #ff3399;">No emails yet...</div>
+        </div>
+    </div>
+</section>
     <!-- Testimonials Section -->
     <section class="testimonials">
         <div class="container">
@@ -381,52 +497,7 @@
         </div>
     </section>
        
-<!-- Temporary Email Form -->
-<section id="generate" class="container mt-5">
-    <div class="card p-4 rounded-4 shadow-lg" style="background: rgba(255, 102, 178, 0.1); border: 2px solid #ff66b2;">
-        <h4 class="text-center mb-4" style="color: #ff3399; font-weight: bold;">✨ Generate Temporary Email ✨</h4>
 
-        <!-- Generated Email Section -->
-        <div class="mb-3 position-relative">
-            <label for="generatedEmail" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
-            <div class="input-group">
-                <input type="text" id="generatedEmail" class="form-control rounded-pill" readonly placeholder="Click 'Generate'" 
-                    style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
-                <button id="copyEmailBtn" class="btn rounded-pill" 
-                    style="background: #ff3399; color: white; border: none;">📋 Copy</button>
-            </div>
-        </div>
-
-        <div class="d-flex justify-content-center mb-4">
-            <button id="generateEmailBtn" class="btn px-4 py-2 rounded-pill" 
-                style="background: linear-gradient(45deg, #ff66b2, #ff3399); color: white; font-size: 1.2rem; transition: 0.3s;">
-                🚀 Generate Email
-            </button>
-        </div>
-
-        <hr style="border-top: 2px dashed #ff3399;">
-
-        <!-- Inbox Section -->
-        <h4 class="text-center mb-3" style="color: #ff3399; font-weight: bold;">📩 Check Your Inbox</h4>
-        <div class="mb-3">
-            <label for="emailInput" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
-            <div class="input-group">
-                <input type="text" id="emailInput" class="form-control rounded-pill" readonly placeholder="Your generated email" 
-                    style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
-                <button id="checkBtn" class="btn rounded-pill" 
-                    style="background: #ff66b2; color: white; border: none;">🔄 Check Emails</button>
-            </div>
-        </div>
-
-        <!-- Inbox Display -->
-        <div class="inbox-container mt-4 p-3 rounded-4" style="
-            max-height: 300px; overflow-y: auto; 
-            border: 2px solid #ff3399; background: rgba(255, 102, 178, 0.1);">
-            <h5 class="text-center" style="color: #ff3399;">📬 Inbox</h5>
-            <div id="emailContent" class="p-2 text-dark" style="font-weight: bold; color: #ff3399;">No emails yet...</div>
-        </div>
-    </div>
-</section>
     <!-- Feature Footer -->
     <footer class="footer">
         <div class="container">
