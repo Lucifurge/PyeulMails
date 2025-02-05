@@ -14,158 +14,139 @@
         <script type="module" src="design.js"></script>
         <style>
         /* General page styling */
-        // Variables
-$primary-color: #ff66b2;
-$secondary-color: #ff3399;
-$text-color: #3f3d56;
-$accent-color: #ffe6f1;
-$bg-color: #fce5f2;
-$hover-color: #ff66b2;
-$card-bg-color: #ffebf1;
-$hero-animation-time: 4s;
-$pulse-animation-time: 2s;
-$base-font-size: 16px; // For better scalability
-
-// Mixin for background gradient
-@mixin gradient-bg($color1, $color2) {
-  background: linear-gradient(45deg, $color1, $color2);
+        body {
+    background-color: #fce5f2;
+    color: #3f3d56;
+    font-family: "Quicksand", sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    transition: background 0.5s ease-in-out;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
 }
 
-// Global styles
-body {
-  background-color: $bg-color;
-  color: $text-color;
-  font-family: "Quicksand", sans-serif;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-  transition: background 0.5s ease-in-out;
-  margin: 0;
-  padding: 0;
-  scroll-behavior: smooth;
-  display: flex;
-  flex-direction: column;
-  font-size: $base-font-size; // Set the base font size for better scalability
-}
-
-// Navbar styling
+/* Navbar styling */
 .navbar {
-  @include gradient-bg($primary-color, $secondary-color);
-  padding: 1.5rem;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    background: linear-gradient(45deg, #ff66b2, #ff3399);
+    padding: 1.5rem 1.5rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar-brand {
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 2rem;
-  color: white;
-  transition: color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+    color: white;
+    transition: color 0.3s ease;
+}
 
-  &:hover {
-    color: $accent-color;
-  }
+.navbar-brand:hover {
+    color: #ffe6f1;
 }
 
 .navbar-nav {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
+}
 
-  .nav-link {
-    color: $accent-color !important;
+.navbar-nav .nav-link {
+    color: #ffe6f1 !important;
     font-weight: bold;
     margin: 0 12px;
     transition: color 0.3s ease;
-
-    &:hover {
-      color: $primary-color !important;
-    }
-  }
-
-  .nav-item {
-    label.btn {
-      @include gradient-bg($primary-color, $secondary-color);
-      color: white;
-      font-weight: bold;
-      transition: background 0.3s ease, transform 0.3s ease;
-      cursor: pointer;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      display: inline-block;
-
-      &:hover {
-        @include gradient-bg($secondary-color, $primary-color);
-        transform: scale(1.05);
-      }
-    }
-  }
 }
 
-// Hero section
+.navbar-nav .nav-link:hover {
+    color: #ff66b2 !important;
+}
+
+/* Enhanced button in navbar */
+.nav-item label.btn {
+    background: linear-gradient(45deg, #ff66b2, #ff3399);
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+.nav-item label.btn:hover {
+    background: linear-gradient(45deg, #ff3399, #ff66b2);
+    transform: scale(1.05);
+}
+
+/* Hero section */
 .hero {
-  text-align: center;
-  padding: 150px 20px;
-  background: $primary-color;
-  border-radius: 25px;
-  color: white;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 1;
-  animation: heroAnimation $hero-animation-time ease-out infinite alternate;
+    text-align: center;
+    padding: 150px 20px;
+    background: #ff66b2;
+    border-radius: 25px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    animation: heroAnimation 4s ease-out infinite alternate;
 }
 
 @keyframes heroAnimation {
-  0% {
-    background-color: $primary-color;
-    transform: scale(1);
-  }
+    0% {
+        background-color: #ff66b2;
+        transform: scale(1);
+    }
 
-  50% {
-    background-color: $secondary-color;
-    transform: scale(1.05);
-  }
+    50% {
+        background-color: #ff3399;
+        transform: scale(1.05);
+    }
 
-  100% {
-    background-color: $primary-color;
-    transform: scale(1);
-  }
+    100% {
+        background-color: #ff66b2;
+        transform: scale(1);
+    }
 }
 
 .hero h1 {
-  font-size: 4.5rem;
-  font-weight: bold;
-  animation: rainbow-pink 6s ease infinite;
-  text-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
+    font-size: 4.5rem;
+    font-weight: bold;
+    animation: rainbow-pink 6s ease infinite;
+    text-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
 }
 
 .hero p {
-  font-size: 1.6rem;
-  margin-top: 20px;
-  letter-spacing: 1px;
+    font-size: 1.6rem;
+    margin-top: 20px;
+    letter-spacing: 1px;
 }
 
-// Button styling
+/* Button styling */
 .btn-primary {
-  @include gradient-bg($primary-color, $secondary-color);
-  color: white;
-  font-size: 1.3rem;
-  font-weight: bold;
-  border-radius: 25px;
-  padding: 14px 28px;
-  transition: all 0.4s ease-in-out;
-  box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-  position: relative;
-  overflow: hidden;
+    background: linear-gradient(45deg, #ff66b2, #ff3399);
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 25px;
+    padding: 14px 28px;
+    transition: all 0.4s ease-in-out;
+    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+    position: relative;
+    overflow: hidden;
+}
 
-  &::before {
+.btn-primary::before {
     content: "";
     position: absolute;
     top: -50%;
@@ -175,221 +156,220 @@ body {
     background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 70%);
     transform: scale(0);
     transition: transform 0.4s ease-out;
-  }
+}
 
-  &:hover::before {
+.btn-primary:hover::before {
     transform: scale(1);
-  }
+}
 
-  &:hover {
+.btn-primary:hover {
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(255, 51, 153, 0.8);
-  }
-
-  animation: pulse $pulse-animation-time infinite;
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-  }
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+    }
 
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 51, 153, 0.8);
-  }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 51, 153, 0.8);
+    }
 
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-  }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+    }
 }
 
-// Footer styling
-.footer {
-  background: $primary-color;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  border-top: 2px solid $secondary-color;
-  margin-top: 3rem;
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+.btn-primary {
+    animation: pulse 2s infinite;
+}
 
-  a {
-    color: $accent-color;
+/* Footer styling */
+.footer {
+    background: #ff66b2;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-top: 2px solid #ff3399;
+    margin-top: 3rem;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.footer a {
+    color: #ffe6f1;
     margin: 0 15px;
     transition: color 0.3s ease;
-
-    &:hover {
-      color: $secondary-color;
-    }
-  }
 }
 
-// Features Section
+.footer a:hover {
+    color: #ff3399;
+}
+
+/* Features Section */
 .features {
-  background: #fff;
-  padding: 60px 20px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  margin-top: 3rem;
-  animation: fadeIn 2s ease;
-  text-align: center;
+    background: #fff;
+    padding: 60px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 3rem;
+    animation: fadeIn 2s ease;
+    text-align: center;
 }
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
+    0% {
+        opacity: 0;
+    }
 
-  100% {
-    opacity: 1;
-  }
+    100% {
+        opacity: 1;
+    }
 }
 
 .feature-card {
-  background: $card-bg-color;
-  color: $primary-color;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 3rem;
-  text-align: center;
-  transition: transform 0.3s ease;
+    background: #ffebf1;
+    color: #ff66b2;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
 
-  &:hover {
+.feature-card:hover {
     transform: scale(1.05);
-  }
+}
 
-  h4 {
+.feature-card h4 {
     font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 1.2rem;
-  }
 }
 
-// About Section
-.about {
-  background-color: $card-bg-color;
-  padding: 50px 20px;
-  border-radius: 15px;
-  margin-top: 3rem;
-  text-align: center;
+.feature-card p {
+    font-size: 1.2rem;
+}
 
-  h2 {
-    color: $secondary-color;
+/* About Section */
+.about {
+    background-color: #ffebf1;
+    padding: 50px 20px;
+    border-radius: 15px;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.about h2 {
+    color: #ff3399;
     font-size: 2rem;
     font-weight: bold;
-  }
-
-  p {
-    font-size: 1.2rem;
-    color: $text-color;
-    margin-top: 20px;
-  }
 }
 
-// Testimonials Section
-.testimonials {
-  background: #fff;
-  padding: 60px 20px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  margin-top: 3rem;
+.about p {
+    font-size: 1.2rem;
+    color: #3f3d56;
+    margin-top: 20px;
+}
 
-  h2 {
+/* Testimonials Section */
+.testimonials {
+    background: #fff;
+    padding: 60px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 3rem;
+}
+
+.testimonials h2 {
     text-align: center;
     font-size: 2rem;
-    color: $secondary-color;
+    color: #ff3399;
     margin-bottom: 40px;
-  }
+}
 
-  .testimonial-card {
-    background: $card-bg-color;
+.testimonial-card {
+    background: #ffebf1;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
     text-align: center;
-
-    p {
-      font-size: 1.2rem;
-      color: $text-color;
-    }
-
-    h5 {
-      color: $secondary-color;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-  }
 }
 
-// Floating Arrows Animation
+.testimonial-card p {
+    font-size: 1.2rem;
+    color: #3f3d56;
+}
+
+.testimonial-card h5 {
+    color: #ff3399;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Floating Arrows Animation */
 .arrow {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  color: white;
-  animation: bounce 1.5s infinite;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: white;
+    animation: bounce 1.5s infinite;
 }
 
 @keyframes bounce {
-  0%, 100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-10px);
-  }
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
 }
 
-// Floating Hearts Animation
+/* Floating Hearts Animation */
 @keyframes floatingHearts {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: translateY(-50px) scale(1.2);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: translateY(-100px) scale(0.5);
-    opacity: 0;
-  }
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-50px) scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) scale(0.5);
+        opacity: 0;
+    }
 }
 
 .floating-heart {
-  position: absolute;
-  font-size: 1.5rem;
-  color: pink;
-  animation: floatingHearts 3s infinite;
+    position: absolute;
+    font-size: 1.5rem;
+    color: pink;
+    animation: floatingHearts 3s infinite;
 }
 
-// Rotating Star Animation
+/* Rotating Star Animation */
 @keyframes rotateStar {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .rotating-star {
-  position: absolute;
-  font-size: 1.5rem;
-  color: yellow;
-  animation: rotateStar 3s linear infinite;
+    position: absolute;
+    font-size: 1.5rem;
+    color: yellow;
+    animation: rotateStar 3s linear infinite;
 }
 
         </style>
