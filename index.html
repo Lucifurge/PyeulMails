@@ -36,12 +36,10 @@
     background: linear-gradient(45deg, #ff66b2, #ff3399);
     padding: 1.5rem 1.5rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-radius: 10px; /* Consider removing this if it causes misalignment */
 }
 
+/* Brand Styling */
 .navbar-brand {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
@@ -54,6 +52,7 @@
     color: #ffe6f1;
 }
 
+/* Navbar Links */
 .navbar-nav {
     display: flex;
     align-items: center;
@@ -67,11 +66,11 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: #ff66b2 !important;
+    color: #ff3399 !important;
 }
 
-/* Enhanced button in navbar */
-.nav-item label.btn {
+/* Background Uploader Button */
+.bg-uploader-btn {
     background: linear-gradient(45deg, #ff66b2, #ff3399);
     color: white;
     font-weight: bold;
@@ -83,10 +82,11 @@
     display: inline-block;
 }
 
-.nav-item label.btn:hover {
+.bg-uploader-btn:hover {
     background: linear-gradient(45deg, #ff3399, #ff66b2);
     transform: scale(1.05);
 }
+
 
 /* Hero section */
 .hero {
@@ -279,7 +279,7 @@
 .testimonial-section {
     padding: 50px 20px;
     text-align: center;
-    background-color: #ffb0ff;
+    background-color: #ffddff;
     position: relative;
     overflow: hidden; /* Hides overflowing elements */
 }
@@ -311,7 +311,7 @@
 /* Testimonial Author */
 .testimonial-item h5 {
     font-weight: bold;
-    color: #f6b1ff;
+    color: #000000;
 }
 
 /* Keyframes for Sliding Animation */
@@ -407,7 +407,7 @@
 <!-- Floating Heart -->
 <div class="heart"></div>
 
-!-<!-- Navbar -->
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Pyeulmails</a>
@@ -443,12 +443,13 @@
 
             <!-- Background Uploader inside a div for alignment -->
             <div class="ms-3">
-                <label for="bgUploader" class="btn btn-outline-secondary">🌆 Change Background</label>
+                <label for="bgUploader" class="bg-uploader-btn">🌆 Change Background</label>
                 <input type="file" id="bgUploader" style="display: none;" />
             </div>
         </div>
     </div>
 </nav>
+
 
 
 <!-- Hero Section -->
