@@ -33,7 +33,7 @@
 
 /* Navbar styling */
 .navbar {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
+    background: linear-gradient(45deg, #df65e3, #bb33ff);
     padding: 1.5rem 1.5rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px; /* Consider removing this if it causes misalignment */
@@ -66,12 +66,12 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: #ff3399 !important;
+    color: #b451ea !important;
 }
 
 /* Background Uploader Button */
 .bg-uploader-btn {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
+    background: linear-gradient(45deg, #c766ff, #c234c7);
     color: white;
     font-weight: bold;
     transition: background 0.3s ease, transform 0.3s ease;
@@ -83,7 +83,7 @@
 }
 
 .bg-uploader-btn:hover {
-    background: linear-gradient(45deg, #ff3399, #ff66b2);
+    background: linear-gradient(45deg, #da56fb, #e06bf0);
     transform: scale(1.05);
 }
 
@@ -92,7 +92,7 @@
 .hero {
     text-align: center;
     padding: 150px 20px;
-    background: #ff66b2;
+    background: #d844cf;
     border-radius: 25px;
     color: white;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -103,17 +103,17 @@
 
 @keyframes heroAnimation {
     0% {
-        background-color: #ff66b2;
+        background-color: #9e1aa0;
         transform: scale(1);
     }
 
     50% {
-        background-color: #ff3399;
+        background-color: #ce37d6;
         transform: scale(1.05);
     }
 
     100% {
-        background-color: #ff66b2;
+        background-color: #c230bb;
         transform: scale(1);
     }
 }
@@ -122,7 +122,7 @@
     font-size: 4.5rem;
     font-weight: bold;
     animation: rainbow-pink 6s ease infinite;
-    text-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
+    text-shadow: 0 0 15px rgba(161, 55, 171, 0.6);
 }
 
 .hero p {
@@ -133,14 +133,14 @@
 
 /* Button styling */
 .btn-primary {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
+    background: linear-gradient(45deg, #a115bd, #8f22a5);
     color: white;
     font-size: 1.3rem;
     font-weight: bold;
     border-radius: 25px;
     padding: 14px 28px;
     transition: all 0.4s ease-in-out;
-    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+    box-shadow: 0 0 10px rgba(137, 49, 214, 0.6);
     position: relative;
     overflow: hidden;
 }
@@ -163,23 +163,23 @@
 
 .btn-primary:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 51, 153, 0.8);
+    box-shadow: 0 0 15px rgba(144, 33, 172, 0.8);
 }
 
 @keyframes pulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+        box-shadow: 0 0 10px rgba(193, 37, 191, 0.6);
     }
 
     50% {
         transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(255, 51, 153, 0.8);
+        box-shadow: 0 0 20px rgba(134, 53, 178, 0.8);
     }
 
     100% {
         transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+        box-shadow: 0 0 10px rgba(140, 26, 175, 0.6);
     }
 }
 
@@ -189,11 +189,11 @@
 
 /* Footer styling */
 .footer {
-    background: #ff66b2;
+    background: #8033ce;
     color: white;
     text-align: center;
     padding: 20px;
-    border-top: 2px solid #ff3399;
+    border-top: 2px solid #b324c6;
     margin-top: 3rem;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -205,7 +205,7 @@
 }
 
 .footer a:hover {
-    color: #ff3399;
+    color: #b742de;
 }
 
 /* Features Section */
@@ -231,7 +231,7 @@
 
 .feature-card {
     background: #ffebf1;
-    color: #ff66b2;
+    color: #c432d1;
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -264,7 +264,7 @@
 }
 
 .about h2 {
-    color: #ff3399;
+    color: #9663bd;
     font-size: 2rem;
     font-weight: bold;
 }
@@ -321,25 +321,32 @@
 }
 
 
-/* Floating Arrows Animation */
-.arrow {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2rem;
-    color: white;
-    animation: bounce 1.5s infinite;
-}
+ /* Floating heart animation */
+ .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: #7a3394;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation: floatHeart 3s infinite ease-in-out;
+        }
 
-@keyframes bounce {
-    0%, 100% {
-        transform: translateX(-50%) translateY(0);
-    }
-    50% {
-        transform: translateX(-50%) translateY(-10px);
-    }
-}
+        @keyframes floatHeart {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+
+            50% {
+                transform: translate(-50%, -200%) scale(1);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+        }
+
 
 /* Floating Hearts Animation */
 @keyframes floatingHearts {
@@ -360,7 +367,7 @@
 .floating-heart {
     position: absolute;
     font-size: 1.5rem;
-    color: pink;
+    color: rgb(166, 82, 194);
     animation: floatingHearts 3s infinite;
 }
 
@@ -384,7 +391,7 @@
     .heart {
         position: fixed;
         animation: floatUp 5s infinite ease-in-out;
-        color: #ff79c6;
+        color: #5300b8;
         font-size: 2rem;
     }
 
@@ -404,8 +411,9 @@
 </head>
 
 <body>
-<!-- Floating Heart -->
-<div class="heart"></div>
+ <!-- Floating Heart -->
+ <div class="heart"></div>
+
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light">
@@ -504,7 +512,7 @@
     <div class="modal-content" style="background: white; padding: 20px; text-align: center; border-radius: 10px; width: 300px; margin: 15% auto;">
         <h3>Locked Website</h3>
         <p>You need to log in to access this page.</p>
-        <button id="loginButton" class="btn" onclick="redirectToLogin()" style="background: pink; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Login</button>
+        <button id="loginButton" class="btn" onclick="redirectToLogin()" style="background: rgb(204, 130, 253); color: white; border: none; padding: 10px 20px; border-radius: 5px;">Login</button>
     </div>
 </div>
 <!-- About Section -->
@@ -526,8 +534,8 @@
 
 <!-- Temporary Email Form -->
 <section id="generate" class="container mt-5">
-<div class="card p-4 rounded-4 shadow-lg" style="background: rgba(255, 102, 178, 0.1); border: 2px solid #ff66b2;">
-    <h4 class="text-center mb-4" style="color: #ff3399; font-weight: bold;">🎀 Generate Temporary Email 🎀</h4>
+<div class="card p-4 rounded-4 shadow-lg" style="background: rgba(255, 102, 178, 0.1); border: 2px solid #d67afa;">
+    <h4 class="text-center mb-4" style="color: #f280ff; font-weight: bold;">🎀 Generate Temporary Email 🎀</h4>
     
     <!-- Generated Email Section -->
     <div class="mb-3 position-relative">
@@ -536,35 +544,35 @@
             <input type="text" id="generatedEmail" class="form-control rounded-pill" readonly placeholder="Click 'Generate'" 
                 style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
             <button id="copyEmailBtn" class="btn rounded-pill" 
-                style="background: #ff3399; color: white; border: none;">🎗 Copy</button>
+                style="background: #e875f1; color: white; border: none;">🎗 Copy</button>
         </div>
     </div>
 
     <div class="d-flex justify-content-center mb-4">
         <button id="generateEmailBtn" class="btn px-4 py-2 rounded-pill" 
-            style="background: linear-gradient(45deg, #ff66b2, #ff3399); color: white; font-size: 1.2rem; transition: 0.3s;">
+            style="background: linear-gradient(45deg, #e370f2, #f763ef); color: white; font-size: 1.2rem; transition: 0.3s;">
             🎀💟 Generate Email
         </button>
     </div>
 
-    <hr style="border-top: 2px dashed #ff3399;">
+    <hr style="border-top: 2px dashed #892686;">
 
     <!-- Inbox Section -->
-    <h4 class="text-center mb-3" style="color: #ff3399; font-weight: bold;">📩 Check Your Inbox</h4>
+    <h4 class="text-center mb-3" style="color: #a5388d; font-weight: bold;">📩 Check Your Inbox</h4>
     <div class="mb-3">
-        <label for="emailInput" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
+        <label for="emailInput" class="form-label" style="color: #b75dbf; font-weight: bold;">Your Temporary Email</label>
         <div class="input-group">
             <input type="text" id="emailInput" class="form-control rounded-pill" readonly placeholder="Your generated email" 
-                style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
+                style="border: 2px solid #ff66ff; background: #ffe6f1; color: #e173f7; font-weight: bold;">
             <button id="checkBtn" class="btn rounded-pill" 
-                style="background: #ff66b2; color: white; border: none;">💗Check Emails</button>
+                style="background: #f766ff; color: white; border: none;">💗Check Emails</button>
         </div>
     </div>
 
     <!-- Inbox Display -->
     <div class="inbox-container mt-4 p-3 rounded-4" style="max-height: 300px; overflow-y: auto; border: 2px solid #ff3399; background: rgba(255, 102, 178, 0.1);">
-        <h5 class="text-center" style="color: #ff3399;">💌 Inbox</h5>
-        <div id="emailContent" class="p-2 text-dark" style="font-weight: bold; color: #ff3399;">No emails yet...</div>
+        <h5 class="text-center" style="color: #da3ecf;">💌 Inbox</h5>
+        <div id="emailContent" class="p-2 text-dark" style="font-weight: bold; color: #e159f3;">No emails yet...</div>
     </div>
 </div>
 </section>
