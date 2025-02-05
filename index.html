@@ -1,152 +1,171 @@
 
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pyeulmails</title>
-    <link rel="icon" href="logo.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="design.js"></script>
-    <style>
-      /* General page styling */
-      body {
-    background-color: #fce5f2;
-    color: #3f3d56;
-    font-family: "Quicksand", sans-serif;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-    transition: background 0.5s ease-in-out;
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
-    display: flex;
-    flex-direction: column;
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pyeulmails</title>
+        <link rel="icon" href="logo.ico" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="module" src="design.js"></script>
+        <style>
+        /* General page styling */
+        // Variables
+$primary-color: #ff66b2;
+$secondary-color: #ff3399;
+$text-color: #3f3d56;
+$accent-color: #ffe6f1;
+$bg-color: #fce5f2;
+$hover-color: #ff66b2;
+$card-bg-color: #ffebf1;
+$hero-animation-time: 4s;
+$pulse-animation-time: 2s;
+$base-font-size: 16px; // For better scalability
+
+// Mixin for background gradient
+@mixin gradient-bg($color1, $color2) {
+  background: linear-gradient(45deg, $color1, $color2);
 }
 
-/* Navbar styling */
+// Global styles
+body {
+  background-color: $bg-color;
+  color: $text-color;
+  font-family: "Quicksand", sans-serif;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  transition: background 0.5s ease-in-out;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  font-size: $base-font-size; // Set the base font size for better scalability
+}
+
+// Navbar styling
 .navbar {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
-    padding: 1.5rem 1.5rem;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  @include gradient-bg($primary-color, $secondary-color);
+  padding: 1.5rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-brand {
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 2rem;
-    color: white;
-    transition: color 0.3s ease;
-}
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 2rem;
+  color: white;
+  transition: color 0.3s ease;
 
-.navbar-brand:hover {
-    color: #ffe6f1;
+  &:hover {
+    color: $accent-color;
+  }
 }
 
 .navbar-nav {
-    display: flex;
-    align-items: center;
-}
+  display: flex;
+  align-items: center;
 
-.navbar-nav .nav-link {
-    color: #ffe6f1 !important;
+  .nav-link {
+    color: $accent-color !important;
     font-weight: bold;
     margin: 0 12px;
     transition: color 0.3s ease;
+
+    &:hover {
+      color: $primary-color !important;
+    }
+  }
+
+  .nav-item {
+    label.btn {
+      @include gradient-bg($primary-color, $secondary-color);
+      color: white;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      display: inline-block;
+
+      &:hover {
+        @include gradient-bg($secondary-color, $primary-color);
+        transform: scale(1.05);
+      }
+    }
+  }
 }
 
-.navbar-nav .nav-link:hover {
-    color: #ff66b2 !important;
-}
-
-/* Enhanced button in navbar */
-.nav-item label.btn {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
-    color: white;
-    font-weight: bold;
-    transition: background 0.3s ease, transform 0.3s ease;
-    cursor: pointer;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 20px;
-    display: inline-block;
-}
-
-.nav-item label.btn:hover {
-    background: linear-gradient(45deg, #ff3399, #ff66b2);
-    transform: scale(1.05);
-}
-
-/* Hero section */
+// Hero section
 .hero {
-    text-align: center;
-    padding: 150px 20px;
-    background: #ff66b2;
-    border-radius: 25px;
-    color: white;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1;
-    animation: heroAnimation 4s ease-out infinite alternate;
+  text-align: center;
+  padding: 150px 20px;
+  background: $primary-color;
+  border-radius: 25px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+  animation: heroAnimation $hero-animation-time ease-out infinite alternate;
 }
 
 @keyframes heroAnimation {
-    0% {
-        background-color: #ff66b2;
-        transform: scale(1);
-    }
+  0% {
+    background-color: $primary-color;
+    transform: scale(1);
+  }
 
-    50% {
-        background-color: #ff3399;
-        transform: scale(1.05);
-    }
+  50% {
+    background-color: $secondary-color;
+    transform: scale(1.05);
+  }
 
-    100% {
-        background-color: #ff66b2;
-        transform: scale(1);
-    }
+  100% {
+    background-color: $primary-color;
+    transform: scale(1);
+  }
 }
 
 .hero h1 {
-    font-size: 4.5rem;
-    font-weight: bold;
-    animation: rainbow-pink 6s ease infinite;
-    text-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
+  font-size: 4.5rem;
+  font-weight: bold;
+  animation: rainbow-pink 6s ease infinite;
+  text-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
 }
 
 .hero p {
-    font-size: 1.6rem;
-    margin-top: 20px;
-    letter-spacing: 1px;
+  font-size: 1.6rem;
+  margin-top: 20px;
+  letter-spacing: 1px;
 }
 
-/* Button styling */
+// Button styling
 .btn-primary {
-    background: linear-gradient(45deg, #ff66b2, #ff3399);
-    color: white;
-    font-size: 1.3rem;
-    font-weight: bold;
-    border-radius: 25px;
-    padding: 14px 28px;
-    transition: all 0.4s ease-in-out;
-    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-    position: relative;
-    overflow: hidden;
-}
+  @include gradient-bg($primary-color, $secondary-color);
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 25px;
+  padding: 14px 28px;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+  position: relative;
+  overflow: hidden;
 
-.btn-primary::before {
+  &::before {
     content: "";
     position: absolute;
     top: -50%;
@@ -156,396 +175,419 @@
     background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 70%);
     transform: scale(0);
     transition: transform 0.4s ease-out;
-}
+  }
 
-.btn-primary:hover::before {
+  &:hover::before {
     transform: scale(1);
-}
+  }
 
-.btn-primary:hover {
+  &:hover {
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(255, 51, 153, 0.8);
+  }
+
+  animation: pulse $pulse-animation-time infinite;
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-    }
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+  }
 
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(255, 51, 153, 0.8);
-    }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 51, 153, 0.8);
+  }
 
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
-    }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 51, 153, 0.6);
+  }
 }
 
-.btn-primary {
-    animation: pulse 2s infinite;
-}
-
-/* Footer styling */
+// Footer styling
 .footer {
-    background: #ff66b2;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    border-top: 2px solid #ff3399;
-    margin-top: 3rem;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
-}
+  background: $primary-color;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-top: 2px solid $secondary-color;
+  margin-top: 3rem;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
 
-.footer a {
-    color: #ffe6f1;
+  a {
+    color: $accent-color;
     margin: 0 15px;
     transition: color 0.3s ease;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
 }
 
-.footer a:hover {
-    color: #ff3399;
-}
-
-/* Features Section */
+// Features Section
 .features {
-    background: #fff;
-    padding: 60px 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    margin-top: 3rem;
-    animation: fadeIn 2s ease;
-    text-align: center;
+  background: #fff;
+  padding: 60px 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 3rem;
+  animation: fadeIn 2s ease;
+  text-align: center;
 }
 
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 .feature-card {
-    background: #ffebf1;
-    color: #ff66b2;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 3rem;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
+  background: $card-bg-color;
+  color: $primary-color;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+  text-align: center;
+  transition: transform 0.3s ease;
 
-.feature-card:hover {
+  &:hover {
     transform: scale(1.05);
-}
+  }
 
-.feature-card h4 {
+  h4 {
     font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 1rem;
-}
+  }
 
-.feature-card p {
+  p {
     font-size: 1.2rem;
+  }
 }
 
-/* About Section */
+// About Section
 .about {
-    background-color: #ffebf1;
-    padding: 50px 20px;
-    border-radius: 15px;
-    margin-top: 3rem;
-    text-align: center;
-}
+  background-color: $card-bg-color;
+  padding: 50px 20px;
+  border-radius: 15px;
+  margin-top: 3rem;
+  text-align: center;
 
-.about h2 {
-    color: #ff3399;
+  h2 {
+    color: $secondary-color;
     font-size: 2rem;
     font-weight: bold;
-}
+  }
 
-.about p {
+  p {
     font-size: 1.2rem;
-    color: #3f3d56;
+    color: $text-color;
     margin-top: 20px;
+  }
 }
 
-/* Testimonials Section */
+// Testimonials Section
 .testimonials {
-    background: #fff;
-    padding: 60px 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    margin-top: 3rem;
-}
+  background: #fff;
+  padding: 60px 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 3rem;
 
-.testimonials h2 {
+  h2 {
     text-align: center;
     font-size: 2rem;
-    color: #ff3399;
+    color: $secondary-color;
     margin-bottom: 40px;
-}
+  }
 
-.testimonial-card {
-    background: #ffebf1;
+  .testimonial-card {
+    background: $card-bg-color;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
     text-align: center;
+
+    p {
+      font-size: 1.2rem;
+      color: $text-color;
+    }
+
+    h5 {
+      color: $secondary-color;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  }
 }
 
-.testimonial-card p {
-    font-size: 1.2rem;
-    color: #3f3d56;
-}
-
-.testimonial-card h5 {
-    color: #ff3399;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* Floating Arrows Animation */
+// Floating Arrows Animation
 .arrow {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2rem;
-    color: white;
-    animation: bounce 1.5s infinite;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  color: white;
+  animation: bounce 1.5s infinite;
 }
 
 @keyframes bounce {
-    0%, 100% {
-        transform: translateX(-50%) translateY(0);
-    }
-    50% {
-        transform: translateX(-50%) translateY(-10px);
-    }
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
 }
 
-/* Floating Hearts Animation */
+// Floating Hearts Animation
 @keyframes floatingHearts {
-    0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: translateY(-50px) scale(1.2);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-100px) scale(0.5);
-        opacity: 0;
-    }
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-50px) scale(1.2);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-100px) scale(0.5);
+    opacity: 0;
+  }
 }
 
 .floating-heart {
-    position: absolute;
-    font-size: 1.5rem;
-    color: pink;
-    animation: floatingHearts 3s infinite;
+  position: absolute;
+  font-size: 1.5rem;
+  color: pink;
+  animation: floatingHearts 3s infinite;
 }
 
-/* Rotating Star Animation */
+// Rotating Star Animation
 @keyframes rotateStar {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .rotating-star {
-    position: absolute;
-    font-size: 1.5rem;
-    color: yellow;
-    animation: rotateStar 3s linear infinite;
+  position: absolute;
+  font-size: 1.5rem;
+  color: yellow;
+  animation: rotateStar 3s linear infinite;
 }
 
-    </style>
-</head>
+        </style>
+    </head>
 
-<body>
-   <!-- Floating Heart -->
-   <div class="heart"></div>
+    <body>
+ <!-- Floating Heart -->
+<div class="heart"></div>
 
-   <!-- Navbar -->
-   <nav class="navbar navbar-expand-lg navbar-light">
-       <div class="container-fluid">
-           <a class="navbar-brand" href="#">Pyeulmails</a>
-           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-               <span class="navbar-toggler-icon"></span>
-           </button>
-           <div class="collapse navbar-collapse" id="navbarNav">
-               <ul class="navbar-nav ms-auto">
-                   <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                   <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
-                   <li class="nav-item"><a class="nav-link" href="https://mega.nz/file/22Ij1CCT#F6lxbT02K82rywv9IWRmD2h0x4UL1vivxUsP_DP1D7Q" target="_blank">📱 Mobile App</a></li>
-                   <li class="nav-item">
-                       <label for="bgUploader" class="btn">🌆 Change Background</label>
-                       <input type="file" id="bgUploader" style="display: none;" />
-                   </li>
-               </ul>
-           </div>
-       </div>
-   </nav>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Pyeulmails</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://mega.nz/file/22Ij1CCT#F6lxbT02K82rywv9IWRmD2h0x4UL1vivxUsP_DP1D7Q" target="_blank">📱 Mobile App</a></li>
+                <li class="nav-item">
+                    <label for="bgUploader" class="btn">🌆 Change Background</label>
+                    <input type="file" id="bgUploader" style="display: none;" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-   <!-- Hero Section -->
-   <section class="hero">
-       <h1>Pyeulmails</h1>
-       <p>Instant Email Creation & Management for Your Needs</p>
-       <a href="#generate" class="btn btn-primary">Get Started</a>
-   </section>
+<!-- Hero Section -->
+<section class="hero">
+    <h1>Pyeulmails</h1>
+    <p>Instant Email Creation & Management for Your Needs</p>
+    <a href="#generate" class="btn btn-primary">Get Started</a>
+</section>
 
-   <!-- Animated Arrow -->
-   <div class="arrow">↓</div>
+<!-- Animated Arrow -->
+<div class="arrow">↓</div>
 
-   <!-- Floating Hearts -->
-   <div class="floating-heart" style="top: 50px; left: 30px;">❤️</div>
-   <div class="floating-heart" style="top: 100px; left: 80px;">💖</div>
-   <div class="floating-heart" style="top: 150px; left: 130px;">💗</div>
+<!-- Floating Hearts -->
+<div class="floating-heart" style="top: 50px; left: 30px;">❤️</div>
+<div class="floating-heart" style="top: 100px; left: 80px;">💖</div>
+<div class="floating-heart" style="top: 150px; left: 130px;">💗</div>
 
-   <!-- Rotating Stars -->
-   <div class="rotating-star" style="top: 40px; right: 40px;">⭐</div>
-   <div class="rotating-star" style="top: 90px; right: 80px;">🌟</div>
+<!-- Rotating Stars -->
+<div class="rotating-star" style="top: 40px; right: 40px;">⭐</div>
+<div class="rotating-star" style="top: 90px; right: 80px;">🌟</div>
 
-   <!-- Features Section -->
-   <section id="features" class="features">
-       <div class="container">
-           <div class="row">
-               <div class="col-lg-4 col-md-6">
-                   <div class="feature-card">
-                       <h4>Email Generation</h4>
-                       <p>Generate disposable emails to maintain privacy.</p>
-                   </div>
-               </div>
-               <div class="col-lg-4 col-md-6">
-                   <div class="feature-card">
-                       <h4>Email Checking</h4>
-                       <p>Check messages for OTP and more.</p>
-                   </div>
-               </div>
-               <div class="col-lg-4 col-md-6">
-                   <div class="feature-card">
-                       <h4>Fast Access</h4>
-                       <p>Quick access to your generated emails.</p>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </section>
+<!-- Features Section -->
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <h4>Email Generation</h4>
+                    <p>Generate disposable emails to maintain privacy.</p>
+                    <i class="fas fa-envelope feature-icon"></i>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <h4>Email Checking</h4>
+                    <p>Check messages for OTP and more.</p>
+                    <i class="fas fa-check feature-icon"></i>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <h4>Fast Access</h4>
+                    <p>Quick access to your generated emails.</p>
+                    <i class="fas fa-fast-forward feature-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-   <!-- About Section -->
-   <section id="about" class="about">
-       <div class="container">
-           <h2>About Pyeulmails</h2>
-           <p>Pyeulmails offers an easy-to-use platform for generating temporary email addresses. Whether you need to avoid spam, maintain privacy, or access special services, Pyeulmails is your go-to tool for email management.</p>
-       </div>
-   </section>
+<!-- About Section -->
+<section id="about" class="about">
+    <div class="container">
+        <h2>About Pyeulmails</h2>
+        <p>Pyeulmails offers an easy-to-use platform for generating temporary email addresses. Whether you need to avoid spam, maintain privacy, or access special services, Pyeulmails is your go-to tool for email management.</p>
+    </div>
+</section>
 
-   <!-- Temporary Email Form -->
-   <section id="generate" class="container mt-5">
-       <div class="card p-4 rounded-4 shadow-lg" style="background: rgba(255, 102, 178, 0.1); border: 2px solid #ff66b2;">
-           <h4 class="text-center mb-4" style="color: #ff3399; font-weight: bold;">🎀 Generate Temporary Email 🎀</h4>
+<!-- Modal Popup for Features -->
+<div class="modal" id="featureModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Features</h2>
+        <p>Learn more about each feature...</p>
+    </div>
+</div>
 
-           <!-- Generated Email Section -->
-           <div class="mb-3 position-relative">
-               <label for="generatedEmail" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
-               <div class="input-group">
-                   <input type="text" id="generatedEmail" class="form-control rounded-pill" readonly placeholder="Click 'Generate'" 
-                       style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
-                   <button id="copyEmailBtn" class="btn rounded-pill" 
-                       style="background: #ff3399; color: white; border: none;">🎗 Copy</button>
-               </div>
-           </div>
-
-           <div class="d-flex justify-content-center mb-4">
-               <button id="generateEmailBtn" class="btn px-4 py-2 rounded-pill" 
-                   style="background: linear-gradient(45deg, #ff66b2, #ff3399); color: white; font-size: 1.2rem; transition: 0.3s;">
-                   🎀💟 Generate Email
-               </button>
-           </div>
-
-           <hr style="border-top: 2px dashed #ff3399;">
-
-           <!-- Inbox Section -->
-           <h4 class="text-center mb-3" style="color: #ff3399; font-weight: bold;">📩 Check Your Inbox</h4>
-           <div class="mb-3">
-               <label for="emailInput" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
-               <div class="input-group">
-                   <input type="text" id="emailInput" class="form-control rounded-pill" readonly placeholder="Your generated email" 
-                       style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
-                   <button id="checkBtn" class="btn rounded-pill" 
-                       style="background: #ff66b2; color: white; border: none;">💗Check Emails</button>
-               </div>
-           </div>
-
-           <!-- Inbox Display -->
-           <div class="inbox-container mt-4 p-3 rounded-4" style="max-height: 300px; overflow-y: auto; border: 2px solid #ff3399; background: rgba(255, 102, 178, 0.1);">
-               <h5 class="text-center" style="color: #ff3399;">💌 Inbox</h5>
-               <div id="emailContent" class="p-2 text-dark" style="font-weight: bold; color: #ff3399;">No emails yet...</div>
-           </div>
-       </div>
-   </section>
-
-   <!-- Testimonials Section -->
-   <section class="testimonials">
-       <div class="container">
-           <h2>What Our Users Say</h2>
-           <div class="testimonial-card">
-               <p>"Pyeulmails has been a game-changer for my privacy. It's fast and reliable!"</p>
-               <h5>John Doe</h5>
-           </div>
-           <div class="testimonial-card">
-               <p>"This is the best email service I've used for avoiding spam. Highly recommended!"</p>
-               <h5>Jane Smith</h5>
-           </div>
-       </div>
-   </section>
-
-   <!-- Footer -->
-   <footer class="footer">
-       <div class="container">
-           <p>&copy; 2025 Pyeulmails. All Rights Reserved Made By The Husband of Pyeul Lihm..</p>
-           <a href="#about">About Us</a> | <a href="https://twitter.com/pyeulmails">Twitter</a> | <a href="#features">Features</a>
-       </div>
-   </footer>
-
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        const bgUploader = document.getElementById("bgUploader");
+<!-- Temporary Email Form -->
+<section id="generate" class="container mt-5">
+    <div class="card p-4 rounded-4 shadow-lg" style="background: rgba(255, 102, 178, 0.1); border: 2px solid #ff66b2;">
+        <h4 class="text-center mb-4" style="color: #ff3399; font-weight: bold;">🎀 Generate Temporary Email 🎀</h4>
         
-        bgUploader.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-        
-                reader.onload = (e) => {
-                    document.body.style.backgroundImage = `url('${e.target.result}')`;
-                    document.body.style.backgroundSize = "cover";
-                    document.body.style.backgroundRepeat = "no-repeat";
-                    document.body.style.backgroundAttachment = "fixed";
-                };
-        
-                reader.onerror = () => {
-                    alert("Failed to load the image. Please try again with a valid image.");
-                };
-        
-                reader.readAsDataURL(file);
-            } else {
-                alert("No file selected. Please select an image.");
-            }
-        });
-            </script>
-        </html>
+        <!-- Generated Email Section -->
+        <div class="mb-3 position-relative">
+            <label for="generatedEmail" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
+            <div class="input-group">
+                <input type="text" id="generatedEmail" class="form-control rounded-pill" readonly placeholder="Click 'Generate'" 
+                    style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
+                <button id="copyEmailBtn" class="btn rounded-pill" 
+                    style="background: #ff3399; color: white; border: none;">🎗 Copy</button>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mb-4">
+            <button id="generateEmailBtn" class="btn px-4 py-2 rounded-pill" 
+                style="background: linear-gradient(45deg, #ff66b2, #ff3399); color: white; font-size: 1.2rem; transition: 0.3s;">
+                🎀💟 Generate Email
+            </button>
+        </div>
+
+        <hr style="border-top: 2px dashed #ff3399;">
+
+        <!-- Inbox Section -->
+        <h4 class="text-center mb-3" style="color: #ff3399; font-weight: bold;">📩 Check Your Inbox</h4>
+        <div class="mb-3">
+            <label for="emailInput" class="form-label" style="color: #ff3399; font-weight: bold;">Your Temporary Email</label>
+            <div class="input-group">
+                <input type="text" id="emailInput" class="form-control rounded-pill" readonly placeholder="Your generated email" 
+                    style="border: 2px solid #ff66b2; background: #ffe6f1; color: #ff3399; font-weight: bold;">
+                <button id="checkBtn" class="btn rounded-pill" 
+                    style="background: #ff66b2; color: white; border: none;">💗Check Emails</button>
+            </div>
+        </div>
+
+        <!-- Inbox Display -->
+        <div class="inbox-container mt-4 p-3 rounded-4" style="max-height: 300px; overflow-y: auto; border: 2px solid #ff3399; background: rgba(255, 102, 178, 0.1);">
+            <h5 class="text-center" style="color: #ff3399;">💌 Inbox</h5>
+            <div id="emailContent" class="p-2 text-dark" style="font-weight: bold; color: #ff3399;">No emails yet...</div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial-card">
+            <p>"Pyeulmails has been a game-changer for my privacy. It's fast and reliable!"</p>
+            <h5>John Doe</h5>
+        </div>
+        <div class="testimonial-card">
+            <p>"This is the best email service I've used for avoiding spam. Highly recommended!"</p>
+            <h5>Jane Smith</h5>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 Pyeulmails. All Rights Reserved Made By The Husband of Pyeul Lihm..</p>
+        <a href="#about">About Us</a> | <a href="https://twitter.com/pyeulmails">Twitter</a> | <a href="#features">Features</a>
+    </div>
+</footer>
+
+<!-- Add your scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Modal open and close function
+    function openModal() {
+        document.getElementById('featureModal').style.display = "block";
+    }
+    function closeModal() {
+        document.getElementById('featureModal').style.display = "none";
+    }
+</script>
+
+        <script>
+            const bgUploader = document.getElementById("bgUploader");
+            
+            bgUploader.addEventListener("change", (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+            
+                    reader.onload = (e) => {
+                        document.body.style.backgroundImage = `url('${e.target.result}')`;
+                        document.body.style.backgroundSize = "cover";
+                        document.body.style.backgroundRepeat = "no-repeat";
+                        document.body.style.backgroundAttachment = "fixed";
+                    };
+            
+                    reader.onerror = () => {
+                        alert("Failed to load the image. Please try again with a valid image.");
+                    };
+            
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("No file selected. Please select an image.");
+                }
+            });
+                </script>
+            </html>
