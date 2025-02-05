@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-// Function to generate email address
+    console.log("DOM fully loaded and parsed.");
+
+    // Function to generate email address
     function generateEmail() {
         Swal.fire({
             title: 'Generating Email...',
@@ -27,18 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function fetchMessages(sidToken, seq = 0) {
         axios.post('https://pyeulmail-serverapi-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
             .then(response => {
-                const mailList = response.data.messages;
+                const mailList = response.data.messages || [];
                 if (mailList.length > 0) {
-                    displayMessages(mailList, seq);
-                } else {
-                    console.log("[!] No new messages yet. Checking again in 15 seconds...");
+                    displayMessages(mailList);
                 }
             })
             .catch(() => Swal.fire('Error', 'Error fetching messages. Please try again.', 'error'));
     }
 
     // Function to display messages
-    function displayMessages(messages, seq) {
+    function displayMessages(messages) {
         const inboxContainer = document.getElementById('emailContent');
         inboxContainer.innerHTML = messages.length === 0 ? '<p>No messages available.</p>' : '';
 
@@ -55,9 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             inboxContainer.appendChild(emailItem);
         });
-
-        localStorage.setItem('lastSeq', seq);
-        console.log("Updated seq:", seq);
     }
 
     // Function to view full email content
@@ -74,29 +71,30 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => Swal.fire({ title: 'Email Content', text: response.data, icon: 'info' }))
         .catch(() => Swal.fire('Error', 'Error fetching email content. Please try again.', 'error'));
-    }
+    };
 
     // Function to start polling messages
     function startPolling(sidToken) {
-        if (localStorage.getItem('pollingInterval')) {
-            clearInterval(localStorage.getItem('pollingInterval'));
+        const existingInterval = localStorage.getItem('pollingInterval');
+        if (existingInterval) {
+            clearInterval(parseInt(existingInterval, 10));
         }
         fetchMessages(sidToken);
         const intervalId = setInterval(() => fetchMessages(sidToken), 15000);
-        localStorage.setItem('pollingInterval', intervalId);
+        localStorage.setItem('pollingInterval', intervalId.toString());
     }
 
-    // Initialize event listeners
-    document.getElementById('generateEmailBtn').addEventListener('click', generateEmail);
-    document.getElementById('checkBtn').addEventListener('click', () => {
+    // Initialize event listeners safely
+    document.getElementById('generateEmailBtn')?.addEventListener('click', generateEmail);
+    document.getElementById('checkBtn')?.addEventListener('click', () => {
         const sidToken = localStorage.getItem('sid_token');
         sidToken ? fetchMessages(sidToken) : Swal.fire('Error', 'No SID token found. Please generate an email first.', 'error');
     });
 
-    // ** New Feature: Background image change functionality **
-    document.getElementById("bgUploader").addEventListener("change", function (e) {
+    // ** Background Image Uploader **
+    document.getElementById("bgUploader")?.addEventListener("change", function (e) {
         const file = e.target.files[0];
-        if (file && file.type.startsWith("image/")) {  // Ensure it's an image
+        if (file && file.type.startsWith("image/")) {
             const reader = new FileReader();
             reader.onload = function () {
                 document.body.style.backgroundImage = `url(${reader.result})`;
@@ -107,18 +105,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // ** New Feature: Change background color of inbox message when hovered **
+    // ** Hover Effect on Inbox Messages **
     const inboxContainer = document.getElementById('emailContent');
-    inboxContainer.addEventListener('mouseover', function (e) {
-        if (e.target && e.target.classList.contains('email-item')) {
-            e.target.style.backgroundColor = '#f0f0f0';  // Highlight the email item
-        }
-    });
+    if (inboxContainer) {
+        inboxContainer.addEventListener('mouseover', function (e) {
+            if (e.target.classList.contains('email-item')) {
+                e.target.style.backgroundColor = '#f0f0f0';
+            }
+        });
 
-    inboxContainer.addEventListener('mouseout', function (e) {
-        if (e.target && e.target.classList.contains('email-item')) {
-            e.target.style.backgroundColor = '';  // Remove highlight
-        }
-    });
-
-}); // End of DOMContentLoaded
+        inboxContainer.addEventListener('mouseout', function (e) {
+            if (e.target.classList.contains('email-item')) {
+                e.target.style.backgroundColor = '';
+            }
+        });
+    }
+});
