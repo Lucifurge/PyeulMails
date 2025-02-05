@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -278,36 +275,50 @@
     margin-top: 20px;
 }
 
- /* Testimonial Section */
- .testimonial-section {
-        padding: 50px 20px;
-        text-align: center;
-        background-color: #eda5ff;
-        position: relative;
-        overflow: hidden;
-    }
+/* Testimonial Section */
+.testimonial-section {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #ffb0ff;
+    position: relative;
+    overflow: hidden; /* Hides overflowing elements */
+}
 
-    .testimonial-slider {
-        display: flex;
-        flex-direction: row;
-        animation: slideText 28s linear infinite;
-        white-space: nowrap;
-    }
+/* Wrapper to prevent overflowing */
+.testimonial-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
 
-    .testimonial-item {
-        padding: 0 50px;
-        font-size: 1.5rem;
-        color: #dcdcdc;
-        font-style: italic;
-        text-align: center;
-        flex-shrink: 0;
-        transition: transform 0.3s ease;
-    }
+/* Testimonial Slider */
+.testimonial-slider {
+    display: flex;
+    width: 200%; /* Wider than container to allow smooth scrolling */
+    animation: slideText 28s linear infinite;
+}
 
-    .testimonial-item h5 {
-        font-weight: bold;
-        color: #f9b1ff;
-    }
+/* Testimonial Item */
+.testimonial-item {
+    flex: 0 0 33%; /* Ensures proper width */
+    padding: 0 50px;
+    font-size: 1.5rem;
+    color: #dcdcdc;
+    font-style: italic;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+/* Testimonial Author */
+.testimonial-item h5 {
+    font-weight: bold;
+    color: #f6b1ff;
+}
+
+/* Keyframes for Sliding Animation */
+@keyframes slideText {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
 
 
 /* Floating Arrows Animation */
@@ -398,37 +409,42 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light">
-<div class="container-fluid">
-    <a class="navbar-brand" href="#">Pyeulmails</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item" id="profileLink" style="display: none;">
-                <li class="nav-item">
-                    <li class="nav-item" id="profileLink" style="display: none;">
-                        <a class="nav-link" href="profile.html">Profile</a>
-                    </li>
-                    <li class="nav-item" id="loginLink" style="display: none;">
-                        <a class="nav-link" href="login.html">Login</a>
-                    </li>
-                    <li class="nav-item" id="registerLink" style="display: none;">
-                        <a class="nav-link" href="register.html">Register</a>
-                    </li>
-            <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-            <li class="nav-item"><a class="nav-link" href="#generate">Generate Email</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://mega.nz/file/22Ij1CCT#F6lxbT02K82rywv9IWRmD2h0x4UL1vivxUsP_DP1D7Q" target="_blank">📱 Mobile App</a></li>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Pyeulmails</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item" id="profileLink" style="display: none;">
+                    <a class="nav-link" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item" id="loginLink" style="display: none;">
+                    <a class="nav-link" href="login.html">Login</a>
+                </li>
+                <li class="nav-item" id="registerLink" style="display: none;">
+                    <a class="nav-link" href="register.html">Register</a>
+                </li>
                 <li class="nav-item" id="logoutLink" style="display: none;">
                     <a class="nav-link" href="javascript:void(0);" onclick="logout()">Logout</a>
                 </li>
-                <label for="bgUploader" class="btn">🌆 Change Background</label>
-                <input type="file" id="bgUploader" style="display: none;" />
-  
-            </li>
-        </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#generate">Generate Email</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://mega.nz/file/22Ij1CCT#F6lxbT02K82rywv9IWRmD2h0x4UL1vivxUsP_DP1D7Q" target="_blank">
+                        📱 Mobile App
+                    </a>
+                </li>
+            </ul>
+            <!-- Background Uploader -->
+            <label for="bgUploader" class="btn">🌆 Change Background</label>
+            <input type="file" id="bgUploader" style="display: none;" />
+        </div>
     </div>
-</div>
 </nav>
 
 <!-- Hero Section -->
