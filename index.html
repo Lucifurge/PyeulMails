@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -586,7 +587,87 @@
 
 <!-- Add your scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+<script>   // Initialize Supabase client
+    const supabaseUrl = 'https://ehrwsusgkzerozjnddib.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVocndzdXNna3plcm96am5kZGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0Nzk4OTgsImV4cCI6MjA1MjA1NTg5OH0.2gC_pxtLhwrAGA2wR6jvXKuIhNMe_L_IsMWgSa3KKds';
+    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    
+    // Function to check user authentication status
+    async function checkAuthStatus() {
+      const { data: { session }, error } = await _supabase.auth.getSession();
+    
+      if (error) {
+        console.error('Error fetching session:', error.message);
+        return;
+      }
+    
+      if (session && session.user) {
+        // User is logged in
+        document.getElementById('profileLink').style.display = 'block';
+        document.getElementById('logoutLink').style.display = 'block';
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('registerLink').style.display = 'none';
+        document.getElementById('userEmail').value = session.user.email;  // Pre-fill email field
+      } else {
+        // User is logged out
+        document.getElementById('profileLink').style.display = 'none';
+        document.getElementById('logoutLink').style.display = 'none';
+        document.getElementById('loginLink').style.display = 'block';
+        document.getElementById('registerLink').style.display = 'block';
+      }
+    }
+    
+    // Log the user out
+    function logout() {
+      _supabase.auth.signOut().then(() => {
+        // Reload the page to update the UI
+        location.reload();
+      });
+    }
+    
+    // Run the checkAuthStatus function when the page loads
+    window.onload = checkAuthStatus;
+    
+    // Function to toggle support form
+    function toggleSupportForm() {
+      var form = document.getElementById('supportForm');
+      if (form.classList.contains('visible')) {
+        form.classList.remove('visible');
+        setTimeout(() => {
+          form.style.display = 'none';
+        }, 300); // Match the transition duration
+      } else {
+        form.style.display = 'block';
+        setTimeout(() => {
+          form.classList.add('visible');
+        }, 10);
+      }
+    }
+    
+    // Function to submit support message
+    async function submitSupportMessage(event) {
+      event.preventDefault();
+      var email = document.getElementById('userEmail').value;
+      var message = document.getElementById('message').value;
+    
+      // Log the data to be submitted
+      console.log('Submitting support message:', { email, message });
+    
+      // Insert the support message directly using the authenticated user's email
+      const { data, error } = await _supabase
+        .from('support_messages')
+        .insert([{ email: email, message: message }]);
+    
+      if (error) {
+        alert('Error submitting message: ' + error.message);
+        console.error('Error details:', error);
+      } else {
+        alert('Message submitted successfully');
+        document.getElementById('userEmail').value = '';
+        document.getElementById('message').value = '';
+        toggleSupportForm();
+      }
+    }
 // Modal open and close function
 function openModal() {
     document.getElementById('featureModal').style.display = "block";
@@ -620,86 +701,8 @@ function closeModal() {
                 alert("No file selected. Please select an image.");
             }
         });
-        const supabaseUrl = 'https://ehrwsusgkzerozjnddib.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVocndzdXNna3plcm96am5kZGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0Nzk4OTgsImV4cCI6MjA1MjA1NTg5OH0.2gC_pxtLhwrAGA2wR6jvXKuIhNMe_L_IsMWgSa3KKds';
-const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Function to check user authentication status
-async function checkAuthStatus() {
-  const { data: { session }, error } = await _supabase.auth.getSession();
 
-  if (error) {
-    console.error('Error fetching session:', error.message);
-    return;
-  }
-
-  if (session && session.user) {
-    // User is logged in
-    document.getElementById('profileLink').style.display = 'block';
-    document.getElementById('logoutLink').style.display = 'block';
-    document.getElementById('loginLink').style.display = 'none';
-    document.getElementById('registerLink').style.display = 'none';
-    document.getElementById('userEmail').value = session.user.email;  // Pre-fill email field
-  } else {
-    // User is logged out
-    document.getElementById('profileLink').style.display = 'none';
-    document.getElementById('logoutLink').style.display = 'none';
-    document.getElementById('loginLink').style.display = 'block';
-    document.getElementById('registerLink').style.display = 'block';
-  }
-}
-
-// Log the user out
-function logout() {
-  _supabase.auth.signOut().then(() => {
-    // Reload the page to update the UI
-    location.reload();
-  });
-}
-
-// Run the checkAuthStatus function when the page loads
-window.onload = checkAuthStatus;
-
-// Function to toggle support form
-function toggleSupportForm() {
-  var form = document.getElementById('supportForm');
-  if (form.classList.contains('visible')) {
-    form.classList.remove('visible');
-    setTimeout(() => {
-      form.style.display = 'none';
-    }, 300); // Match the transition duration
-  } else {
-    form.style.display = 'block';
-    setTimeout(() => {
-      form.classList.add('visible');
-    }, 10);
-  }
-}
-
-// Function to submit support message
-async function submitSupportMessage(event) {
-  event.preventDefault();
-  var email = document.getElementById('userEmail').value;
-  var message = document.getElementById('message').value;
-
-  // Log the data to be submitted
-  console.log('Submitting support message:', { email, message });
-
-  // Insert the support message directly using the authenticated user's email
-  const { data, error } = await _supabase
-    .from('support_messages')
-    .insert([{ email: email, message: message }]);
-
-  if (error) {
-    alert('Error submitting message: ' + error.message);
-    console.error('Error details:', error);
-  } else {
-    alert('Message submitted successfully');
-    document.getElementById('userEmail').value = '';
-    document.getElementById('message').value = '';
-    toggleSupportForm();
-  }
-}
-
-            </script>
+        </script>
+            
         </html>
