@@ -1,4 +1,5 @@
-    // Function to generate email address
+document.addEventListener("DOMContentLoaded", () => {
+// Function to generate email address
     function generateEmail() {
         Swal.fire({
             title: 'Generating Email...',
