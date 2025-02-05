@@ -276,41 +276,37 @@
         margin-top: 20px;
     }
 
-    /* Testimonials Section */
-    .testimonials {
-        background: #fff;
-        padding: 60px 20px;
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        margin-top: 3rem;
-    }
+     /* Testimonial Section */
+     .testimonial-section {
+            padding: 50px 20px;
+            text-align: center;
+            background-color: #eda5ff;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .testimonials h2 {
-        text-align: center;
-        font-size: 2rem;
-        color: #ff3399;
-        margin-bottom: 40px;
-    }
+        .testimonial-slider {
+            display: flex;
+            flex-direction: row;
+            animation: slideText 28s linear infinite;
+            white-space: nowrap;
+        }
 
-    .testimonial-card {
-        background: #ffebf1;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-        margin-bottom: 2rem;
-        text-align: center;
-    }
+        .testimonial-item {
+            padding: 0 50px;
+            font-size: 1.5rem;
+            color: #dcdcdc;
+            font-style: italic;
+            text-align: center;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
 
-    .testimonial-card p {
-        font-size: 1.2rem;
-        color: #3f3d56;
-    }
+        .testimonial-item h5 {
+            font-weight: bold;
+            color: #f589ff;
+        }
 
-    .testimonial-card h5 {
-        color: #ff3399;
-        font-weight: bold;
-        margin-top: 10px;
-    }
 
     /* Floating Arrows Animation */
     .arrow {
@@ -371,6 +367,25 @@
         color: yellow;
         animation: rotateStar 3s linear infinite;
     }
+            /* Animated Hearts */
+        .heart {
+            position: fixed;
+            animation: floatUp 5s infinite ease-in-out;
+            color: #ff79c6;
+            font-size: 2rem;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(0.5);
+                opacity: 0;
+            }
+        }
 
         </style>
     </head>
@@ -394,6 +409,18 @@
                 <li class="nav-item">
                     <label for="bgUploader" class="btn">🌆 Change Background</label>
                     <input type="file" id="bgUploader" style="display: none;" />
+                    <li class="nav-item" id="profileLink" style="display: none;">
+                        <a class="nav-link" href="profile.html">Profile</a>
+                    </li>
+                    <li class="nav-item" id="loginLink" style="display: none;">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item" id="registerLink" style="display: none;">
+                        <a class="nav-link" href="register.html">Register</a>
+                    </li>
+                    </li>
+                    <li class="nav-item" id="logoutLink" style="display: none;">
+                        <a class="nav-link" href="javascript:void(0);" onclick="logout()">Logout</a>
                 </li>
             </ul>
         </div>
@@ -418,6 +445,13 @@
 <!-- Rotating Stars -->
 <div class="rotating-star" style="top: 40px; right: 40px;">⭐</div>
 <div class="rotating-star" style="top: 90px; right: 80px;">🌟</div>
+        <!-- Animated Hearts -->
+    <span class="heart" style="left: 10%; animation-delay: 0s;">❤️</span>
+    <span class="heart" style="left: 30%; animation-delay: 1s;">💖</span>
+    <span class="heart" style="left: 50%; animation-delay: 2s;">💕</span>
+    <span class="heart" style="left: 70%; animation-delay: 3s;">💞</span>
+    <span class="heart" style="left: 90%; animation-delay: 4s;">🎀</span>
+
 
 <!-- Features Section -->
 <section id="features" class="features">
@@ -510,25 +544,47 @@
     </div>
 </section>
 
-<!-- Testimonials Section -->
-<section class="testimonials">
-    <div class="container">
-        <h2>What Our Users Say</h2>
-        <div class="testimonial-card">
-            <p>"Pyeulmails has been a game-changer for my privacy. It's fast and reliable!"</p>
-            <h5>John Doe</h5>
-        </div>
-        <div class="testimonial-card">
-            <p>"This is the best email service I've used for avoiding spam. Highly recommended!"</p>
-            <h5>Jane Smith</h5>
-        </div>
+/section>
+        <section class="testimonial-section">
+            <h2 class="text-center">What Our Clients Say</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-item">
+                    <p>"Luke Development exceeded our expectations with their amazing service and dedication!"</p>
+                    <h5>- John Doe</h5>
+                </div>
+                <div class="testimonial-item">
+                    <p>"The team was quick to respond and always helpful. Our website has never looked better!"</p>
+                    <h5>- Sarah Lee</h5>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Their custom solutions were exactly what we needed. Highly recommend!"</p>
+                    <h5>- Mark Spencer</h5>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Luke Development helped us scale our online presence and took our business to the next level."</p>
+                    <h5>- Emma Green</h5>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Their attention to detail and expertise is unmatched. A great experience from start to finish."</p>
+                    <h5>- David Kim</h5>
+                </div>
+                <div class="testimonial-item">
+                    <p>"We were able to launch our site on time with the help of Luke Development’s expert team!"</p>
+                    <h5>- Lisa White</h5>
+                </div>
+            </div>
+        </section>
+         <!-- Account Creation Section -->
+    <div class="container" id="accountCreation">
+        <h1>Account Creation</h1>
+        <button id="createAccountBtn">Create Accounts</button>
+        <div id="messages"></div>
     </div>
-</section>
 
 <!-- Footer -->
 <footer class="footer">
     <div class="container">
-        <p>&copy; 2025 Pyeulmails. All Rights Reserved Made By The Husband of Pyeul Lihm..</p>
+        <p>&copy; 2025 Pyeulmails. All Rights Reserved Made By The Husband of Pyeul Lihm.</p>
         <a href="#about">About Us</a> | <a href="https://twitter.com/pyeulmails">Twitter</a> | <a href="#features">Features</a>
     </div>
 </footer>
