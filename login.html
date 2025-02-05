@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,23 +10,35 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
-            background-color: #1e1e2f;
+            background-color: #c882da;
             color: #dcdcdc;
             font-family: "Fira Code", monospace;
-            background-image: linear-gradient(120deg, #1f2937, #111827);
+            background-image: linear-gradient(120deg, #85578b, #111827);
             background-attachment: fixed;
             transition: background 0.5s ease;
             overflow-x: hidden;
         }
+         /* Remove video, instead use image for the background */
+         .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
 
         .navbar {
-            background: linear-gradient(90deg, #2c2c54, #212642);
+            background: linear-gradient(90deg, #733079, #212642);
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .navbar-brand {
             font-weight: bold;
-            color: #58a6ff !important;
+            color: #e358ff !important;
             font-size: 1.5rem;
         }
 
@@ -37,14 +50,14 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: #7b92ff !important;
+            color: #f47bff !important;
             transform: scale(1.1);
         }
 
         .hero {
             text-align: center;
             padding: 100px 20px;
-            background: linear-gradient(180deg, rgba(30, 30, 47, 0.95), rgba(18, 18, 32, 0.95));
+            background: linear-gradient(180deg, rgba(126, 77, 138, 0.95), rgba(161, 89, 170, 0.95));
             border-radius: 15px;
             color: white;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
@@ -62,12 +75,12 @@
         }
 
         .hero .btn {
-            background: #58a6ff;
+            background: #d269db;
             color: white;
             font-size: 1.2rem;
             padding: 12px 25px;
             border-radius: 25px;
-            box-shadow: 0 4px 10px rgba(88, 166, 255, 0.5);
+            box-shadow: 0 4px 10px rgba(249, 88, 255, 0.5);
             transition: background 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -81,12 +94,12 @@
         }
 
         .form-container h2 {
-            color: #58a6ff;
+            color: #fd8cf8;
             margin-bottom: 30px;
         }
 
         .form-container input {
-            background-color: #383850;
+            background-color: #8f498b;
             border: 1px solid #383850;
             color: #dcdcdc;
             font-size: 1.1rem;
@@ -98,13 +111,13 @@
         }
 
         .form-container input:focus {
-            border-color: #58a6ff;
+            border-color: #f958ff;
             outline: none;
         }
 
         .form-container .btn-primary {
-            background-color: #58a6ff;
-            border-color: #58a6ff;
+            background-color: #f17ace;
+            border-color: #f17df5;
             width: 100%;
             padding: 12px;
             font-size: 1.2rem;
@@ -112,8 +125,8 @@
         }
 
         .form-container .btn-primary:hover {
-            background-color: #7b92ff;
-            border-color: #7b92ff;
+            background-color: #ff7be9;
+            border-color: #ff7be2;
         }
 
         .form-container .register-link {
@@ -122,7 +135,7 @@
         }
 
         .form-container .register-link a {
-            color: #58a6ff;
+            color: #fa6df3;
             text-decoration: none;
         }
 
@@ -148,6 +161,9 @@
     </style>
 </head>
 <body>
+      <!-- Background GIF as an image -->
+      <img class="background-image" src="saa.gif" alt="Background GIF">
+
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">PyeulMails</a>
