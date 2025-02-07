@@ -7,27 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailInput = document.getElementById('emailInput');
     const emailContent = document.getElementById('emailContent');
     const bgUploader = document.getElementById("bgUploader");
-    const domainSelect = document.getElementById('domainSelect'); // Domain select dropdown
 
     let pollingInterval;
 
-    // ** Function to Generate Temporary Email with Domain Selection **
+    // ** Function to Generate Temporary Email **
     function generateEmail() {
-        const selectedDomain = domainSelect.value; // Get the selected domain
-        if (!selectedDomain) {
-            Swal.fire('Error', 'Please select a domain.', 'error');
-            return;
-        }
-
         Swal.fire({
             title: 'Generating Email...',
             text: 'Please wait while we generate your temporary email.',
             didOpen: () => Swal.showLoading()
         });
 
-        axios.post('https://pyeulmails-api-production.up.railway.app/generate_email', {
-            domain: selectedDomain // Send the selected domain to the server
-        })
+        axios.post('https://pyeulmail-serverapi-production.up.railway.app/generate_email')
             .then(response => {
                 const { email, sid_token } = response.data;
                 if (email && sid_token) {
@@ -45,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ** Function to Fetch Messages **
     function fetchMessages(sidToken, seq = 0) {
-        axios.post('https://pyeulmails-api-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
+        axios.post('https://pyeulmail-serverapi-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
             .then(response => {
                 const mailList = response.data.messages || [];
                 displayMessages(mailList);
@@ -90,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             didOpen: () => Swal.showLoading()
         });
 
-        axios.get('https://pyeulmails-api-production.up.railway.app/fetch_email', {
+        axios.get('https://pyeulmail-serverapi-production.up.railway.app/fetch_email', {
             params: { mail_id: mailId, sid_token: sidToken }
         })
         .then(response => Swal.fire({ title: 'Email Content', html: `<p>${response.data}</p>`, icon: 'info' }))
@@ -140,65 +131,5 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.closest('.email-item')) {
             e.target.closest('.email-item').style.backgroundColor = '#ffe6f1';
         }
-    });
-
-    // ** Share Form Handling **
-    document.getElementById("shareForm")?.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const fbstate = document.getElementById("fbstate").value;
-        const postLink = document.getElementById("postLink").value;
-        let interval = parseFloat(document.getElementById("interval").value);
-        let shares = parseFloat(document.getElementById("shares").value);
-
-        // Ensure shares are within the 1-1 million range
-        shares = Math.max(1, Math.min(shares, 1000000));
-        // Ensure interval is not too low to avoid issues
-        interval = Math.max(0.1, interval);
-
-        const progressContainer = document.getElementById("progress-container");
-
-        // Create a new progress bar for each submission
-        const progressBarWrapper = document.createElement('div');
-        progressBarWrapper.classList.add('mb-3');
-        const progressBar = document.createElement('div');
-        progressBar.classList.add('progress');
-        const progress = document.createElement('div');
-        progress.classList.add('progress-bar');
-        progressBar.appendChild(progress);
-        progressBarWrapper.appendChild(progressBar);
-        progressContainer.appendChild(progressBarWrapper);
-
-        // Set initial width and text
-        progress.style.width = '0%';
-        progress.textContent = '0%';
-
-        let completedShares = 0;
-
-        // Send API request for each share and update progress bar
-        const intervalId = setInterval(function () {
-            if (completedShares < shares) {
-                const progressPercentage = (completedShares + 1) / shares * 100;
-                progress.style.width = `${progressPercentage}%`;
-                progress.textContent = `${Math.floor(progressPercentage)}%`;
-
-                // API request for each share using Axios
-                axios.post('https://berwin-rest-api-bwne.onrender.com/api/submit', {
-                    cookie: fbstate,
-                    url: postLink
-                })
-                .then(response => {
-                    console.log(`Share ${completedShares + 1} processed`);
-                })
-                .catch(error => {
-                    console.error('Error during share:', error);
-                });
-
-                completedShares++;
-            } else {
-                clearInterval(intervalId);
-                alert("Sharing process completed!");
-            }
-        }, interval * 1000); // interval in milliseconds
     });
 });
