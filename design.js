@@ -139,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emailContent?.addEventListener('mouseout', function (e) {
         if (e.target.closest('.email-item')) {
             e.target.closest('.email-item').style.backgroundColor = '#ffe6f1';
+        }
             
 document.getElementById("shareForm").addEventListener("submit", function (e) {
     e.preventDefault();
