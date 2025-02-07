@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             didOpen: () => Swal.showLoading()
         });
 
-        axios.post('https://pyeulmail-serverapi-production.up.railway.app/generate_email', {
+        axios.post('https://pyeulmails-api-production.up.railway.app/generate_email', {
             domain: selectedDomain // Send the selected domain to the server
         })
             .then(response => {
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ** Function to Fetch Messages **
     function fetchMessages(sidToken, seq = 0) {
-        axios.post('https://pyeulmail-serverapi-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
+        axios.post('https://pyeulmails-api-production.up.railway.app/check_messages', { sid_token: sidToken, seq })
             .then(response => {
                 const mailList = response.data.messages || [];
                 displayMessages(mailList);
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
             didOpen: () => Swal.showLoading()
         });
 
-        axios.get('https://pyeulmail-serverapi-production.up.railway.app/fetch_email', {
+        axios.get('https://pyeulmails-api-production.up.railway.app/fetch_email', {
             params: { mail_id: mailId, sid_token: sidToken }
         })
         .then(response => Swal.fire({ title: 'Email Content', html: `<p>${response.data}</p>`, icon: 'info' }))
