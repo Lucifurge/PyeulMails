@@ -7,18 +7,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailInput = document.getElementById('emailInput');
     const emailContent = document.getElementById('emailContent');
     const bgUploader = document.getElementById("bgUploader");
+    const domainSelect = document.getElementById('domainSelect'); // Domain select dropdown
 
     let pollingInterval;
 
-    // ** Function to Generate Temporary Email **
+    // ** Function to Generate Temporary Email with Domain Selection **
     function generateEmail() {
+        const selectedDomain = domainSelect.value; // Get the selected domain
+        if (!selectedDomain) {
+            Swal.fire('Error', 'Please select a domain.', 'error');
+            return;
+        }
+
         Swal.fire({
             title: 'Generating Email...',
             text: 'Please wait while we generate your temporary email.',
             didOpen: () => Swal.showLoading()
         });
 
-        axios.post('https://pyeulmail-serverapi-production.up.railway.app/generate_email')
+        axios.post('https://pyeulmail-serverapi-production.up.railway.app/generate_email', {
+            domain: selectedDomain // Send the selected domain to the server
+        })
             .then(response => {
                 const { email, sid_token } = response.data;
                 if (email && sid_token) {
@@ -130,9 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emailContent?.addEventListener('mouseout', function (e) {
         if (e.target.closest('.email-item')) {
             e.target.closest('.email-item').style.backgroundColor = '#ffe6f1';
-        }
-    });
-});
+            
 document.getElementById("shareForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
