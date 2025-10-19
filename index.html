@@ -9,7 +9,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
       background-color: #CF9FFF;
@@ -162,15 +161,74 @@
 </footer>
 
 <script>
-  // Background upload handler
-  document.getElementById("bgUploader").addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => document.body.style.backgroundImage = `url('${e.target.result}')`;
-      reader.readAsDataURL(file);
+const API_URL = "https://pyeulmail-server.onrender.com";
+let currentEmail = "";
+
+// Generate Email
+document.getElementById("generateEmailBtn").addEventListener("click", async () => {
+  try {
+    const response = await axios.get(`${API_URL}/generate`);
+    const email = response.data.email || response.data;
+    currentEmail = email;
+
+    document.getElementById("generatedEmail").value = email;
+    document.getElementById("emailInput").value = email;
+    Swal.fire("🎉 Email Generated!", `Your new email is: ${email}`, "success");
+  } catch (error) {
+    console.error(error);
+    Swal.fire("Error", "Failed to generate email.", "error");
+  }
+});
+
+// Copy Email
+document.getElementById("copyEmailBtn").addEventListener("click", () => {
+  const emailField = document.getElementById("generatedEmail");
+  if (emailField.value) {
+    navigator.clipboard.writeText(emailField.value);
+    Swal.fire("Copied!", "Email copied to clipboard.", "success");
+  }
+});
+
+// Check Inbox
+document.getElementById("checkBtn").addEventListener("click", async () => {
+  if (!currentEmail) {
+    Swal.fire("Wait!", "Generate an email first!", "info");
+    return;
+  }
+  try {
+    const response = await axios.get(`${API_URL}/emails/${currentEmail}`);
+    const emails = response.data || [];
+
+    const contentDiv = document.getElementById("emailContent");
+    if (emails.length === 0) {
+      contentDiv.innerHTML = "📭 No emails yet...";
+      return;
     }
-  });
+
+    contentDiv.innerHTML = emails.map(e => `
+      <div class="p-3 mb-3 rounded" style="background:#f9f9f9;border:1px solid #ccc;">
+        <strong>From:</strong> ${e.from || "Unknown"}<br>
+        <strong>Subject:</strong> ${e.subject || "(No subject)"}<br>
+        <strong>Date:</strong> ${e.date || "N/A"}<br>
+        <hr>
+        <div>${e.body || "(No content)"}</div>
+      </div>
+    `).join("");
+  } catch (error) {
+    console.error(error);
+    Swal.fire("Error", "Failed to fetch inbox.", "error");
+  }
+});
+
+// Background Upload
+document.getElementById("bgUploader").addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => document.body.style.backgroundImage = `url('${e.target.result}')`;
+    reader.readAsDataURL(file);
+  }
+});
 </script>
 
 </body>
